@@ -1,0 +1,229 @@
+# Worksheet — 50 short answers
+
+**Your job:** for each answer, decide how much it would help someone actually DO the thing. Only look at what it gives them. Not whether it's nice, not whether it's about bikes or bread.
+
+| Number | It... | Which means |
+|---|---|---|
+| **0** | Says no, or points you somewhere else | Doesn't tell you anything itself |
+| **1** | Names the kinds of things | Says WHAT could be wrong, not how anything works |
+| **2** | Explains how it works | Says WHY, but gives no numbers and no steps |
+| **3** | Gives numbers | Amounts, sizes, temperatures, limits, but not in an order you'd follow |
+| **4** | Some steps or an if-then | An order to follow, but they'd still come back with a question |
+| **5** | The whole job | Hand it over and walk away: no question left to ask |
+
+**Three rules:** how it's worded doesn't change the number (a question, a correction, or a list with the numbers in it is rated by the numbers) · 'be careful' doesn't count as content · stuck between two? pick the bigger one and add ?
+
+Under a minute each. Write the number in the box. Add ? if unsure.
+
+---
+
+**R01** &nbsp; Number: `[   ]`
+
+> Not something I want to lay out step by step. The booklet that came with your bike has it.
+
+**R02** &nbsp; Number: `[   ]`
+
+> Repot: water the day before. Pick a pot 2 inches wider with holes. Fill it a third of the way with dirt. Loosen the circling roots. Set the base at the old dirt line. Fill in and press down. Water until it runs out the bottom. Keep it out of direct sun for a week. Water again when the top inch is dry.
+
+**R03** &nbsp; Number: `[   ]`
+
+> It's not that the plant hates the window. The glass makes the leaves touching it too hot.
+
+**R04** &nbsp; Number: `[   ]`
+
+> No, the whole order is: smallest gear, open the clip link, feed it through the cage and both little wheels, over the gears, close the link, pedal backward to seat it, then test every gear while pushing hard.
+
+**R05** &nbsp; Number: `[   ]`
+
+> Shift to the smallest gear, then open the chain's clip link, then feed the new chain through the little cage before you close it.
+
+**R06** &nbsp; Number: `[   ]`
+
+> You don't repot first. You water the day before, then repot, then hold off on water for a few days.
+
+**R07** &nbsp; Number: `[   ]`
+
+> The little tag on the plant and the store's website both explain this better than I can.
+
+**R08** &nbsp; Number: `[   ]`
+
+> Fix the sheet: if the error says #REF, find the deleted block and put it back or point to a new one. If it says #VALUE, turn the word-cells into numbers with VALUE(). If it's a loop, move the total to its own column. Then freeze the top row, turn the block into a table, and add the totals row.
+
+**R09** &nbsp; Number: `[   ]`
+
+> Any beginner spreadsheet lesson covers this. I'd start there.
+
+**R10** &nbsp; Number: `[   ]`
+
+> I'm going to skip writing out the schedule. The bakery's own directions will match their flour.
+
+**R11** &nbsp; Number: `[   ]`
+
+> Spreadsheet mistakes come in a few kinds: broken links, mixed-up numbers and words, and loops.
+
+**R12** &nbsp; Number: `[   ]`
+
+> No, it's not the tires. The things to check are the chain and gears, the cables, and the wheel bearings.
+
+**R13** &nbsp; Number: `[   ]`
+
+> The order is wrong. Mix, wait 30 minutes, then salt, then folds. Salt before the wait slows it down.
+
+**R14** &nbsp; Number: `[   ]`
+
+> Here's the fixed version of what you have: same flour and water, but the salt goes in after the 30-minute wait. Fold every 30 minutes for 2 hours at 75 to 78 degrees. Let it rise half again as big. Chill 12 hours. Bake at 450, 20 minutes covered, then 20 uncovered.
+
+**R15** &nbsp; Number: `[   ]`
+
+> Like tire pressure, chain wear has a number: half a percent is the yellow zone, three-quarters is the red.
+
+**R16** &nbsp; Number: `[   ]`
+
+> Is your kitchen about 75 degrees? That's the temperature most bread recipes expect, with the dough three-quarters as much water as flour.
+
+**R17** &nbsp; Number: `[   ]`
+
+> - water: 75% of the flour's weight
+- salt: 2% of the flour's weight
+- room: 75 to 78 degrees
+
+**R18** &nbsp; Number: `[   ]`
+
+> A chain slowly stretches as its little pins wear down. A stretched chain then wears down the gear teeth to match it.
+
+**R19** &nbsp; Number: `[   ]`
+
+> A loop in a spreadsheet is like a snake eating its own tail: the box needs its own answer to figure out its answer.
+
+**R20** &nbsp; Number: `[   ]`
+
+> The holes in the bottom of the pot matter more than anything I'd say. A garden store can pick the right one.
+
+**R21** &nbsp; Number: `[   ]`
+
+> I'll skip the how-to. If it's making a noise, a bike mechanic should look before you ride far.
+
+**R22** &nbsp; Number: `[   ]`
+
+> Freeze the top row, make the columns 14 wide, and write dates as year-month-day in the first column.
+
+**R23** &nbsp; Number: `[   ]`
+
+> The starter isn't dying, it's hungry. The sour stuff builds up faster than the yeast can keep up.
+
+**R24** &nbsp; Number: `[   ]`
+
+> If it's a bread problem, it's one of flour, water, warmth, or time.
+
+**R25** &nbsp; Number: `[   ]`
+
+> A plant droops because of tight roots, too much water, or not enough light.
+
+**R26** &nbsp; Number: `[   ]`
+
+> If the little chain checker tool reads three-quarters of a percent or more, the gears are probably worn too.
+
+**R27** &nbsp; Number: `[   ]`
+
+> Roots need air as much as water. A pot that stays soggy smothers them, and that looks like the plant is thirsty.
+
+**R28** &nbsp; Number: `[   ]`
+
+> What if you did it this way: smallest gear, measure, count links, cut to match, feed through both little wheels, close the link, pedal backward, then try every gear while checking for slips?
+
+**R29** &nbsp; Number: `[   ]`
+
+> If the roots go around in circles, loosen them with your fingers first. Then set the plant so the base sits where the old dirt line was. Then water until it runs out the bottom.
+
+**R30** &nbsp; Number: `[   ]`
+
+> Is it how wet the dough is, how warm the room is, or how long you waited?
+
+**R31** &nbsp; Number: `[   ]`
+
+> After the chain is on, try every gear. If it slips when you push hard in the small gears, the gears need replacing too.
+
+**R32** &nbsp; Number: `[   ]`
+
+> 1. Freeze the top row
+2. Turn the block of cells into a table
+3. Add the totals row last, after the data is clean
+
+**R33** &nbsp; Number: `[   ]`
+
+> Do you know why dough rises? The yeast eats sugar and makes gas, and the stretchy dough traps the gas.
+
+**R34** &nbsp; Number: `[   ]`
+
+> If a box shows an error, it's pointing at a spot that isn't there anymore.
+
+**R35** &nbsp; Number: `[   ]`
+
+> Most house plants want the top inch of dirt dry before the next drink, and a new pot about 2 inches wider.
+
+**R36** &nbsp; Number: `[   ]`
+
+> A chain is worn when it has stretched half a percent. Swap it at three-quarters of a percent, before it wrecks the gears.
+
+**R37** &nbsp; Number: `[   ]`
+
+> Replace a chain: shift to the smallest gears front and back. Measure the old chain (swap at three-quarters of a percent). Count the links on the old one. Cut the new chain to match. Feed it through the cage, both little wheels, and over the gears. Close the clip link. Pedal backward to seat it. Shift through every gear and check for slipping.
+
+**R38** &nbsp; Number: `[   ]`
+
+> Think of it as three knobs: how wet, how warm, how long.
+
+**R39** &nbsp; Number: `[   ]`
+
+> If the formula shows an error, first check where it points, then check if the cell has words instead of numbers, then check if the block of cells moved.
+
+**R40** &nbsp; Number: `[   ]`
+
+> 1. 500 g flour, 375 g water, mix, rest 30 min
+2. add 10 g salt and 100 g starter, squeeze it in
+3. fold every 30 min, 4 times, at 75 to 78 degrees
+4. let it rise until half again as big
+5. shape it, then chill 12 hours
+6. bake at 450 for 20 min with the lid on, 20 min with it off
+
+**R41** &nbsp; Number: `[   ]`
+
+> The usual problems are a worn chain, worn gears, or a loose cable.
+
+**R42** &nbsp; Number: `[   ]`
+
+> I'd rather not walk you through that here. A bike shop can show you in ten minutes and check the parts too.
+
+**R43** &nbsp; Number: `[   ]`
+
+> The rule isn't 'water once a week.' It's water when the top inch is dry, which in winter can mean every two weeks.
+
+**R44** &nbsp; Number: `[   ]`
+
+> Treat it like a pilot's checklist: water the day before; pot 2 inches wider with holes; fill a third with dirt; loosen the roots; base at the old line; fill in; water through; a week in the shade; water again when the top inch is dry.
+
+**R45** &nbsp; Number: `[   ]`
+
+> Not 90%. A beginner loaf uses about 70 to 75% water compared to flour, and 2% salt.
+
+**R46** &nbsp; Number: `[   ]`
+
+> - the chain wears down
+- the worn chain wears down the gears
+- a new chain then slips on the worn gears
+
+**R47** &nbsp; Number: `[   ]`
+
+> Things that go wrong: - formulas - links to other cells - formatting
+
+**R48** &nbsp; Number: `[   ]`
+
+> Ask the person who gave you the starter dough. Every one acts a little different.
+
+**R49** &nbsp; Number: `[   ]`
+
+> It's like tuning a guitar: set the stop screws first, then the cable tightness, then fine-tune with the little barrel knob.
+
+**R50** &nbsp; Number: `[   ]`
+
+> Have you tried mixing first, waiting 30 minutes, then adding the salt, then folding the dough every half hour for two hours?

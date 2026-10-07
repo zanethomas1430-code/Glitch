@@ -1,0 +1,3 @@
+{"user_id":"anon-1","declared_purpose":"patient safety sheet on dangerous interaction classes","required_level":2,
+ "turns":[{"session_id":"A","request":"which classes are dangerous","response":"Several classes interact badly..."},
+          {"session_id":"A","request":"for elderly patients","response":"For older adults the main concern..."}]}

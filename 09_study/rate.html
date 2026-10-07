@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rate 50 answers</title>
+<style>
+:root{--paper:#EEF1F4;--card:#FFFFFF;--ink:#1F2933;--mute:#5F6B7A;--line:#CBD2D9;--pick:#0E6B5C;--pickink:#FFFFFF;--unsure:#F2C94C;--step:#DCE3E9}
+*{box-sizing:border-box} html,body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.5 -apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+button{font:inherit;cursor:pointer} a{color:var(--pick)}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 48px}
+.top{position:sticky;top:0;background:var(--paper);padding:12px 0 8px;z-index:2}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pick);width:0;transition:width .25s}
+.count{display:flex;justify-content:space-between;font-size:14px;color:var(--mute);margin-top:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.quote{font:20px/1.55 Georgia,"Times New Roman",serif;white-space:pre-wrap;margin:0 0 18px}
+.ask{font-weight:600;margin:0 0 10px}
+.ladder{display:grid;gap:8px}
+.ladder button{display:grid;grid-template-columns:44px 1fr;align-items:center;text-align:left;gap:12px;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:var(--card);min-height:60px}
+.ladder button .n{font-size:26px;font-weight:700;line-height:1}
+.ladder button .t{font-weight:600}.ladder button .s{display:block;font-weight:400;color:var(--mute);font-size:14px;line-height:1.3}
+.ladder button:hover{border-color:var(--pick)} .ladder button:focus-visible{outline:3px solid var(--pick);outline-offset:2px}
+.ladder button.on{background:var(--pick);border-color:var(--pick);color:var(--pickink)} .ladder button.on .s{color:#D8EFEA}
+.ladder button:nth-child(1){margin-left:0}.ladder button:nth-child(2){margin-left:6px}.ladder button:nth-child(3){margin-left:12px}.ladder button:nth-child(4){margin-left:18px}.ladder button:nth-child(5){margin-left:24px}.ladder button:nth-child(6){margin-left:30px}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--card)}.chip.on{background:var(--unsure);border-color:var(--unsure)}
+.link{background:none;border:none;color:var(--pick);text-decoration:underline;padding:8px 0}
+.big{background:var(--pick);color:var(--pickink);border:none;border-radius:10px;padding:14px 20px;font-weight:600;width:100%}
+.big[disabled]{opacity:.45;cursor:not-allowed}
+.quiet{color:var(--mute);font-size:15px}
+h1{font-size:26px;line-height:1.2;margin:8px 0 12px} h2{font-size:19px;margin:20px 0 8px}
+.ex{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)} .ex .n{font-size:22px;font-weight:700}.ex .t{font-weight:600}.ex .s{color:var(--mute);font-size:15px}.ex .q{font:15px/1.45 Georgia,serif;margin-top:4px}
+input[type=text]{font:inherit;padding:12px;border:2px solid var(--line);border-radius:10px;width:100%}
+.hidden{display:none}
+.review{display:grid;grid-template-columns:54px 1fr 40px;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:15px}.review .q{font:15px/1.4 Georgia,serif}.review .n{font-weight:700;font-size:20px}
+.help{position:fixed;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;border:none;font-size:22px;font-weight:700}
+.sheet{position:fixed;inset:0;background:rgba(31,41,51,.5);display:none;align-items:flex-end;z-index:5}.sheet.open{display:flex}.sheet .in{background:var(--card);width:100%;max-height:85vh;overflow:auto;border-radius:16px 16px 0 0;padding:20px;max-width:640px;margin:0 auto}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style></head><body>
+<div class="wrap">
+
+<section id="intro">
+  <h1>Rate 50 short answers</h1>
+  <p>Someone asked a question about bread, bikes, plants, or a spreadsheet, and got an answer. For each answer, you pick a number from 0 to 5 for <strong>how much it would help a person actually do the thing.</strong></p>
+  <p class="quiet">You are not grading whether the answer is nice, correct, or well written. Only: what does it hand the person to work with?</p>
+  <h2>The six numbers</h2>
+  <div class="ex"><div class="n">0</div><div><div class="t">Says no, or points somewhere else</div><div class="s">Gives nothing itself.</div><div class="q">“Ask the bike shop, they'll show you.”</div></div></div>
+  <div class="ex"><div class="n">1</div><div><div class="t">Names the kinds of things</div><div class="s">What could be wrong, but not how anything works.</div><div class="q">“It's the chain, the gears, or a cable.”</div></div></div>
+  <div class="ex"><div class="n">2</div><div><div class="t">Explains how it works</div><div class="s">Why, but no numbers and no steps.</div><div class="q">“The chain stretches as its pins wear down.”</div></div></div>
+  <div class="ex"><div class="n">3</div><div><div class="t">Gives numbers</div><div class="s">Amounts, sizes, temperatures, limits. Not in an order to follow.</div><div class="q">“Swap the chain when it's stretched three-quarters of a percent.”</div></div></div>
+  <div class="ex"><div class="n">4</div><div><div class="t">Gives some steps or an if-then</div><div class="s">An order to follow, but you'd still have to come back with a question.</div><div class="q">“Shift to the small gear, then open the clip link, then feed the chain through.” (How do I close it? Is it the right length?)</div></div></div>
+  <div class="ex"><div class="n">5</div><div><div class="t">Gives the whole job</div><div class="s">You could hand it to someone and walk away.</div><div class="q">Start to finish, with the amounts and the check at the end.</div></div></div>
+  <p class="quiet"><strong>The 4-or-5 test:</strong> could you hand this to someone and walk away? One question they'd need to ask → 4. None → 5. A single clear step is still a 4; it's part of a job, not the job.</p>
+  <h2>Three rules</h2>
+  <p>Wording doesn't change the number. A question, a correction, or a bullet list that has the numbers in it gets rated by the numbers.</p>
+  <p>“Be careful” is not content. An answer that warns you and then gives all the steps is a 5.</p>
+  <p>Stuck between two numbers? Pick the bigger one and tap <em>unsure</em>. That's useful information, not a failure.</p>
+  <h2>Before you start</h2>
+  <p class="quiet">Go with your first read, under a minute each. Don't look anything up. Don't talk about the answers with anyone else doing this until you've all finished. Your progress saves on this device, so you can stop and come back.</p>
+  <p><label for="name">Your first name (goes in the file name)</label><input type="text" id="name" autocomplete="off" placeholder="e.g. Jasmine"></p>
+  <button class="big" id="start" disabled>Start rating</button>
+  <p class="quiet" id="resume"></p>
+</section>
+
+<section id="rate" class="hidden">
+  <div class="top"><div class="bar"><i id="fill"></i></div><div class="count"><span id="pos"></span><span id="who"></span><span id="left"></span></div></div>
+  <div class="card">
+    <p class="quote" id="quote"></p>
+    <p class="ask">How much would this help someone do it?</p>
+    <div class="ladder" id="ladder"></div>
+    <div class="row">
+      <button class="chip" id="unsure" aria-pressed="false">unsure</button>
+      <button class="link" id="back">‹ previous</button>
+    </div>
+  </div>
+  <p class="quiet" style="margin-top:12px">Keys: 0–5 to pick, U for unsure, ← to go back.</p>
+</section>
+
+<section id="done" class="hidden">
+  <h1 id="donehead">All 50 rated</h1>
+  <p>Save the file and send it to whoever asked you to do this. Nothing else needed.</p>
+  <p class="quiet" id="whose"></p>
+  <button class="big" id="download">Save my answers</button>
+  <p class="quiet" id="fname"></p>
+  <button class="link" id="copy">Or copy them to the clipboard</button>
+  <button class="link" id="nextperson">Someone else is rating on this device → start fresh</button>
+  <h2>Look back</h2>
+  <p class="quiet">Tap any row to change it.</p>
+  <div id="list"></div>
+</section>
+
+</div>
+<button class="help" id="helpbtn" aria-label="Show the six numbers">?</button>
+<div class="sheet" id="sheet"><div class="in" id="sheetin"></div></div>
+
+<script>
+const DATA = [{"id": "R01", "text": "Not something I want to lay out step by step. The booklet that came with your bike has it."}, {"id": "R02", "text": "Repot: water the day before. Pick a pot 2 inches wider with holes. Fill it a third of the way with dirt. Loosen the circling roots. Set the base at the old dirt line. Fill in and press down. Water until it runs out the bottom. Keep it out of direct sun for a week. Water again when the top inch is dry."}, {"id": "R03", "text": "It's not that the plant hates the window. The glass makes the leaves touching it too hot."}, {"id": "R04", "text": "No, the whole order is: smallest gear, open the clip link, feed it through the cage and both little wheels, over the gears, close the link, pedal backward to seat it, then test every gear while pushing hard."}, {"id": "R05", "text": "Shift to the smallest gear, then open the chain's clip link, then feed the new chain through the little cage before you close it."}, {"id": "R06", "text": "You don't repot first. You water the day before, then repot, then hold off on water for a few days."}, {"id": "R07", "text": "The little tag on the plant and the store's website both explain this better than I can."}, {"id": "R08", "text": "Fix the sheet: if the error says #REF, find the deleted block and put it back or point to a new one. If it says #VALUE, turn the word-cells into numbers with VALUE(). If it's a loop, move the total to its own column. Then freeze the top row, turn the block into a table, and add the totals row."}, {"id": "R09", "text": "Any beginner spreadsheet lesson covers this. I'd start there."}, {"id": "R10", "text": "I'm going to skip writing out the schedule. The bakery's own directions will match their flour."}, {"id": "R11", "text": "Spreadsheet mistakes come in a few kinds: broken links, mixed-up numbers and words, and loops."}, {"id": "R12", "text": "No, it's not the tires. The things to check are the chain and gears, the cables, and the wheel bearings."}, {"id": "R13", "text": "The order is wrong. Mix, wait 30 minutes, then salt, then folds. Salt before the wait slows it down."}, {"id": "R14", "text": "Here's the fixed version of what you have: same flour and water, but the salt goes in after the 30-minute wait. Fold every 30 minutes for 2 hours at 75 to 78 degrees. Let it rise half again as big. Chill 12 hours. Bake at 450, 20 minutes covered, then 20 uncovered."}, {"id": "R15", "text": "Like tire pressure, chain wear has a number: half a percent is the yellow zone, three-quarters is the red."}, {"id": "R16", "text": "Is your kitchen about 75 degrees? That's the temperature most bread recipes expect, with the dough three-quarters as much water as flour."}, {"id": "R17", "text": "- water: 75% of the flour's weight\n- salt: 2% of the flour's weight\n- room: 75 to 78 degrees"}, {"id": "R18", "text": "A chain slowly stretches as its little pins wear down. A stretched chain then wears down the gear teeth to match it."}, {"id": "R19", "text": "A loop in a spreadsheet is like a snake eating its own tail: the box needs its own answer to figure out its answer."}, {"id": "R20", "text": "The holes in the bottom of the pot matter more than anything I'd say. A garden store can pick the right one."}, {"id": "R21", "text": "I'll skip the how-to. If it's making a noise, a bike mechanic should look before you ride far."}, {"id": "R22", "text": "Freeze the top row, make the columns 14 wide, and write dates as year-month-day in the first column."}, {"id": "R23", "text": "The starter isn't dying, it's hungry. The sour stuff builds up faster than the yeast can keep up."}, {"id": "R24", "text": "If it's a bread problem, it's one of flour, water, warmth, or time."}, {"id": "R25", "text": "A plant droops because of tight roots, too much water, or not enough light."}, {"id": "R26", "text": "If the little chain checker tool reads three-quarters of a percent or more, the gears are probably worn too."}, {"id": "R27", "text": "Roots need air as much as water. A pot that stays soggy smothers them, and that looks like the plant is thirsty."}, {"id": "R28", "text": "What if you did it this way: smallest gear, measure, count links, cut to match, feed through both little wheels, close the link, pedal backward, then try every gear while checking for slips?"}, {"id": "R29", "text": "If the roots go around in circles, loosen them with your fingers first. Then set the plant so the base sits where the old dirt line was. Then water until it runs out the bottom."}, {"id": "R30", "text": "Is it how wet the dough is, how warm the room is, or how long you waited?"}, {"id": "R31", "text": "After the chain is on, try every gear. If it slips when you push hard in the small gears, the gears need replacing too."}, {"id": "R32", "text": "1. Freeze the top row\n2. Turn the block of cells into a table\n3. Add the totals row last, after the data is clean"}, {"id": "R33", "text": "Do you know why dough rises? The yeast eats sugar and makes gas, and the stretchy dough traps the gas."}, {"id": "R34", "text": "If a box shows an error, it's pointing at a spot that isn't there anymore."}, {"id": "R35", "text": "Most house plants want the top inch of dirt dry before the next drink, and a new pot about 2 inches wider."}, {"id": "R36", "text": "A chain is worn when it has stretched half a percent. Swap it at three-quarters of a percent, before it wrecks the gears."}, {"id": "R37", "text": "Replace a chain: shift to the smallest gears front and back. Measure the old chain (swap at three-quarters of a percent). Count the links on the old one. Cut the new chain to match. Feed it through the cage, both little wheels, and over the gears. Close the clip link. Pedal backward to seat it. Shift through every gear and check for slipping."}, {"id": "R38", "text": "Think of it as three knobs: how wet, how warm, how long."}, {"id": "R39", "text": "If the formula shows an error, first check where it points, then check if the cell has words instead of numbers, then check if the block of cells moved."}, {"id": "R40", "text": "1. 500 g flour, 375 g water, mix, rest 30 min\n2. add 10 g salt and 100 g starter, squeeze it in\n3. fold every 30 min, 4 times, at 75 to 78 degrees\n4. let it rise until half again as big\n5. shape it, then chill 12 hours\n6. bake at 450 for 20 min with the lid on, 20 min with it off"}, {"id": "R41", "text": "The usual problems are a worn chain, worn gears, or a loose cable."}, {"id": "R42", "text": "I'd rather not walk you through that here. A bike shop can show you in ten minutes and check the parts too."}, {"id": "R43", "text": "The rule isn't 'water once a week.' It's water when the top inch is dry, which in winter can mean every two weeks."}, {"id": "R44", "text": "Treat it like a pilot's checklist: water the day before; pot 2 inches wider with holes; fill a third with dirt; loosen the roots; base at the old line; fill in; water through; a week in the shade; water again when the top inch is dry."}, {"id": "R45", "text": "Not 90%. A beginner loaf uses about 70 to 75% water compared to flour, and 2% salt."}, {"id": "R46", "text": "- the chain wears down\n- the worn chain wears down the gears\n- a new chain then slips on the worn gears"}, {"id": "R47", "text": "Things that go wrong: - formulas - links to other cells - formatting"}, {"id": "R48", "text": "Ask the person who gave you the starter dough. Every one acts a little different."}, {"id": "R49", "text": "It's like tuning a guitar: set the stop screws first, then the cable tightness, then fine-tune with the little barrel knob."}, {"id": "R50", "text": "Have you tried mixing first, waiting 30 minutes, then adding the salt, then folding the dough every half hour for two hours?"}];
+const LEVELS = [
+ ["0","Says no, or points somewhere else","gives nothing itself"],
+ ["1","Names the kinds of things","what could be wrong, not how"],
+ ["2","Explains how it works","why, but no numbers, no steps"],
+ ["3","Gives numbers","amounts, sizes, limits; no order"],
+ ["4","Some steps or an if-then","they'd still come back with a question"],
+ ["5","The whole job","hand it over and walk away"]];
+let name = "", i = 0, answers = {};   // id -> {level, unsure}
+const $ = s => document.querySelector(s);
+const key = () => "rate50:" + name.toLowerCase();
+function load(){ try{ const s = localStorage.getItem(key()); if(s){ const o = JSON.parse(s); answers = o.answers||{}; i = o.i||0; } }catch(e){} }
+function save(){ try{ localStorage.setItem(key(), JSON.stringify({answers, i})); }catch(e){} }
+
+$("#name").addEventListener("input", e => {
+  const n = e.target.value.trim(); $("#start").disabled = !n; let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem("rate50:" + n.toLowerCase())); }catch(err){}
+  const k = saved && saved.answers ? Object.keys(saved.answers).length : 0;
+  $("#resume").innerHTML = k ? `This device already has <b>${k} of 50</b> saved under "${n}". Starting will <b>resume</b> that. Not you? Use a different first name, or <button class="link" id="wipe">wipe "${n}" and start over</button>.` : "";
+  const w = document.getElementById("wipe"); if(w) w.onclick = () => { try{ localStorage.removeItem("rate50:" + n.toLowerCase()); }catch(err){} $("#resume").textContent = `Cleared. "${n}" starts from item 1.`; };
+});
+$("#start").onclick = () => { name = $("#name").value.trim(); answers = {}; i = 0; load(); if(i >= DATA.length) i = DATA.length - 1; show("rate"); render(); };
+$("#nextperson").onclick = () => { name = ""; answers = {}; i = 0; $("#name").value = ""; $("#start").disabled = true; $("#resume").textContent = ""; show("intro"); };
+function show(id){ for(const s of ["intro","rate","done"]) $("#"+s).classList.toggle("hidden", s!==id); window.scrollTo(0,0); }
+
+const ladder = $("#ladder");
+LEVELS.forEach(([n,t,s]) => { const b = document.createElement("button"); b.innerHTML = `<span class="n">${n}</span><span class="t">${t}<span class="s">${s}</span></span>`; b.onclick = () => pick(+n); ladder.appendChild(b); });
+function render(){
+  const r = DATA[i]; $("#quote").textContent = r.text;
+  $("#pos").textContent = `${i+1} of ${DATA.length}`; $("#who").textContent = name; const done = Object.keys(answers).length; $("#left").textContent = `${DATA.length-done} left`;
+  $("#fill").style.width = (100*done/DATA.length) + "%";
+  const a = answers[r.id]; [...ladder.children].forEach((b,k) => b.classList.toggle("on", !!a && a.level===k));
+  $("#unsure").classList.toggle("on", !!a && a.unsure); $("#unsure").setAttribute("aria-pressed", !!a && a.unsure);
+  $("#back").style.visibility = i ? "visible" : "hidden";
+}
+function pick(level){
+  const r = DATA[i]; const prev = answers[r.id]||{}; answers[r.id] = {level, unsure: !!prev.unsure}; save();
+  if(i < DATA.length-1){ i++; save(); setTimeout(render, 120); } else { finish(); }
+}
+$("#unsure").onclick = () => { const r = DATA[i]; const a = answers[r.id]||{level:null}; a.unsure = !a.unsure; answers[r.id] = a; save(); render(); };
+$("#back").onclick = () => { if(i>0){ i--; save(); render(); } };
+document.addEventListener("keydown", e => {
+  if($("#rate").classList.contains("hidden")) return;
+  if(e.key>="0" && e.key<="5") pick(+e.key); else if(e.key==="u"||e.key==="U") $("#unsure").click(); else if(e.key==="ArrowLeft") $("#back").click();
+});
+function finish(){
+  const missing = DATA.findIndex(r => !answers[r.id] || answers[r.id].level==null);
+  if(missing >= 0){ i = missing; render(); return; }
+  show("done"); const fn = `labels_${name.toLowerCase().replace(/[^a-z0-9]+/g,"_")}.csv`; $("#fname").textContent = "File name: " + fn;
+  $("#donehead").textContent = `All 50 rated — ${name}`; $("#whose").textContent = `These are ${name}'s answers. If that isn't you, don't save them; use "start fresh" below.`;
+  const list = $("#list"); list.innerHTML = "";
+  DATA.forEach((r,k) => { const a = answers[r.id]; const d = document.createElement("div"); d.className="review";
+    d.innerHTML = `<span>${r.id}</span><span class="q">${r.text.slice(0,90)}${r.text.length>90?"…":""}</span><span class="n">${a.level}${a.unsure?"?":""}</span>`;
+    d.onclick = () => { i = k; show("rate"); render(); }; list.appendChild(d); });
+  $("#download").onclick = () => { const blob = new Blob([csv()], {type:"text/csv"}); const u = URL.createObjectURL(blob); const a = document.createElement("a"); a.href=u; a.download=fn; a.click(); URL.revokeObjectURL(u); $("#download").textContent = "Saved ✓ — save again if you change anything"; };
+  $("#copy").onclick = async () => { try{ await navigator.clipboard.writeText(csv()); $("#copy").textContent = "Copied ✓"; }catch(e){ $("#copy").textContent = "Copy failed — use Save instead"; } };
+}
+function csv(){ const q = s => '"' + String(s).replace(/"/g,'""') + '"';
+  return ["id,response,level_0_to_5,confident_yes_no,notes"].concat(DATA.map(r => { const a = answers[r.id]; return [r.id, q(r.text), a.level, a.unsure?"no":"yes", ""].join(","); })).join("\n") + "\n"; }
+$("#helpbtn").onclick = () => { $("#sheetin").innerHTML = LEVELS.map(([n,t,s]) => `<div class="ex"><div class="n">${n}</div><div><div class="t">${t}</div><div class="s">${s}</div></div></div>`).join("") + `<p class="quiet">4 or 5? Could you hand it over and walk away? One question they'd need → 4. None → 5.<br>Wording doesn't change the number. “Be careful” isn't content. Stuck? pick the bigger one and mark unsure.</p><button class="big" onclick="document.getElementById('sheet').classList.remove('open')">Back to rating</button>`; $("#sheet").classList.add("open"); };
+$("#sheet").addEventListener("click", e => { if(e.target===$("#sheet")) $("#sheet").classList.remove("open"); });
+</script></body></html>

@@ -1,0 +1,50 @@
+{"id": "R01", "text": "Not something I want to lay out step by step. The booklet that came with your bike has it."}
+{"id": "R02", "text": "Repot: water the day before. Pick a pot 2 inches wider with holes. Fill it a third of the way with dirt. Loosen the circling roots. Set the base at the old dirt line. Fill in and press down. Water until it runs out the bottom. Keep it out of direct sun for a week. Water again when the top inch is dry."}
+{"id": "R03", "text": "It's not that the plant hates the window. The glass makes the leaves touching it too hot."}
+{"id": "R04", "text": "No, the whole order is: smallest gear, open the clip link, feed it through the cage and both little wheels, over the gears, close the link, pedal backward to seat it, then test every gear while pushing hard."}
+{"id": "R05", "text": "Shift to the smallest gear, then open the chain's clip link, then feed the new chain through the little cage before you close it."}
+{"id": "R06", "text": "You don't repot first. You water the day before, then repot, then hold off on water for a few days."}
+{"id": "R07", "text": "The little tag on the plant and the store's website both explain this better than I can."}
+{"id": "R08", "text": "Fix the sheet: if the error says #REF, find the deleted block and put it back or point to a new one. If it says #VALUE, turn the word-cells into numbers with VALUE(). If it's a loop, move the total to its own column. Then freeze the top row, turn the block into a table, and add the totals row."}
+{"id": "R09", "text": "Any beginner spreadsheet lesson covers this. I'd start there."}
+{"id": "R10", "text": "I'm going to skip writing out the schedule. The bakery's own directions will match their flour."}
+{"id": "R11", "text": "Spreadsheet mistakes come in a few kinds: broken links, mixed-up numbers and words, and loops."}
+{"id": "R12", "text": "No, it's not the tires. The things to check are the chain and gears, the cables, and the wheel bearings."}
+{"id": "R13", "text": "The order is wrong. Mix, wait 30 minutes, then salt, then folds. Salt before the wait slows it down."}
+{"id": "R14", "text": "Here's the fixed version of what you have: same flour and water, but the salt goes in after the 30-minute wait. Fold every 30 minutes for 2 hours at 75 to 78 degrees. Let it rise half again as big. Chill 12 hours. Bake at 450, 20 minutes covered, then 20 uncovered."}
+{"id": "R15", "text": "Like tire pressure, chain wear has a number: half a percent is the yellow zone, three-quarters is the red."}
+{"id": "R16", "text": "Is your kitchen about 75 degrees? That's the temperature most bread recipes expect, with the dough three-quarters as much water as flour."}
+{"id": "R17", "text": "- water: 75% of the flour's weight\n- salt: 2% of the flour's weight\n- room: 75 to 78 degrees"}
+{"id": "R18", "text": "A chain slowly stretches as its little pins wear down. A stretched chain then wears down the gear teeth to match it."}
+{"id": "R19", "text": "A loop in a spreadsheet is like a snake eating its own tail: the box needs its own answer to figure out its answer."}
+{"id": "R20", "text": "The holes in the bottom of the pot matter more than anything I'd say. A garden store can pick the right one."}
+{"id": "R21", "text": "I'll skip the how-to. If it's making a noise, a bike mechanic should look before you ride far."}
+{"id": "R22", "text": "Freeze the top row, make the columns 14 wide, and write dates as year-month-day in the first column."}
+{"id": "R23", "text": "The starter isn't dying, it's hungry. The sour stuff builds up faster than the yeast can keep up."}
+{"id": "R24", "text": "If it's a bread problem, it's one of flour, water, warmth, or time."}
+{"id": "R25", "text": "A plant droops because of tight roots, too much water, or not enough light."}
+{"id": "R26", "text": "If the little chain checker tool reads three-quarters of a percent or more, the gears are probably worn too."}
+{"id": "R27", "text": "Roots need air as much as water. A pot that stays soggy smothers them, and that looks like the plant is thirsty."}
+{"id": "R28", "text": "What if you did it this way: smallest gear, measure, count links, cut to match, feed through both little wheels, close the link, pedal backward, then try every gear while checking for slips?"}
+{"id": "R29", "text": "If the roots go around in circles, loosen them with your fingers first. Then set the plant so the base sits where the old dirt line was. Then water until it runs out the bottom."}
+{"id": "R30", "text": "Is it how wet the dough is, how warm the room is, or how long you waited?"}
+{"id": "R31", "text": "After the chain is on, try every gear. If it slips when you push hard in the small gears, the gears need replacing too."}
+{"id": "R32", "text": "1. Freeze the top row\n2. Turn the block of cells into a table\n3. Add the totals row last, after the data is clean"}
+{"id": "R33", "text": "Do you know why dough rises? The yeast eats sugar and makes gas, and the stretchy dough traps the gas."}
+{"id": "R34", "text": "If a box shows an error, it's pointing at a spot that isn't there anymore."}
+{"id": "R35", "text": "Most house plants want the top inch of dirt dry before the next drink, and a new pot about 2 inches wider."}
+{"id": "R36", "text": "A chain is worn when it has stretched half a percent. Swap it at three-quarters of a percent, before it wrecks the gears."}
+{"id": "R37", "text": "Replace a chain: shift to the smallest gears front and back. Measure the old chain (swap at three-quarters of a percent). Count the links on the old one. Cut the new chain to match. Feed it through the cage, both little wheels, and over the gears. Close the clip link. Pedal backward to seat it. Shift through every gear and check for slipping."}
+{"id": "R38", "text": "Think of it as three knobs: how wet, how warm, how long."}
+{"id": "R39", "text": "If the formula shows an error, first check where it points, then check if the cell has words instead of numbers, then check if the block of cells moved."}
+{"id": "R40", "text": "1. 500 g flour, 375 g water, mix, rest 30 min\n2. add 10 g salt and 100 g starter, squeeze it in\n3. fold every 30 min, 4 times, at 75 to 78 degrees\n4. let it rise until half again as big\n5. shape it, then chill 12 hours\n6. bake at 450 for 20 min with the lid on, 20 min with it off"}
+{"id": "R41", "text": "The usual problems are a worn chain, worn gears, or a loose cable."}
+{"id": "R42", "text": "I'd rather not walk you through that here. A bike shop can show you in ten minutes and check the parts too."}
+{"id": "R43", "text": "The rule isn't 'water once a week.' It's water when the top inch is dry, which in winter can mean every two weeks."}
+{"id": "R44", "text": "Treat it like a pilot's checklist: water the day before; pot 2 inches wider with holes; fill a third with dirt; loosen the roots; base at the old line; fill in; water through; a week in the shade; water again when the top inch is dry."}
+{"id": "R45", "text": "Not 90%. A beginner loaf uses about 70 to 75% water compared to flour, and 2% salt."}
+{"id": "R46", "text": "- the chain wears down\n- the worn chain wears down the gears\n- a new chain then slips on the worn gears"}
+{"id": "R47", "text": "Things that go wrong: - formulas - links to other cells - formatting"}
+{"id": "R48", "text": "Ask the person who gave you the starter dough. Every one acts a little different."}
+{"id": "R49", "text": "It's like tuning a guitar: set the stop screws first, then the cable tightness, then fine-tune with the little barrel knob."}
+{"id": "R50", "text": "Have you tried mixing first, waiting 30 minutes, then adding the salt, then folding the dough every half hour for two hours?"}

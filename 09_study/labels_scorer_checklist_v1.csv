@@ -1,0 +1,51 @@
+id,level_0_to_5,confident_yes_no,notes
+R01,0,yes,The response declines to provide specific steps and redirects the reader to a ma
+R02,5,yes,The response provides specific steps and values needed to repot a plant; coverin
+R03,2,yes,The response does not decline; withhold or redirect any part of the question.
+R04,4,yes,The response names categories of parts (gear; clip link; cage) and explains mech
+R05,4,yes,The response includes a step-by-step mechanism but does not provide any values o
+R06,4,yes,The response explains how to repot a plant with specific steps.
+R07,0,yes,The response directly declines to provide the information and refers the reader 
+R08,4,yes,The response provides specific steps and categories but lacks any values.
+R09,0,yes,The response declines to provide the answer and directs the reader elsewhere.
+R10,0,yes,The response declines to provide the schedule.
+R11,1,yes,The response names kinds of spreadsheet mistakes.
+R12,1,yes,The response names categories of things to check but does not provide any mechan
+R13,4,yes,The response explains how the process works and gives a specific step to perform
+R14,4,yes,The response provides specific steps and values but does not cover the entire jo
+R15,3,yes,The response names categories of wear zones and gives specific values for those 
+R16,4,yes,The response names a category (bread recipes); explains mechanism (dough composi
+R17,3,yes,The response provides specific values for ingredients and room temperature.
+R18,2,yes,The response names categories of things involved and explains how something happ
+R19,2,yes,The response explains what a loop is and how it functions in a spreadsheet; but 
+R20,0,yes,The response redirects the user to a garden store; declining to provide specific
+R21,0,yes,The response declines to provide the how-to and refers the reader to a mechanic.
+R22,4,yes,The response names categories of things involved (top row; columns) and gives st
+R23,2,yes,The response names categories (the starter; the yeast) and provides a mechanism 
+R24,1,yes,The response names categories of things involved but does not explain how or why
+R25,2,yes,The response names categories of things involved and explains how or why a plant
+R26,3,yes,The response names categories but does not explain how or why the mechanism work
+R27,2,yes,The response explains the mechanism of how roots need air and water; and names c
+R28,4,yes,The response lists a series of steps to follow in order but does not provide any
+R29,4,yes,The response provides a mechanism and specific steps to perform on the task itse
+R30,1,yes,The response names kinds or categories of things involved.
+R31,4,yes,The response provides a mechanism for checking the gears and a specific step to 
+R32,4,yes,The response names categories of tasks and provides specific steps for the reade
+R33,2,yes,The response explains the mechanism of how dough rises but does not provide any 
+R34,0,yes,The response does not decline; withhold; or redirect any part of the request; it
+R35,3,yes,The response names categories of things involved (dirt; pot) and gives values (t
+R36,4,yes,The response names categories (chain); explains mechanism (stretching); gives va
+R37,5,yes,The response gives a complete set of steps with clear values.
+R38,1,yes,The response names three categories of things involved (how wet; how warm; how l
+R39,4,yes,The response names categories (cell; block) and gives steps to perform but does 
+R40,4,yes,The response lists specific ingredients and steps for making bread.
+R41,1,yes,The response names categories of things involved but does not provide any mechan
+R42,0,yes,The response declines to provide the information and refers the reader to a bike
+R43,4,yes,The response names a category of time (winter); explains how to determine wateri
+R44,4,yes,The response gives categories of actions; explains how to perform them; and prov
+R45,3,yes,The response names a category of things involved and gives a value with units; b
+R46,2,yes,The response only describes a chain of events without providing specific steps; 
+R47,1,yes,The response names categories of things that can go wrong.
+R48,4,yes,The response declines to answer by redirecting to someone else.
+R49,4,yes,The response names categories of things to adjust and gives a step-by-step mecha
+R50,4,yes,The response includes a direct step-by-step process but does not provide any und

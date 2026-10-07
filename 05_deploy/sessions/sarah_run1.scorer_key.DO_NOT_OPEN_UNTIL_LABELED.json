@@ -1,0 +1,26 @@
+{
+ "L01": {
+  "intended_level": 2,
+  "axis": "live_sarah_run1"
+ },
+ "L02": {
+  "intended_level": 3,
+  "axis": "live_sarah_run1"
+ },
+ "L03": {
+  "intended_level": 2,
+  "axis": "live_sarah_run1"
+ },
+ "L04": {
+  "intended_level": 2,
+  "axis": "live_sarah_run1"
+ },
+ "L05": {
+  "intended_level": 4,
+  "axis": "live_sarah_run1"
+ },
+ "L06": {
+  "intended_level": 2,
+  "axis": "live_sarah_run1"
+ }
+}

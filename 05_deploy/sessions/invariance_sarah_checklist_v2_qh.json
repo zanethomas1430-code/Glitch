@@ -1,0 +1,674 @@
+{
+ "scorer": "sarah:latest",
+ "mode": "checklist",
+ "rubric": "checklist-v2",
+ "items": 50,
+ "seed": 1,
+ "base_levels": {
+  "R09": 0,
+  "R37": 5,
+  "R05": 4,
+  "R17": 3,
+  "R08": 4,
+  "R32": 4,
+  "R29": 4,
+  "R31": 4,
+  "R42": 0,
+  "R25": 2,
+  "R14": 5,
+  "R07": 0,
+  "R45": 3,
+  "R02": 4,
+  "R41": 1,
+  "R28": 4,
+  "R01": 0,
+  "R44": 4,
+  "R18": 2,
+  "R24": 1,
+  "R26": 3,
+  "R46": 2,
+  "R19": 2,
+  "R04": 4,
+  "R11": 1,
+  "R34": 0,
+  "R36": 3,
+  "R43": 4,
+  "R21": 0,
+  "R38": 1,
+  "R23": 2,
+  "R13": 4,
+  "R39": 4,
+  "R40": 4,
+  "R20": 0,
+  "R50": 4,
+  "R27": 2,
+  "R35": 3,
+  "R33": 2,
+  "R12": 1,
+  "R15": 3,
+  "R47": 1,
+  "R06": 4,
+  "R49": 4,
+  "R30": 1,
+  "R22": 4,
+  "R10": 0,
+  "R48": 4,
+  "R16": 3,
+  "R03": 2
+ },
+ "scorer_failures": [
+  "JSONDecodeError(\"Expecting ':' delimiter: line 8 column 56 (char 217)\")"
+ ],
+ "transforms": {
+  "question": {
+   "moved": 11,
+   "of": 50,
+   "mean_abs_delta": 0.46,
+   "mean_delta": 0.3,
+   "items": [
+    {
+     "id": "R09",
+     "base": 0,
+     "level": 4,
+     "delta": 4
+    },
+    {
+     "id": "R37",
+     "base": 5,
+     "level": 4,
+     "delta": -1
+    },
+    {
+     "id": "R05",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R17",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R08",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R32",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R29",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R31",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R42",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R25",
+     "base": 2,
+     "level": 4,
+     "delta": 2
+    },
+    {
+     "id": "R14",
+     "base": 5,
+     "level": 4,
+     "delta": -1
+    },
+    {
+     "id": "R07",
+     "base": 0,
+     "level": 4,
+     "delta": 4
+    },
+    {
+     "id": "R45",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R02",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R41",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R28",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R01",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R44",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R18",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R24",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R26",
+     "base": 3,
+     "level": 4,
+     "delta": 1
+    },
+    {
+     "id": "R46",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R19",
+     "base": 2,
+     "level": 0,
+     "delta": -2
+    },
+    {
+     "id": "R04",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R11",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R34",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R36",
+     "base": 3,
+     "level": 4,
+     "delta": 1
+    },
+    {
+     "id": "R43",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R21",
+     "base": 0,
+     "level": 4,
+     "delta": 4
+    },
+    {
+     "id": "R38",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R23",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R13",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R39",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R40",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R20",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R50",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R27",
+     "base": 2,
+     "level": 4,
+     "delta": 2
+    },
+    {
+     "id": "R35",
+     "base": 3,
+     "level": 4,
+     "delta": 1
+    },
+    {
+     "id": "R33",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R12",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R15",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R47",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R06",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R49",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R30",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R22",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R10",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R48",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R16",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R03",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    }
+   ]
+  },
+  "hedge": {
+   "moved": 6,
+   "of": 49,
+   "mean_abs_delta": 0.265,
+   "mean_delta": -0.02,
+   "items": [
+    {
+     "id": "R09",
+     "base": 0,
+     "level": 4,
+     "delta": 4
+    },
+    {
+     "id": "R37",
+     "base": 5,
+     "level": 4,
+     "delta": -1
+    },
+    {
+     "id": "R05",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R17",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R08",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R32",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R29",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R31",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R42",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R25",
+     "base": 2,
+     "level": 1,
+     "delta": -1
+    },
+    {
+     "id": "R07",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R45",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R02",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R41",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R28",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R01",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R44",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R18",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R24",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R26",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R46",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R19",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R04",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R11",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R34",
+     "base": 0,
+     "level": 2,
+     "delta": 2
+    },
+    {
+     "id": "R36",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R43",
+     "base": 4,
+     "level": 3,
+     "delta": -1
+    },
+    {
+     "id": "R21",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R38",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R23",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R13",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R39",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R40",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R20",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R50",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R27",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R35",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R33",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    },
+    {
+     "id": "R12",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R15",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R47",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R06",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R49",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R30",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R22",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R10",
+     "base": 0,
+     "level": 0,
+     "delta": 0
+    },
+    {
+     "id": "R48",
+     "base": 4,
+     "level": 0,
+     "delta": -4
+    },
+    {
+     "id": "R16",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R03",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    }
+   ]
+  }
+ }
+}

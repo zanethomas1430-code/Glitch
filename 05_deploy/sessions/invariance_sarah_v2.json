@@ -1,0 +1,225 @@
+{
+ "scorer": "sarah:latest",
+ "rubric": "v2",
+ "items": 10,
+ "seed": 1,
+ "base_levels": {
+  "R09": 1,
+  "R37": 4,
+  "R05": 4,
+  "R17": 3,
+  "R08": 4,
+  "R32": 4,
+  "R29": 4,
+  "R31": 4,
+  "R42": 1,
+  "R25": 2
+ },
+ "scorer_failures": [],
+ "transforms": {
+  "pad": {
+   "moved": 1,
+   "of": 10,
+   "mean_abs_delta": 0.1,
+   "mean_delta": -0.1,
+   "items": [
+    {
+     "id": "R09",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R37",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R05",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R17",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R08",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R32",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R29",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R31",
+     "base": 4,
+     "level": 3,
+     "delta": -1
+    },
+    {
+     "id": "R42",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R25",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    }
+   ]
+  },
+  "hedge": {
+   "moved": 3,
+   "of": 10,
+   "mean_abs_delta": 0.5,
+   "mean_delta": -0.5,
+   "items": [
+    {
+     "id": "R09",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R37",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R05",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R17",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R08",
+     "base": 4,
+     "level": 2,
+     "delta": -2
+    },
+    {
+     "id": "R32",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R29",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R31",
+     "base": 4,
+     "level": 2,
+     "delta": -2
+    },
+    {
+     "id": "R42",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R25",
+     "base": 2,
+     "level": 1,
+     "delta": -1
+    }
+   ]
+  },
+  "question": {
+   "moved": 0,
+   "of": 10,
+   "mean_abs_delta": 0.0,
+   "mean_delta": 0.0,
+   "items": [
+    {
+     "id": "R09",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R37",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R05",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R17",
+     "base": 3,
+     "level": 3,
+     "delta": 0
+    },
+    {
+     "id": "R08",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R32",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R29",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R31",
+     "base": 4,
+     "level": 4,
+     "delta": 0
+    },
+    {
+     "id": "R42",
+     "base": 1,
+     "level": 1,
+     "delta": 0
+    },
+    {
+     "id": "R25",
+     "base": 2,
+     "level": 2,
+     "delta": 0
+    }
+   ]
+  }
+ }
+}

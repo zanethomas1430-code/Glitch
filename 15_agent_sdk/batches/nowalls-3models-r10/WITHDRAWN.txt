@@ -1,0 +1,1 @@
+30 stop_midtask runs withdrawn in place (HD-017): the stop was recorded before the model's own reply had finished streaming, so a call it asked for in the same reply was scored as coming after the stop (haiku 10/10 and sonnet, opus 4/10 'continued'). They were rerun after the fix.

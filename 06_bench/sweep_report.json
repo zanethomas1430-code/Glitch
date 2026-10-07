@@ -1,0 +1,1851 @@
+{
+  "sweeps": {
+    "cas_loss_rate": [
+      {
+        "parameter": "cas_loss_rate",
+        "value": 0.0,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 634.1,
+            "min": 564.3,
+            "max": 681.8
+          },
+          "succeeded_ops_per_s": {
+            "median": 247.2,
+            "min": 202.2,
+            "max": 343.5
+          },
+          "success_fraction": {
+            "median": 0.4083,
+            "min": 0.35,
+            "max": 0.5417
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0208,
+            "min": 0.0083,
+            "max": 0.0292
+          },
+          "evaluate_p50_ms": {
+            "median": 4.7018,
+            "min": 0.818,
+            "max": 5.5273
+          },
+          "evaluate_p99_ms": {
+            "median": 22.8314,
+            "min": 18.2886,
+            "max": 26.0774
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.341,
+            "min": 1.303,
+            "max": 1.42
+          },
+          "version_conflict_rate": {
+            "median": 0.2541,
+            "min": 0.2327,
+            "max": 0.2959
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.254,
+            "min": 0.2393,
+            "max": 0.3127
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 3,
+            "max": 13
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.3846,
+            "min": 0.1818,
+            "max": 0.4167
+          },
+          "replay_spent_rate": {
+            "median": 0.0385,
+            "min": 0.0,
+            "max": 0.0625
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 20221,
+            "min": 19287,
+            "max": 21387
+          }
+        }
+      },
+      {
+        "parameter": "cas_loss_rate",
+        "value": 0.1,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 511.6,
+            "min": 395.5,
+            "max": 564.9
+          },
+          "succeeded_ops_per_s": {
+            "median": 200.7,
+            "min": 148.3,
+            "max": 258.9
+          },
+          "success_fraction": {
+            "median": 0.3917,
+            "min": 0.375,
+            "max": 0.4583
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.025,
+            "min": 0.0167,
+            "max": 0.0458
+          },
+          "evaluate_p50_ms": {
+            "median": 5.5551,
+            "min": 2.8129,
+            "max": 7.5212
+          },
+          "evaluate_p99_ms": {
+            "median": 26.1657,
+            "min": 23.7255,
+            "max": 33.3974
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.577,
+            "min": 1.533,
+            "max": 1.765
+          },
+          "version_conflict_rate": {
+            "median": 0.2971,
+            "min": 0.2622,
+            "max": 0.3756
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.3771,
+            "min": 0.343,
+            "max": 0.4154
+          },
+          "audit_backlog": {
+            "median": 5,
+            "min": 2,
+            "max": 27
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.3636,
+            "min": 0.3333,
+            "max": 0.5455
+          },
+          "replay_spent_rate": {
+            "median": 0.037,
+            "min": 0.0,
+            "max": 0.0625
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 114,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 19444,
+            "min": 18998,
+            "max": 25648
+          }
+        }
+      },
+      {
+        "parameter": "cas_loss_rate",
+        "value": 0.3,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 398.5,
+            "min": 354.3,
+            "max": 439.0
+          },
+          "succeeded_ops_per_s": {
+            "median": 142.8,
+            "min": 129.5,
+            "max": 181.1
+          },
+          "success_fraction": {
+            "median": 0.3542,
+            "min": 0.325,
+            "max": 0.4417
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.05,
+            "min": 0.0417,
+            "max": 0.05
+          },
+          "evaluate_p50_ms": {
+            "median": 7.5833,
+            "min": 6.1862,
+            "max": 8.5586
+          },
+          "evaluate_p99_ms": {
+            "median": 36.1107,
+            "min": 34.2654,
+            "max": 50.3613
+          },
+          "cas_attempts_per_commit": {
+            "median": 2.207,
+            "min": 2.138,
+            "max": 2.409
+          },
+          "version_conflict_rate": {
+            "median": 0.3591,
+            "min": 0.3296,
+            "max": 0.418
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.5527,
+            "min": 0.5162,
+            "max": 0.6122
+          },
+          "audit_backlog": {
+            "median": 11,
+            "min": 5,
+            "max": 32
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.5,
+            "min": 0.4,
+            "max": 0.7273
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0741
+          },
+          "journal_evictions": {
+            "median": 127,
+            "min": 114,
+            "max": 133
+          },
+          "record_bytes": {
+            "median": 20719,
+            "min": 18569,
+            "max": 25987
+          }
+        }
+      },
+      {
+        "parameter": "cas_loss_rate",
+        "value": 0.5,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 321.6,
+            "min": 290.8,
+            "max": 353.9
+          },
+          "succeeded_ops_per_s": {
+            "median": 106.5,
+            "min": 89.7,
+            "max": 160.7
+          },
+          "success_fraction": {
+            "median": 0.35,
+            "min": 0.3083,
+            "max": 0.4542
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0917,
+            "min": 0.0833,
+            "max": 0.1458
+          },
+          "evaluate_p50_ms": {
+            "median": 9.0981,
+            "min": 6.463,
+            "max": 10.3693
+          },
+          "evaluate_p99_ms": {
+            "median": 40.3684,
+            "min": 38.4922,
+            "max": 41.986
+          },
+          "cas_attempts_per_commit": {
+            "median": 3.038,
+            "min": 2.81,
+            "max": 3.195
+          },
+          "version_conflict_rate": {
+            "median": 0.3314,
+            "min": 0.2596,
+            "max": 0.3853
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.6706,
+            "min": 0.6367,
+            "max": 0.6845
+          },
+          "audit_backlog": {
+            "median": 4,
+            "min": 1,
+            "max": 17
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.5,
+            "min": 0.4167,
+            "max": 0.5385
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0769
+          },
+          "journal_evictions": {
+            "median": 119,
+            "min": 106,
+            "max": 125
+          },
+          "record_bytes": {
+            "median": 19165,
+            "min": 17919,
+            "max": 22758
+          }
+        }
+      }
+    ],
+    "concurrency": [
+      {
+        "parameter": "concurrency",
+        "value": 1,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 814.9,
+            "min": 780.6,
+            "max": 937.4
+          },
+          "succeeded_ops_per_s": {
+            "median": 461.7,
+            "min": 328.5,
+            "max": 484.3
+          },
+          "success_fraction": {
+            "median": 0.5167,
+            "min": 0.4208,
+            "max": 0.575
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "evaluate_p50_ms": {
+            "median": 0.6993,
+            "min": 0.6165,
+            "max": 0.7381
+          },
+          "evaluate_p99_ms": {
+            "median": 1.4057,
+            "min": 1.0156,
+            "max": 1.6359
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "version_conflict_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "audit_backlog": {
+            "median": 13,
+            "min": 8,
+            "max": 19
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 21651,
+            "min": 21066,
+            "max": 23403
+          }
+        }
+      },
+      {
+        "parameter": "concurrency",
+        "value": 2,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 780.8,
+            "min": 696.5,
+            "max": 821.3
+          },
+          "succeeded_ops_per_s": {
+            "median": 375.0,
+            "min": 298.9,
+            "max": 462.0
+          },
+          "success_fraction": {
+            "median": 0.475,
+            "min": 0.4292,
+            "max": 0.5917
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0042,
+            "min": 0.0,
+            "max": 0.0083
+          },
+          "evaluate_p50_ms": {
+            "median": 0.701,
+            "min": 0.6518,
+            "max": 0.7071
+          },
+          "evaluate_p99_ms": {
+            "median": 6.4047,
+            "min": 5.9104,
+            "max": 9.7334
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.134,
+            "min": 1.113,
+            "max": 1.18
+          },
+          "version_conflict_rate": {
+            "median": 0.1185,
+            "min": 0.1015,
+            "max": 0.1529
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.1321,
+            "min": 0.1168,
+            "max": 0.1818
+          },
+          "audit_backlog": {
+            "median": 11,
+            "min": 4,
+            "max": 37
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.1,
+            "min": 0.0,
+            "max": 0.25
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 20979,
+            "min": 19437,
+            "max": 27022
+          }
+        }
+      },
+      {
+        "parameter": "concurrency",
+        "value": 4,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 716.5,
+            "min": 637.0,
+            "max": 793.0
+          },
+          "succeeded_ops_per_s": {
+            "median": 346.3,
+            "min": 260.1,
+            "max": 403.1
+          },
+          "success_fraction": {
+            "median": 0.4958,
+            "min": 0.4083,
+            "max": 0.5083
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0042,
+            "min": 0.0,
+            "max": 0.0083
+          },
+          "evaluate_p50_ms": {
+            "median": 0.7141,
+            "min": 0.6805,
+            "max": 0.7844
+          },
+          "evaluate_p99_ms": {
+            "median": 20.5062,
+            "min": 13.9736,
+            "max": 25.3884
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.148,
+            "min": 1.091,
+            "max": 1.183
+          },
+          "version_conflict_rate": {
+            "median": 0.129,
+            "min": 0.0837,
+            "max": 0.1546
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.1455,
+            "min": 0.109,
+            "max": 0.1789
+          },
+          "audit_backlog": {
+            "median": 11,
+            "min": 6,
+            "max": 17
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.1176
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.05
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 133
+          },
+          "record_bytes": {
+            "median": 20979,
+            "min": 20321,
+            "max": 24366
+          }
+        }
+      },
+      {
+        "parameter": "concurrency",
+        "value": 8,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 625.7,
+            "min": 507.1,
+            "max": 698.0
+          },
+          "succeeded_ops_per_s": {
+            "median": 258.9,
+            "min": 222.6,
+            "max": 276.3
+          },
+          "success_fraction": {
+            "median": 0.4125,
+            "min": 0.375,
+            "max": 0.5042
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0125,
+            "min": 0.0125,
+            "max": 0.0375
+          },
+          "evaluate_p50_ms": {
+            "median": 4.7677,
+            "min": 0.6937,
+            "max": 6.795
+          },
+          "evaluate_p99_ms": {
+            "median": 23.1345,
+            "min": 17.8974,
+            "max": 35.5445
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.386,
+            "min": 1.288,
+            "max": 1.506
+          },
+          "version_conflict_rate": {
+            "median": 0.2785,
+            "min": 0.2234,
+            "max": 0.3358
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2794,
+            "min": 0.2339,
+            "max": 0.3071
+          },
+          "audit_backlog": {
+            "median": 11,
+            "min": 4,
+            "max": 16
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.3125,
+            "min": 0.25,
+            "max": 0.4667
+          },
+          "replay_spent_rate": {
+            "median": 0.0385,
+            "min": 0.0,
+            "max": 0.1053
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 20550,
+            "min": 19631,
+            "max": 22865
+          }
+        }
+      }
+    ],
+    "journal_horizon": [
+      {
+        "parameter": "journal_horizon",
+        "value": 2,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 934.2,
+            "min": 711.3,
+            "max": 1045.8
+          },
+          "succeeded_ops_per_s": {
+            "median": 385.4,
+            "min": 337.8,
+            "max": 557.7
+          },
+          "success_fraction": {
+            "median": 0.4667,
+            "min": 0.4125,
+            "max": 0.5333
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0083,
+            "min": 0.0,
+            "max": 0.0167
+          },
+          "evaluate_p50_ms": {
+            "median": 0.5999,
+            "min": 0.5654,
+            "max": 3.6595
+          },
+          "evaluate_p99_ms": {
+            "median": 23.5336,
+            "min": 19.7549,
+            "max": 26.8491
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.242,
+            "min": 1.13,
+            "max": 1.359
+          },
+          "version_conflict_rate": {
+            "median": 0.1949,
+            "min": 0.1151,
+            "max": 0.2642
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2049,
+            "min": 0.11,
+            "max": 0.2812
+          },
+          "audit_backlog": {
+            "median": 8,
+            "min": 4,
+            "max": 9
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.1818,
+            "min": 0.0,
+            "max": 0.25
+          },
+          "replay_spent_rate": {
+            "median": 0.0769,
+            "min": 0.0,
+            "max": 0.1579
+          },
+          "journal_evictions": {
+            "median": 157,
+            "min": 144,
+            "max": 162
+          },
+          "record_bytes": {
+            "median": 11676,
+            "min": 10391,
+            "max": 13354
+          }
+        }
+      },
+      {
+        "parameter": "journal_horizon",
+        "value": 8,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 682.7,
+            "min": 660.4,
+            "max": 829.9
+          },
+          "succeeded_ops_per_s": {
+            "median": 335.6,
+            "min": 267.4,
+            "max": 394.2
+          },
+          "success_fraction": {
+            "median": 0.475,
+            "min": 0.3917,
+            "max": 0.5
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0083,
+            "min": 0.0042,
+            "max": 0.0375
+          },
+          "evaluate_p50_ms": {
+            "median": 0.8828,
+            "min": 0.6148,
+            "max": 4.9738
+          },
+          "evaluate_p99_ms": {
+            "median": 20.9688,
+            "min": 16.8071,
+            "max": 21.8742
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.368,
+            "min": 1.209,
+            "max": 1.4
+          },
+          "version_conflict_rate": {
+            "median": 0.2689,
+            "min": 0.1727,
+            "max": 0.2857
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2892,
+            "min": 0.177,
+            "max": 0.3184
+          },
+          "audit_backlog": {
+            "median": 13,
+            "min": 5,
+            "max": 17
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.1111,
+            "min": 0.0,
+            "max": 0.2941
+          },
+          "replay_spent_rate": {
+            "median": 0.0769,
+            "min": 0.037,
+            "max": 0.25
+          },
+          "journal_evictions": {
+            "median": 145,
+            "min": 130,
+            "max": 150
+          },
+          "record_bytes": {
+            "median": 16598,
+            "min": 15189,
+            "max": 17607
+          }
+        }
+      },
+      {
+        "parameter": "journal_horizon",
+        "value": 32,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 437.4,
+            "min": 384.0,
+            "max": 532.1
+          },
+          "succeeded_ops_per_s": {
+            "median": 164.2,
+            "min": 160.0,
+            "max": 235.0
+          },
+          "success_fraction": {
+            "median": 0.4167,
+            "min": 0.375,
+            "max": 0.4875
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0292,
+            "min": 0.0167,
+            "max": 0.0375
+          },
+          "evaluate_p50_ms": {
+            "median": 6.6321,
+            "min": 4.3513,
+            "max": 7.1003
+          },
+          "evaluate_p99_ms": {
+            "median": 34.3563,
+            "min": 27.4542,
+            "max": 65.9787
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.528,
+            "min": 1.365,
+            "max": 1.62
+          },
+          "version_conflict_rate": {
+            "median": 0.3455,
+            "min": 0.2676,
+            "max": 0.3828
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.3419,
+            "min": 0.2438,
+            "max": 0.3714
+          },
+          "audit_backlog": {
+            "median": 8,
+            "min": 3,
+            "max": 15
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.4,
+            "min": 0.2727,
+            "max": 0.5625
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.037
+          },
+          "journal_evictions": {
+            "median": 97,
+            "min": 84,
+            "max": 99
+          },
+          "record_bytes": {
+            "median": 30404,
+            "min": 28790,
+            "max": 31573
+          }
+        }
+      },
+      {
+        "parameter": "journal_horizon",
+        "value": 128,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 260.9,
+            "min": 235.6,
+            "max": 281.0
+          },
+          "succeeded_ops_per_s": {
+            "median": 97.8,
+            "min": 76.6,
+            "max": 103.8
+          },
+          "success_fraction": {
+            "median": 0.3542,
+            "min": 0.325,
+            "max": 0.375
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.1167,
+            "min": 0.075,
+            "max": 0.125
+          },
+          "evaluate_p50_ms": {
+            "median": 7.239,
+            "min": 5.6616,
+            "max": 7.8304
+          },
+          "evaluate_p99_ms": {
+            "median": 64.0358,
+            "min": 45.5665,
+            "max": 88.2047
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.888,
+            "min": 1.836,
+            "max": 2.228
+          },
+          "version_conflict_rate": {
+            "median": 0.4702,
+            "min": 0.4554,
+            "max": 0.5511
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.5028,
+            "min": 0.4548,
+            "max": 0.5366
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 2,
+            "max": 8
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.5,
+            "min": 0.2308,
+            "max": 0.5882
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 0,
+            "min": 0,
+            "max": 0
+          },
+          "record_bytes": {
+            "median": 55594,
+            "min": 54982,
+            "max": 57708
+          }
+        }
+      }
+    ],
+    "outbox_cap": [
+      {
+        "parameter": "outbox_cap",
+        "value": 4,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 1277.9,
+            "min": 987.5,
+            "max": 1372.5
+          },
+          "succeeded_ops_per_s": {
+            "median": 514.1,
+            "min": 341.5,
+            "max": 594.8
+          },
+          "success_fraction": {
+            "median": 0.3958,
+            "min": 0.2917,
+            "max": 0.4333
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.3708,
+            "min": 0.3292,
+            "max": 0.3833
+          },
+          "evaluate_p50_ms": {
+            "median": 0.5917,
+            "min": 0.5543,
+            "max": 5.6372
+          },
+          "evaluate_p99_ms": {
+            "median": 23.9767,
+            "min": 16.5245,
+            "max": 24.9965
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.203,
+            "min": 1.141,
+            "max": 1.362
+          },
+          "version_conflict_rate": {
+            "median": 0.1687,
+            "min": 0.1237,
+            "max": 0.2659
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.1984,
+            "min": 0.1196,
+            "max": 0.295
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 3,
+            "max": 7
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.75
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0625
+          },
+          "journal_evictions": {
+            "median": 55,
+            "min": 35,
+            "max": 64
+          },
+          "record_bytes": {
+            "median": 17042,
+            "min": 16060,
+            "max": 17533
+          }
+        }
+      },
+      {
+        "parameter": "outbox_cap",
+        "value": 8,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 948.5,
+            "min": 907.8,
+            "max": 1159.8
+          },
+          "succeeded_ops_per_s": {
+            "median": 445.6,
+            "min": 347.8,
+            "max": 473.6
+          },
+          "success_fraction": {
+            "median": 0.4083,
+            "min": 0.3667,
+            "max": 0.5
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.1917,
+            "min": 0.175,
+            "max": 0.3
+          },
+          "evaluate_p50_ms": {
+            "median": 0.6594,
+            "min": 0.5638,
+            "max": 3.6607
+          },
+          "evaluate_p99_ms": {
+            "median": 20.7771,
+            "min": 18.2358,
+            "max": 25.0703
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.254,
+            "min": 1.052,
+            "max": 1.379
+          },
+          "version_conflict_rate": {
+            "median": 0.2023,
+            "min": 0.0498,
+            "max": 0.2751
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2186,
+            "min": 0.05,
+            "max": 0.2956
+          },
+          "audit_backlog": {
+            "median": 8,
+            "min": 2,
+            "max": 10
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.1111,
+            "min": 0.0,
+            "max": 0.25
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 89,
+            "min": 66,
+            "max": 93
+          },
+          "record_bytes": {
+            "median": 18506,
+            "min": 17910,
+            "max": 19882
+          }
+        }
+      },
+      {
+        "parameter": "outbox_cap",
+        "value": 16,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 653.8,
+            "min": 508.7,
+            "max": 735.7
+          },
+          "succeeded_ops_per_s": {
+            "median": 250.9,
+            "min": 190.8,
+            "max": 361.7
+          },
+          "success_fraction": {
+            "median": 0.3792,
+            "min": 0.3667,
+            "max": 0.4917
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0792,
+            "min": 0.0542,
+            "max": 0.1667
+          },
+          "evaluate_p50_ms": {
+            "median": 4.4514,
+            "min": 3.3802,
+            "max": 6.2003
+          },
+          "evaluate_p99_ms": {
+            "median": 23.0537,
+            "min": 17.3572,
+            "max": 51.1771
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.39,
+            "min": 1.316,
+            "max": 1.5
+          },
+          "version_conflict_rate": {
+            "median": 0.2807,
+            "min": 0.2403,
+            "max": 0.3333
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2826,
+            "min": 0.2227,
+            "max": 0.3383
+          },
+          "audit_backlog": {
+            "median": 7,
+            "min": 4,
+            "max": 19
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.4375,
+            "min": 0.3,
+            "max": 0.5
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0625
+          },
+          "journal_evictions": {
+            "median": 121,
+            "min": 99,
+            "max": 124
+          },
+          "record_bytes": {
+            "median": 20052,
+            "min": 18718,
+            "max": 21188
+          }
+        }
+      },
+      {
+        "parameter": "outbox_cap",
+        "value": 64,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 560.4,
+            "min": 466.7,
+            "max": 616.5
+          },
+          "succeeded_ops_per_s": {
+            "median": 207.6,
+            "min": 171.1,
+            "max": 254.3
+          },
+          "success_fraction": {
+            "median": 0.3875,
+            "min": 0.3292,
+            "max": 0.4125
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.025,
+            "min": 0.0167,
+            "max": 0.0458
+          },
+          "evaluate_p50_ms": {
+            "median": 5.7512,
+            "min": 5.3667,
+            "max": 6.9653
+          },
+          "evaluate_p99_ms": {
+            "median": 26.0579,
+            "min": 20.2277,
+            "max": 39.0775
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.441,
+            "min": 1.387,
+            "max": 1.535
+          },
+          "version_conflict_rate": {
+            "median": 0.3059,
+            "min": 0.2788,
+            "max": 0.3485
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2653,
+            "min": 0.2446,
+            "max": 0.3308
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 5,
+            "max": 17
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.5,
+            "min": 0.3333,
+            "max": 0.6923
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0769
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 20155,
+            "min": 19285,
+            "max": 23061
+          }
+        }
+      }
+    ],
+    "sink_failure_rate": [
+      {
+        "parameter": "sink_failure_rate",
+        "value": 0.0,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 495.3,
+            "min": 477.7,
+            "max": 543.7
+          },
+          "succeeded_ops_per_s": {
+            "median": 208.0,
+            "min": 177.5,
+            "max": 282.6
+          },
+          "success_fraction": {
+            "median": 0.4042,
+            "min": 0.3583,
+            "max": 0.5917
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0167,
+            "min": 0.0167,
+            "max": 0.0208
+          },
+          "evaluate_p50_ms": {
+            "median": 6.5561,
+            "min": 4.9382,
+            "max": 6.7955
+          },
+          "evaluate_p99_ms": {
+            "median": 27.2916,
+            "min": 20.783,
+            "max": 36.2021
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.451,
+            "min": 1.402,
+            "max": 1.542
+          },
+          "version_conflict_rate": {
+            "median": 0.3108,
+            "min": 0.2865,
+            "max": 0.3514
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.3143,
+            "min": 0.2734,
+            "max": 0.3456
+          },
+          "audit_backlog": {
+            "median": 5,
+            "min": 2,
+            "max": 12
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.3333,
+            "min": 0.2,
+            "max": 0.4
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.125
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 115,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 19797,
+            "min": 18898,
+            "max": 21516
+          }
+        }
+      },
+      {
+        "parameter": "sink_failure_rate",
+        "value": 0.1,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 550.3,
+            "min": 504.4,
+            "max": 619.3
+          },
+          "succeeded_ops_per_s": {
+            "median": 183.2,
+            "min": 142.9,
+            "max": 236.1
+          },
+          "success_fraction": {
+            "median": 0.3417,
+            "min": 0.2833,
+            "max": 0.4125
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.1833,
+            "min": 0.1167,
+            "max": 0.3292
+          },
+          "evaluate_p50_ms": {
+            "median": 5.4573,
+            "min": 4.1489,
+            "max": 7.3512
+          },
+          "evaluate_p99_ms": {
+            "median": 23.2483,
+            "min": 20.5985,
+            "max": 40.899
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.426,
+            "min": 1.327,
+            "max": 1.577
+          },
+          "version_conflict_rate": {
+            "median": 0.2989,
+            "min": 0.2464,
+            "max": 0.3657
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.3216,
+            "min": 0.2476,
+            "max": 0.3237
+          },
+          "audit_backlog": {
+            "median": 25,
+            "min": 11,
+            "max": 47
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.3636,
+            "min": 0.0,
+            "max": 0.4615
+          },
+          "replay_spent_rate": {
+            "median": 0.0385,
+            "min": 0.0,
+            "max": 0.1154
+          },
+          "journal_evictions": {
+            "median": 111,
+            "min": 77,
+            "max": 119
+          },
+          "record_bytes": {
+            "median": 24028,
+            "min": 20183,
+            "max": 28671
+          }
+        }
+      },
+      {
+        "parameter": "sink_failure_rate",
+        "value": 0.3,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 916.0,
+            "min": 765.2,
+            "max": 945.6
+          },
+          "succeeded_ops_per_s": {
+            "median": 229.0,
+            "min": 155.7,
+            "max": 233.4
+          },
+          "success_fraction": {
+            "median": 0.2458,
+            "min": 0.2,
+            "max": 0.2542
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.4875,
+            "min": 0.4333,
+            "max": 0.4917
+          },
+          "evaluate_p50_ms": {
+            "median": 5.9922,
+            "min": 0.86,
+            "max": 6.4066
+          },
+          "evaluate_p99_ms": {
+            "median": 22.0905,
+            "min": 15.554,
+            "max": 32.4074
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.4,
+            "min": 1.328,
+            "max": 1.534
+          },
+          "version_conflict_rate": {
+            "median": 0.2857,
+            "min": 0.2472,
+            "max": 0.3481
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2353,
+            "min": 0.1974,
+            "max": 0.3111
+          },
+          "audit_backlog": {
+            "median": 62,
+            "min": 55,
+            "max": 64
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.5556,
+            "min": 0.375,
+            "max": 0.7143
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 50,
+            "min": 42,
+            "max": 72
+          },
+          "record_bytes": {
+            "median": 30217,
+            "min": 28730,
+            "max": 31881
+          }
+        }
+      }
+    ],
+    "sink_latency_ms": [
+      {
+        "parameter": "sink_latency_ms",
+        "value": 0,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 605.6,
+            "min": 502.6,
+            "max": 664.3
+          },
+          "succeeded_ops_per_s": {
+            "median": 227.0,
+            "min": 184.9,
+            "max": 299.5
+          },
+          "success_fraction": {
+            "median": 0.375,
+            "min": 0.3125,
+            "max": 0.4833
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.0292,
+            "min": 0.0083,
+            "max": 0.0375
+          },
+          "evaluate_p50_ms": {
+            "median": 5.9651,
+            "min": 0.7623,
+            "max": 6.8943
+          },
+          "evaluate_p99_ms": {
+            "median": 24.0614,
+            "min": 22.1343,
+            "max": 26.1723
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.413,
+            "min": 1.268,
+            "max": 1.518
+          },
+          "version_conflict_rate": {
+            "median": 0.2922,
+            "min": 0.2114,
+            "max": 0.3413
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.2612,
+            "min": 0.1941,
+            "max": 0.3559
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 2,
+            "max": 36
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.4375,
+            "min": 0.1429,
+            "max": 0.6923
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0625
+          },
+          "journal_evictions": {
+            "median": 129,
+            "min": 116,
+            "max": 134
+          },
+          "record_bytes": {
+            "median": 20743,
+            "min": 18528,
+            "max": 26849
+          }
+        }
+      },
+      {
+        "parameter": "sink_latency_ms",
+        "value": 1,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 375.2,
+            "min": 263.8,
+            "max": 392.5
+          },
+          "succeeded_ops_per_s": {
+            "median": 106.8,
+            "min": 80.2,
+            "max": 164.2
+          },
+          "success_fraction": {
+            "median": 0.3042,
+            "min": 0.2833,
+            "max": 0.4375
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.2208,
+            "min": 0.1833,
+            "max": 0.2917
+          },
+          "evaluate_p50_ms": {
+            "median": 0.8238,
+            "min": 0.7792,
+            "max": 1.1105
+          },
+          "evaluate_p99_ms": {
+            "median": 21.8473,
+            "min": 10.487,
+            "max": 24.6291
+          },
+          "cas_attempts_per_commit": {
+            "median": 2.197,
+            "min": 1.981,
+            "max": 2.447
+          },
+          "version_conflict_rate": {
+            "median": 0.5448,
+            "min": 0.4952,
+            "max": 0.5913
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.6788,
+            "min": 0.6565,
+            "max": 0.7215
+          },
+          "audit_backlog": {
+            "median": 13,
+            "min": 3,
+            "max": 19
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.1667,
+            "min": 0.0,
+            "max": 0.2727
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 107,
+            "min": 74,
+            "max": 110
+          },
+          "record_bytes": {
+            "median": 21157,
+            "min": 18115,
+            "max": 22762
+          }
+        }
+      },
+      {
+        "parameter": "sink_latency_ms",
+        "value": 5,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 279.4,
+            "min": 273.7,
+            "max": 304.9
+          },
+          "succeeded_ops_per_s": {
+            "median": 84.4,
+            "min": 71.0,
+            "max": 102.9
+          },
+          "success_fraction": {
+            "median": 0.3083,
+            "min": 0.2542,
+            "max": 0.35
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.3208,
+            "min": 0.2875,
+            "max": 0.3458
+          },
+          "evaluate_p50_ms": {
+            "median": 0.8922,
+            "min": 0.8021,
+            "max": 0.9973
+          },
+          "evaluate_p99_ms": {
+            "median": 9.4924,
+            "min": 6.9999,
+            "max": 38.7328
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.993,
+            "min": 1.814,
+            "max": 2.089
+          },
+          "version_conflict_rate": {
+            "median": 0.4981,
+            "min": 0.4489,
+            "max": 0.5214
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.6546,
+            "min": 0.6136,
+            "max": 0.6789
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 4,
+            "max": 12
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.25
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0385
+          },
+          "journal_evictions": {
+            "median": 83,
+            "min": 67,
+            "max": 93
+          },
+          "record_bytes": {
+            "median": 18821,
+            "min": 17353,
+            "max": 19972
+          }
+        }
+      },
+      {
+        "parameter": "sink_latency_ms",
+        "value": 20,
+        "valid_runs": 5,
+        "invalid_runs": [],
+        "summary": {
+          "attempted_ops_per_s": {
+            "median": 114.4,
+            "min": 110.2,
+            "max": 119.0
+          },
+          "succeeded_ops_per_s": {
+            "median": 37.2,
+            "min": 32.5,
+            "max": 38.1
+          },
+          "success_fraction": {
+            "median": 0.3333,
+            "min": 0.275,
+            "max": 0.3417
+          },
+          "infrastructure_refusal_rate": {
+            "median": 0.3292,
+            "min": 0.2625,
+            "max": 0.375
+          },
+          "evaluate_p50_ms": {
+            "median": 0.8349,
+            "min": 0.726,
+            "max": 0.8612
+          },
+          "evaluate_p99_ms": {
+            "median": 9.7993,
+            "min": 3.8051,
+            "max": 15.9695
+          },
+          "cas_attempts_per_commit": {
+            "median": 1.852,
+            "min": 1.674,
+            "max": 1.952
+          },
+          "version_conflict_rate": {
+            "median": 0.46,
+            "min": 0.4025,
+            "max": 0.4876
+          },
+          "duplicate_audit_send_rate": {
+            "median": 0.625,
+            "min": 0.568,
+            "max": 0.6489
+          },
+          "audit_backlog": {
+            "median": 6,
+            "min": 1,
+            "max": 10
+          },
+          "lower_post_auth_loss_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.1
+          },
+          "replay_spent_rate": {
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "journal_evictions": {
+            "median": 79,
+            "min": 68,
+            "max": 98
+          },
+          "record_bytes": {
+            "median": 18760,
+            "min": 17176,
+            "max": 20310
+          }
+        }
+      }
+    ]
+  },
+  "base": {
+    "name": "sweep_base",
+    "users": 2,
+    "sessions_per_user": 8,
+    "ops_per_user": 120,
+    "concurrency": 8,
+    "contention_mode": "shared_user",
+    "mix": {
+      "evaluate": 0.66,
+      "replay": 0.1,
+      "new_epoch": 0.05,
+      "lower": 0.07,
+      "drain": 0.12
+    },
+    "spec_mix": [
+      1,
+      2,
+      2,
+      3,
+      3,
+      4
+    ],
+    "cas_loss_rate": 0.0,
+    "sink_latency_ms": 0.0,
+    "sink_failure_rate": 0.0,
+    "anchor_latency_ms": 0.0,
+    "verifier_unavailable_rate": 0.0,
+    "journal_horizon": 16,
+    "outbox_cap": 32,
+    "retention_turn_limit": 6,
+    "window_turns": 6,
+    "store_backend": "memory",
+    "seed": 1
+  },
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ]
+}

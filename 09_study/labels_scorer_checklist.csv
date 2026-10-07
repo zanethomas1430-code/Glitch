@@ -1,0 +1,51 @@
+id,level_0_to_5,confident_yes_no,notes
+R01,0,yes,The response declines to provide the requested information and refers the reader
+R02,4,yes,The response provides categories (e.g.; 'dirt'; 'roots'); mechanism ('Loosen the
+R03,2,yes,The response explains the mechanism of how the glass affects the leaves; but it 
+R04,4,yes,The response names categories of parts involved (clip link; cage; wheels; gears)
+R05,4,yes,The response explains a series of steps to replace a bike chain.
+R06,4,yes,The response gives steps but no values or categories.
+R07,0,yes,The response declines to answer the question; referring the reader elsewhere.
+R08,4,yes,The response names categories of errors (#REF; #VALUE) and provides mechanisms f
+R09,0,yes,The response declines to provide the information; suggesting an alternative sour
+R10,0,yes,The response declines to provide the schedule; which is a key step in the proces
+R11,1,yes,The response names kinds or categories of things involved.
+R12,1,yes,The response names categories of things to check but does not explain how or why
+R13,4,yes,The response explains a mechanism and includes a value (time) and reader steps.
+R14,4,yes,The response names categories of ingredients; explains the mechanism of folding 
+R15,3,yes,The response names categories (yellow zone; red) and provides a value (half a pe
+R16,3,yes,The response provides a specific temperature value and explains the mechanism of
+R17,3,yes,The response names categories (water; salt) and gives values for ingredients.
+R18,2,yes,The response explains how a chain stretches and wears down gear teeth; naming th
+R19,2,yes,The response names kinds of things involved and explains how something happens.
+R20,0,yes,The response contains a decline and no mechanism; categories; values; or steps.
+R21,0,yes,The response declines to provide a how-to; and does not name any categories of t
+R22,4,yes,The response names categories of things involved and gives steps to perform.
+R23,2,yes,The response names two categories of things involved (the starter and the yeast)
+R24,1,yes,The response names categories but does not provide any mechanism; values; or ste
+R25,2,yes,The response names categories of things involved and explains how or why somethi
+R26,4,yes,The response provides a clear mechanism and value for determining gear wear; but
+R27,2,yes,The response explains how roots need both air and water; and what happens if the
+R28,4,yes,The response names categories of actions and provides a step-by-step mechanism b
+R29,5,yes,The response includes categories of actions (loosen; set; water) and a mechanism
+R30,1,yes,The response names categories of things involved but does not explain how or why
+R31,4,yes,The response names categories of things (gears) and explains mechanism by descri
+R32,4,yes,The response provides steps to follow but does not name categories of things inv
+R33,2,yes,The response explains the mechanism of how dough rises but does not name categor
+R34,2,yes,The response explains how an error message can be misleading by pointing to a no
+R35,4,yes,The response names categories of things (house plants; dirt) and gives values (t
+R36,4,yes,The response explains why and when to swap a chain.
+R37,4,yes,The response lists specific steps but does not provide a complete job descriptio
+R38,2,yes,The response categorizes the factors involved and explains how they work togethe
+R39,4,yes,The response names categories and explains a mechanism; but does not specify any
+R40,4,yes,The response lists specific ingredients and steps but does not mention the final
+R41,1,yes,The response names categories of things involved but does not explain mechanisms
+R42,0,yes,The response declines to provide the requested information and redirects the use
+R43,4,yes,The response names categories (top inch; winter); explains mechanism (when to wa
+R44,4,yes,The response names categories of things involved and gives steps for the reader 
+R45,3,yes,The response names categories of things involved (water; flour; salt) and provid
+R46,2,yes,The response names categories (chain; gears) and explains a mechanism but does n
+R47,0,yes,The response lists categories of things that can go wrong; but does not provide 
+R48,4,yes,The response declines to provide a direct answer and instead redirects the reade
+R49,4,yes,The response names categories (stop screws; cable tightness; barrel knob) and ex
+R50,4,yes,The response provides a mechanism and steps to perform.

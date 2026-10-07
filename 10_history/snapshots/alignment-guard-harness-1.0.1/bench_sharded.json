@@ -1,0 +1,202 @@
+{
+  "benchmark_version": "0.4",
+  "harness_version": "1.0.1",
+  "guard_version": "3.4.3",
+  "workload": {
+    "name": "sharded",
+    "users": 8,
+    "sessions_per_user": 4,
+    "ops_per_user": 60,
+    "concurrency": 4,
+    "contention_mode": "sharded",
+    "mix": {
+      "evaluate": 0.66,
+      "replay": 0.1,
+      "new_epoch": 0.05,
+      "lower": 0.07,
+      "drain": 0.12
+    },
+    "spec_mix": [
+      1,
+      2,
+      2,
+      3,
+      3,
+      4
+    ],
+    "cas_loss_rate": 0.0,
+    "sink_latency_ms": 0.0,
+    "sink_failure_rate": 0.0,
+    "anchor_latency_ms": 0.0,
+    "verifier_unavailable_rate": 0.0,
+    "journal_horizon": 16,
+    "outbox_cap": 32,
+    "retention_turn_limit": 6,
+    "window_turns": 6,
+    "store_backend": "memory",
+    "seed": 1
+  },
+  "report_valid": true,
+  "plan_validation": {
+    "valid": true,
+    "problems": [],
+    "per_operation_counts": {
+      "evaluate": 327,
+      "replay": 47,
+      "new_epoch": 16,
+      "drain": 53,
+      "lower": 37
+    },
+    "users_receiving_each_op": {
+      "evaluate": 8,
+      "replay": 8,
+      "new_epoch": 7,
+      "lower": 8,
+      "drain": 8
+    },
+    "max_workers_per_user": 1,
+    "same_seed_reproduces": true
+  },
+  "realized_validation": {
+    "valid": true,
+    "problems": [],
+    "lower_eligible_attempts": 24,
+    "drain_attempts": 53,
+    "drain_delivered_by_completed_drains": 342,
+    "sink_deliveries_total": 342,
+    "genuine_conflicts": 0,
+    "injected_losses": 0
+  },
+  "plan_ops": 480,
+  "wall_seconds": 0.481,
+  "throughput": {
+    "attempted_ops_per_s": 997.4,
+    "succeeded_ops_per_s": 434.3
+  },
+  "taxonomy": {
+    "attempted": 480,
+    "succeeded": 209,
+    "completed_blocked_by_policy": 256,
+    "skipped_inapplicable": 15,
+    "infrastructure_fail_closed": 0,
+    "identity_closes": true,
+    "fractions": {
+      "succeeded": 0.4354,
+      "blocked": 0.5333,
+      "skipped": 0.0312,
+      "infrastructure": 0.0
+    }
+  },
+  "rates": {
+    "version_conflict_rate": 0.0,
+    "infrastructure_refusal_rate": 0.0,
+    "lower_post_auth_loss_rate": 0.0,
+    "duplicate_audit_send_rate": 0.0,
+    "replay_spent_rate": 0.0,
+    "sink_observed_failure_fraction": 0.0
+  },
+  "outcomes": {
+    "drain.attempts": 53,
+    "drain.completed": 53,
+    "evaluate.attempts": 327,
+    "evaluate.completed_blocked_by_mode": 256,
+    "evaluate.delivered": 71,
+    "lower.attempts": 37,
+    "lower.authorized": 24,
+    "lower.skipped_normal": 13,
+    "new_epoch.attempts": 16,
+    "new_epoch.committed": 16,
+    "replay.attempts": 47,
+    "replay.hit": 45,
+    "replay.skipped_nothing_committed": 2
+  },
+  "latency_ms": {
+    "op.evaluate": {
+      "n": 327,
+      "p50": 0.6112,
+      "p95": 12.8394,
+      "p99": 20.491,
+      "mean": 2.3276
+    },
+    "op.evaluate.refused": null,
+    "op.replay": {
+      "n": 45,
+      "p50": 0.3356,
+      "p95": 0.445,
+      "p99": 12.4226,
+      "mean": 0.5819
+    },
+    "op.new_epoch": {
+      "n": 16,
+      "p50": 0.5541,
+      "p95": 17.4536,
+      "p99": 17.4536,
+      "mean": 1.8095
+    },
+    "op.lower": {
+      "n": 24,
+      "p50": 0.4259,
+      "p95": 12.4238,
+      "p99": 13.0767,
+      "mean": 1.8849
+    },
+    "op.drain": {
+      "n": 53,
+      "p50": 4.9447,
+      "p95": 55.8117,
+      "p99": 66.2139,
+      "mean": 16.443
+    }
+  },
+  "cas": {
+    "attempts": 709,
+    "wins": 709,
+    "injected_losses": 0,
+    "version_conflicts": 0,
+    "attempts_per_commit": 1.0
+  },
+  "audit": {
+    "deliveries": 342,
+    "duplicate_sends": 0,
+    "sink_failures": 0,
+    "anchor_writes": 342,
+    "audit_delivery_lag_ms": {
+      "n": 342,
+      "p50": 27.6961,
+      "p95": 66.2918,
+      "p99": 74.836,
+      "mean": 31.5101
+    },
+    "backlog_at_end_of_measured_phase": 62,
+    "drain_delivered": 342
+  },
+  "infrastructure_refusals": {
+    "total": 0,
+    "by_cause": {}
+  },
+  "restart_recovery": {
+    "supported": false,
+    "seconds_all_users": null
+  },
+  "record_bytes": {
+    "mean": 19814,
+    "max": 23644
+  },
+  "journal": {
+    "horizon": 16,
+    "occupancy_mean": 16,
+    "peak_occupancy": 16,
+    "evictions_total": 199,
+    "committed_per_user_mean": 40.9,
+    "pressure_exercised": true
+  },
+  "final_modes": {
+    "READ_ONLY": 7,
+    "NORMAL": 1
+  },
+  "store_time_ms_measured_phase": {
+    "store.load": 396.84,
+    "store.cas": 1106.03
+  },
+  "correctness_note": "Asserts nothing. Refusals are the availability cost of fail-closed. Scheduling changes which op observes a fault; the seed fixes which faults and ops were requested."
+}

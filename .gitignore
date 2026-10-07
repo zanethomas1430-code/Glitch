@@ -1,0 +1,19 @@
+# GLITCH suite: what is NOT shipped (the zip and the repo agree on this)
+
+# model transcripts and run logs: large, regenerable, and some carry injected text from the benchmark
+*/runs/
+12_arena/playtests/
+suite_report.json
+
+# interpretability data: 40 MB of hidden-state arrays, regenerable with 16_interp/generate.py (needs the .venv-interp venv)
+16_interp/data/
+*.npz
+
+# the sealed answer key for the 0-5 scale study: raters re-sit the 50 items on 2026-10-10; publish it after that
+09_study/answer_key.DO_NOT_OPEN_UNTIL_LABELED.json
+
+# python and macOS noise
+__pycache__/
+*.pyc
+.DS_Store
+.venv*/
