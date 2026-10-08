@@ -28,7 +28,7 @@ Only change: TW01/TW03 queue a checkpoint that is prepended to the user's NEXT
 request. Current responses are never edited. Do this after Tier 1 has given you
 false-positive rates you trust.
 
-## Before this touches a youth-facing system
+## Before this touches a user-facing system
 - `glitch_state.json` keeps every scored turn per user. Add a retention window
   and a purge path (canvas open_dependencies.state_retention). Not optional.
 - X-Glitch-User is the identity boundary. The harness does not own it (identity_boundary).

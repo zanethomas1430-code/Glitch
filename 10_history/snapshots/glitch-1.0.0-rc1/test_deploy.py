@@ -87,11 +87,11 @@ class ManifestProxyTests(unittest.TestCase):
         import importlib
         with tempfile.TemporaryDirectory() as td:
             p = Path(td)/"m.json"
-            p.write_text(json.dumps({"metric": "cost per case", "metric_owner": "director", "affected_population": "youth",
+            p.write_text(json.dumps({"metric": "cost per case", "metric_owner": "director", "affected_population": "applicants",
                                      "can_opt_out": False, "externality_reviewer": "auditor", "externality_finding": "none"}))
             with patch.dict("os.environ", {"GLITCH_MODE": "enforce", "GLITCH_MANIFEST": str(p)}):
                 with self.assertRaises(CanvasValidationError): importlib.reload(glitch_proxy)
-            p.write_text(json.dumps({"metric": "cost per case", "metric_owner": "director", "affected_population": "youth",
+            p.write_text(json.dumps({"metric": "cost per case", "metric_owner": "director", "affected_population": "applicants",
                                      "can_opt_out": False, "externality_reviewer": "auditor", "externality_finding": "none",
                                      "retention_policy": {"trajectory_turn_limit": 50, "tripwire_event_days": 30, "baseline_transition_days": 90}}))
             with patch.dict("os.environ", {"GLITCH_MODE": "enforce", "GLITCH_MANIFEST": str(p), "GLITCH_PRODUCTION": "1"}):
@@ -104,7 +104,7 @@ class ManifestProxyTests(unittest.TestCase):
         import importlib
         with tempfile.TemporaryDirectory() as td:
             p = Path(td)/"m.json"
-            p.write_text(json.dumps({"metric": "approvals per FTE", "metric_owner": "ops", "affected_population": "youth applicants",
+            p.write_text(json.dumps({"metric": "approvals per FTE", "metric_owner": "ops", "affected_population": "benefit applicants",
                                      "can_opt_out": False, "externality_reviewer": "ops", "externality_finding": "none"}))
             with patch.dict("os.environ", {"GLITCH_MODE": "shadow", "GLITCH_MANIFEST": str(p)}):
                 with self.assertRaises(CanvasValidationError): importlib.reload(glitch_proxy)

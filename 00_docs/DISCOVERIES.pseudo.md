@@ -1,6 +1,6 @@
 # DISCOVERIES.pseudo — handoff for the model that started this
 
-Context you already have: GLITCH canvas (Loop Theory applied to models), the interrogation script, the pharmacist
+Context you already have: GLITCH canvas (a model's purpose, loops and permitted sacrifices made explicit), the interrogation script, the pharmacist
 slow-escalation sim, the "shapes yes, payloads no" line. What follows is everything found since, as pseudocode and
 rules, in the order it was learned. Frozen baseline: GLITCH harness 1.0.2, ALIGNMENT_GUARD v3.4.3. Suite in glitch-suite.zip.
 

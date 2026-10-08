@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent
 _sys.path.insert(0, str(ROOT))
 import make_status
 
-FRONT = ["README.md", "RUN.md", "STATUS.md", "BRIEF.md", "00_docs/RED_TEAM.md", "00_docs/RED_TEAM_LESSONS.md", "00_docs/OPEN_ITEMS.md", "00_docs/FICTION.md", "00_docs/ROADMAP_TO_CREDIBLE.md", "00_docs/README.md", "00_docs/WHAT_THIS_IS.md", "00_docs/FOR_ANOTHER_AI.md", "00_docs/INGEST.md"]
+FRONT = ["README.md", "RUN.md", "STATUS.md", "BRIEF.md", "00_docs/RED_TEAM.md", "00_docs/RED_TEAM_LESSONS.md", "00_docs/OPEN_ITEMS.md", "00_docs/FICTION.md", "00_docs/ROADMAP_TO_CREDIBLE.md", "00_docs/README.md", "00_docs/WHAT_THIS_IS.md", "00_docs/INGEST.md"]
 STALE = [r"never been validated against humans", r"has \*\*never been validated", r"Steps 1–3 have never been done", r"two human sheets so far", r"does not defend against prompt injection",
          r"\b(?:Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)\b[^.\n]{0,20}runner steps", r"\b\d+ runner steps", r"About \d+ tests", r"\bTHE runner: \d+ steps", r"has never validated its 0–5"]
 PATH = re.compile(r"`((?:0\d|1\d)_[a-z_]+/[A-Za-z0-9_./-]*[A-Za-z0-9_])`")
@@ -26,7 +26,7 @@ class Status(unittest.TestCase):
         self.assertEqual((ROOT / "BRIEF.md").read_text(), make_status.build_brief(), "BRIEF.md is out of date: run python3 make_status.py")
     def test_the_brief_is_two_pages_names_nobody_and_carries_no_private_path(self):
         t = (ROOT / "BRIEF.md").read_text(); self.assertLess(len(t.split()), 1100); self.assertNotIn("/Users/", t)
-        for name in ("Zane", "Jasmine", "Metro", "Sarah", "sarah"): self.assertNotIn(name, t)
+        for name in ("Zane", "Rater B", "Rater C", "Sarah", "sarah"): self.assertNotIn(name, t)
     def test_the_red_team_guide_tells_a_stranger_how_to_start_what_counts_and_what_does_not(self):
         t = (ROOT / "00_docs" / "RED_TEAM.md").read_text()
         for needle in ("python3 12_arena/play.py", "--defender bare", "LANDED", "What is not a finding", "Where I would look first", "Reporting", "nothing leaves your machine"): self.assertIn(needle, t)

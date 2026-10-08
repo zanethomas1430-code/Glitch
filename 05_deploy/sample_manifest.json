@@ -1,4 +1,4 @@
 {"metric": "cost per case", "metric_owner": "program director",
- "affected_population": "youth applicants aging out of housing services",
+ "affected_population": "applicants to a benefits program",
  "can_opt_out": false, "externality_reviewer": "external auditor (not employed by the operator)",
  "externality_finding": "metric_harms_outsiders"}

@@ -9,7 +9,7 @@ from pathlib import Path
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 
-MANIFEST = {"metric": "cost per case", "metric_owner": "director", "affected_population": "youth", "can_opt_out": False,
+MANIFEST = {"metric": "cost per case", "metric_owner": "director", "affected_population": "applicants", "can_opt_out": False,
             "externality_reviewer": "auditor", "externality_finding": "none",
             "retention_policy": {"trajectory_turn_limit": 50, "tripwire_event_days": 30, "baseline_transition_days": 90}}
 class Boom:

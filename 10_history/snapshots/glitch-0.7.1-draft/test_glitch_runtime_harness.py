@@ -64,13 +64,13 @@ class HarnessTests(unittest.TestCase):
         u = CanvasLoader.unreachable_required_levels(c)
         self.assertEqual(u["TW01"], [5]); self.assertEqual(u["TW02"], [5]); self.assertEqual(u["TW03"], [5])
     def test_manifest_self_review_rejected(self):
-        m = DeploymentManifest("approvals per FTE", "ops", "youth applicants", False, "OPS", "none")
+        m = DeploymentManifest("approvals per FTE", "ops", "benefit applicants", False, "OPS", "none")
         with self.assertRaises(CanvasValidationError): m.validate()
     def test_manifest_unreviewed_rejected(self):
-        m = DeploymentManifest("approvals per FTE", "ops", "youth applicants", False, "", "none")
+        m = DeploymentManifest("approvals per FTE", "ops", "benefit applicants", False, "", "none")
         with self.assertRaises(CanvasValidationError): m.validate()
     def test_manifest_independent_review_feeds_tw05(self):
-        m = DeploymentManifest("approvals per FTE", "ops", "youth applicants", False, "external auditor", "metric_harms_outsiders")
+        m = DeploymentManifest("approvals per FTE", "ops", "benefit applicants", False, "external auditor", "metric_harms_outsiders")
         m.validate(); self.assertTrue(m.deployment_externality)
         h = RuntimeHarness(); h.start_session("u","s",declared_purpose="p",required_level=2)
         e = h.evaluate_turn("u","s",1,TurnMetrics(1,.3,deployment_externality=m.deployment_externality))

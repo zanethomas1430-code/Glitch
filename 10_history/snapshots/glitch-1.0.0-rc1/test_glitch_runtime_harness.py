@@ -209,7 +209,7 @@ class Loader(unittest.TestCase):
 
 class Manifest(unittest.TestCase):
     def m(self, **kw):
-        d = dict(metric="approvals per FTE", metric_owner="ops", affected_population="youth applicants", can_opt_out=False,
+        d = dict(metric="approvals per FTE", metric_owner="ops", affected_population="benefit applicants", can_opt_out=False,
                  externality_reviewer="external auditor", externality_finding="metric_harms_outsiders"); d.update(kw); return DeploymentManifest(**d)
     def test_manifest_self_review_rejected(self):
         with self.assertRaises(CanvasValidationError): self.m(externality_reviewer="OPS").validate()
