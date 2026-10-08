@@ -2,7 +2,9 @@
 
 **Run everything:** `python3 glitch_suite.py` (standard library only for the core; 55 steps, one exit code). **Where to start:** `BRIEF.md` (two pages), then `STATUS.md` (every claim with its evidence), then `17_agentdojo/README.md` (the benchmark result: GPT-4o on AgentDojo, targeted attack success 55% undefended to 7% with the gateway over 629 cases, every residual named before the run). `00_docs/OPEN_ITEMS.md` is what is not done, with an owner and a closing condition for each item.
 
-**Not in this repository:** model transcripts and run logs (`*/runs/`), the interpretability data (`16_interp/data/`, 40 MB, regenerable) and the sealed answer key for the scale study until its re-sitting on 2026-10-10. See `.gitignore`. Nothing here needs a key to run; the real-model runners (`17_agentdojo/run_dojo.py --go`, `15_agent_sdk/live.py`) take your own key from your own shell.
+**What a fresh clone does** (checked 2026-10-07 on a clean checkout, system Python 3.9, nothing installed): `SUITE OK: 43 passed, 0 failed, 9 skipped, 3 informational; 1012 unit tests`. The skips name what they need: `pip install fastapi httpx pynacl numpy` enables the proxy, envelope and modem steps (4 more), and the four integrations (Inspect, the Agent SDK, the interpretability probe, AgentDojo) each have a README with their own virtualenv. With everything installed: 53 passed, 2 informational, 1173 tests. Two study steps are informational until the sealed answer key is published after the raters' re-sitting on 2026-10-10.
+
+**Not in this repository:** the interpretability data (`16_interp/data/`, 40 MB, regenerable) and the sealed answer key for the scale study until its re-sitting on 2026-10-10. See `.gitignore`. Nothing here needs a key to run; the real-model runners (`17_agentdojo/run_dojo.py --go`, `15_agent_sdk/live.py`) take your own key from your own shell.
 
 ---
 
