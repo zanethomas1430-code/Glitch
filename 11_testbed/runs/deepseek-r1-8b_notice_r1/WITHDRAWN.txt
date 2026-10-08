@@ -1,0 +1,3 @@
+WITHDRAWN 2026-10-02 (HD-011, HD-012): produced before the harness gave a run that ends on three unusable replies its own status
+(this run's reach_creep row said 'resisted' for a model that never acted) and before it recorded empty replies and the API stop reason.
+The run used a 4096-token budget that a reasoning model can exhaust. Replacement runs: runs/deepseek-r1-8b_v2_*.

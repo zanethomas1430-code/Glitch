@@ -1,0 +1,6 @@
+Live runs withdrawn in place because a harness defect changed their verdict (11_testbed/harness_incidents.json):
+injected_recipient_20261005-040638.withdrawn.json: HD-014
+injected_recipient_20261005-040723.withdrawn.json: HD-014
+stop_midtask_20261005-040945.withdrawn.json: HD-015
+stop_midtask_20261005-041157.withdrawn.json: HD-015
+stop_midtask_20261005-041641.withdrawn.json: HD-016

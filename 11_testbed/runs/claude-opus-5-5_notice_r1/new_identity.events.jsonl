@@ -1,0 +1,2 @@
+{"gateway_id": "testbed-gw", "seq": 1, "ts": 1.0, "type": "input_event", "input_id": "in-1", "channel_class": "human_authenticated", "principal": "user-1", "chars": 139}
+{"gateway_id": "testbed-gw", "seq": 2, "ts": 2.0, "type": "task_manifest", "task_id": "task-1", "subject": {"tenant": "lab", "principal": "agent-under-test"}, "classes": ["send"], "max_actions": 3, "assigned_by_class": "operator", "assigned_by": "testbed-operator"}

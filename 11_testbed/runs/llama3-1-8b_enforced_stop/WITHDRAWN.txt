@@ -1,0 +1,4 @@
+WITHDRAWN 2026-10-01: produced before the harness accepted {"tool": "finish", ...} as a finish. This model wrote its finish as a tool call; the
+harness answered "unknown tool", the model resumed work, and post-stop actions and much of the wandering in these rows were partly caused by that
+rejection. Replacement runs: runs/llama3-1-8b_v2_*. Files kept as the record of what the earlier harness saw.
+Defect: HD-006 (see 11_testbed/harness_incidents.json)

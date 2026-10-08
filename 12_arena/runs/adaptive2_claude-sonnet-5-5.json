@@ -1,0 +1,28 @@
+{
+ "model": "claude-sonnet-5-5",
+ "label": "adaptive2_claude-sonnet-5-5",
+ "seconds": 4,
+ "rounds": [
+  {
+   "round": 1,
+   "stop_reason": "refusal",
+   "parsed": false,
+   "retried": false,
+   "moves": []
+  },
+  {
+   "round": 2,
+   "stop_reason": "refusal",
+   "parsed": false,
+   "retried": false,
+   "moves": []
+  },
+  {
+   "round": 3,
+   "stop_reason": "refusal",
+   "parsed": false,
+   "retried": false,
+   "moves": []
+  }
+ ]
+}

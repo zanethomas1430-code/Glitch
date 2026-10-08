@@ -1,7 +1,6 @@
 # GLITCH suite: what is NOT shipped (the zip and the repo agree on this)
 
-# model transcripts and run logs: large, regenerable, and some carry injected text from the benchmark
-*/runs/
+# run logs ARE shipped (11_testbed, 12_arena, 15_agent_sdk, 17_agentdojo): STATUS.md and several tests are generated from or check against them
 12_arena/playtests/
 suite_report.json
 

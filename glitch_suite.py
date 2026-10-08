@@ -297,12 +297,21 @@ def build_steps(a) -> list:
     S.append(Step("12b", "arena CLI: validate the move tree and play every bout through the real gateway and historian", ROOT / "12_arena",
                   [PY, "arena.py"], line_present(r"^OK: 0 problems, 0 lost beats", "0 problems, 0 lost beats")))
     # 08 study
-    sheets = synthetic_sheets(tmp)
-    S.append(Step("09a", "study tooling: kappa.py on two synthetic sheets against the sealed key (wiring only)", ROOT / "09_study",
-                  [PY, "kappa.py", *sheets, "--key", "answer_key.DO_NOT_OPEN_UNTIL_LABELED.json"],
-                  line_present(r"weighted", "kappa computed")))
-    hs = human_sheets()
-    if len(hs) >= 2:
+    KEY = ROOT / "09_study" / "answer_key.DO_NOT_OPEN_UNTIL_LABELED.json"
+    if not KEY.exists():                                                             # the key is sealed until the raters' re-sitting (2026-10-10) and is not in the public repository until then
+        S.append(Step("09a", "study tooling: the sealed answer key is not shipped until after the 2026-10-10 re-sitting; kappa wiring not run", ROOT / "09_study",
+                      [PY, "-c", "print('sealed key not present')"], always_info("sealed key not present"), info=True))
+        S.append(Step("09b", "study result: needs the sealed key (see 09_study/kappa_latest.txt for the recorded result)", ROOT / "09_study",
+                      [PY, "-c", "print('see kappa_latest.txt')"], always_info("see 09_study/kappa_latest.txt"), info=True))
+        hs = []
+    else:
+        sheets = synthetic_sheets(tmp)
+        S.append(Step("09a", "study tooling: kappa.py on two synthetic sheets against the sealed key (wiring only)", ROOT / "09_study",
+                      [PY, "kappa.py", *sheets, "--key", "answer_key.DO_NOT_OPEN_UNTIL_LABELED.json"],
+                      line_present(r"weighted", "kappa computed")))
+        hs = human_sheets()
+    if not KEY.exists(): pass
+    elif len(hs) >= 2:
         S.append(Step("09b", f"study result: kappa across the {len(hs)} human sheets present (a measurement; asserts nothing)", ROOT / "09_study",
                       [PY, "kappa.py", *hs, "--key", "answer_key.DO_NOT_OPEN_UNTIL_LABELED.json"],
                       always_info("see 09_study/kappa_latest.txt"), info=True))
