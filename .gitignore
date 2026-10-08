@@ -17,3 +17,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv*/
+
+# the author's application materials live outside the suite and are never part of it
+FELLOWS*
+*_DRAFT.md
