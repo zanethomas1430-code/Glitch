@@ -52,7 +52,7 @@ one afternoon each. Everything else waits on it, and it has been true for a week
 
 ## Status (2026-09-26)
 **Limitation.** Human reliability was measured on 50 items with 3 human raters (Zane, Rater B, and Rater C, who had never seen the project), one sitting each, on 2026-09-26/27. Pairwise weighted kappa 0.80–0.89, Fleiss kappa 0.56 (moderate); level 3 is the soft spot (mean spread 1.54 across raters). A day-14 re-sitting is scheduled for 2026-10-10. The study design is complete; n = 50 items is still a small sample and the numbers should be read as such. The two-rater numbers are still worth having: agreement, and where the disagreements sit (see `boundary_report.py`).
-Scorer as rater four (2026-09-26, Sarah scorer instance): `labels_scorer.csv` (rubric v2) within one notch of the human median on
+Scorer as rater four (2026-09-26, local-23B scorer instance): `labels_scorer.csv` (rubric v2) within one notch of the human median on
 82% of items, `labels_scorer_checklist.csv` on 90%; the checklist is the pilot default. Run `python3 boundary_report.py labels_zane_day1.csv labels_rater_b.csv labels_scorer_checklist.csv` to see where they differ.
 
 Three official sheets, all taken on the shared rating page: `labels_zane_day1.csv`, `labels_rater_b.csv` (2026-09-26) and `labels_rater_c.csv` (2026-09-27, a rater who had never seen the project). The sheets from

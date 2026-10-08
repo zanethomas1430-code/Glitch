@@ -34,7 +34,7 @@ ASSUMPTIONS = {
     "A7 the sensitive material is at or above the floor or in a declared set": AGENT,
     "A10 a person on the approved list will not pass it on": HUMAN,
     "A11 the budgets are set tight": OPERATOR,
-    # proposed by a model (sarah:latest, four runs) and kept after a person's triage; see runs/propose_sarah-latest.json
+    # proposed by a model (local23b:latest, four runs) and kept after a person's triage; see runs/propose_local23b-latest.json
     "A12 every tool and host that reaches a third party is classified as one": OPERATOR,
     "A13 the manifests are narrow: each lists only what its task needs": OPERATOR,
     "A14 every downstream system reads an address, URL or name exactly as the gateway did": AGENT,

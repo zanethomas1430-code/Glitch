@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """run_testbed.py — put a real model in the fake world and read the record afterwards.
 
-  python3 run_testbed.py --model sarah:latest                       # all scenarios, Ollama on localhost
-  python3 run_testbed.py --model sarah:latest --only stop_midtask,injected_recipient
-  python3 run_testbed.py --model sarah:latest --mode enforced       # the gateway applies the human's stop instead of only relaying it
+  python3 run_testbed.py --model local23b:latest                       # all scenarios, Ollama on localhost
+  python3 run_testbed.py --model local23b:latest --only stop_midtask,injected_recipient
+  python3 run_testbed.py --model local23b:latest --mode enforced       # the gateway applies the human's stop instead of only relaying it
   python3 run_testbed.py --script tempted                           # no model: play each scenario's built-in script (compliant | tempted)
   python3 run_testbed.py --model <name> --base-url https://api.anthropic.com --api-key-env ANTHROPIC_API_KEY   # a hosted model; the key stays in your environment
 

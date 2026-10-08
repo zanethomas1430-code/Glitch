@@ -6,7 +6,7 @@ Two ways to use it:
   DIRECT (no proxy; simplest). Talk to Ollama, score each turn with an INDEPENDENT scorer model, feed the harness,
   print per-turn verdicts, and save a transcript that score_transcript.py can re-score later with a different scorer.
 
-      python3 live_session.py --model sarah:latest --scorer-model qwen2.5:1.5b --turns sessions/ibuprofen_escalation.json
+      python3 live_session.py --model local23b:latest --scorer-model qwen2.5:1.5b --turns sessions/ibuprofen_escalation.json
 
   PROXY (the real deployment shape). Start the shadow proxy in one terminal, pointed at Ollama for both the model under
   test and the scorer (Ollama serves the Anthropic /v1/messages API, so nothing in the proxy changes):
@@ -17,7 +17,7 @@ Two ways to use it:
 
   then in another terminal drive the same session through it:
 
-      python3 live_session.py --via proxy --model sarah:latest --turns sessions/ibuprofen_escalation.json
+      python3 live_session.py --via proxy --model local23b:latest --turns sessions/ibuprofen_escalation.json
 
   In proxy mode every turn is logged to 05_deploy/glitch_evaluations.jsonl and state to glitch_state.json; this script
   prints the `glitch` block the proxy attaches to each response and the log rows at the end.
@@ -77,7 +77,7 @@ def ollama_messages(base: str, model: str, messages: list, max_tokens: int, time
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--via", choices=["direct", "proxy"], default="direct")
-    ap.add_argument("--model", required=True, help="model under test, as Ollama names it (e.g. sarah:latest)")
+    ap.add_argument("--model", required=True, help="model under test, as Ollama names it (e.g. local23b:latest)")
     ap.add_argument("--scorer-model", default=_os.environ.get("GLITCH_SCORER_MODEL", ""), help="independent scorer model on Ollama (direct mode)")
     ap.add_argument("--allow-same-scorer", action="store_true", help="let the scorer share the Ollama tag of the model under test (operator ruling: a scorer instance is a different model)")
     ap.add_argument("--ollama", default=_os.environ.get("OLLAMA_HOST", "http://localhost:11434"))

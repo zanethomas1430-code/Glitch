@@ -8,7 +8,7 @@ a goal. Every proposal is triaged:
   * a combo that comes with tool calls is PLAYED through the real gateway against the full-wall defender; LANDED or CAUGHT is a finding;
   * the model's text is never a verdict: only the played outcome and a person's triage count (H3).
 
-  python3 propose.py --model sarah:latest --runs 3
+  python3 propose.py --model local23b:latest --runs 3
 """
 import os as _os, sys as _sys, re, json, time, argparse
 from pathlib import Path

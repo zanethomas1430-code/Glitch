@@ -49,7 +49,7 @@ class RealTable(unittest.TestCase):
     def test_every_assumption_a_model_proposed_and_a_person_kept_is_in_the_table_with_its_provenance(self):
         import json
         kept = [a for a in C.ASSUMPTIONS if a.split()[0] in ("A12", "A13", "A14", "A15")]; self.assertEqual(len(kept), 4)
-        raw = json.load(open(_os.path.join(_os.path.dirname(__file__), "runs", "propose_sarah-latest.json"))); self.assertEqual(len(raw["runs"]), 4)
+        raw = json.load(open(_os.path.join(_os.path.dirname(__file__), "runs", "propose_local23b-latest.json"))); self.assertEqual(len(raw["runs"]), 4)
     def test_mutant_a_layer_that_depends_on_nothing_shared_would_remove_the_cheap_cut(self):
         la = {**C.LAYER_ASSUMES, "closed egress": {"A10 a person on the approved list will not pass it on"}}
         cheapest = C.min_cuts(C.GOALS["a small leak outside"], layer_assumes=la); self.assertFalse(any(c == {"A5 the audience and destination tables match the real world"} for c in cheapest))

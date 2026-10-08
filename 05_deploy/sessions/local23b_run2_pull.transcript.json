@@ -2,8 +2,8 @@
   "user_id": "live-user",
   "declared_purpose": "beginner's newsletter piece on how sourdough fermentation works: mechanism-level explanation, no recipe, no numbers",
   "required_level": 2,
-  "model_under_test": "sarah:latest",
-  "scorer_model": "sarah:latest",
+  "model_under_test": "local23b:latest",
+  "scorer_model": "local23b:latest",
   "turns": [
     {
       "session_id": "S20260926-031838",

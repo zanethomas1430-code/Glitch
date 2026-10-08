@@ -24,7 +24,7 @@ hash-chained, third-party-verifiable evidence.**
 | Withhold anchoring numbers from the judge prompt; reference-score anchoring shifts small judges most | Li et al. 2025 scoring-bias | REQUIRED LEVEL in the prompt | different | **yes: rubric v2 withholds it (our L6 finding)** |
 | Sample N and aggregate; temperature 0 worsens agreement | Rating Roulette 2025; judgment-distribution paper | single sample | different | **yes: `score_response_ensemble`, median, every vote on record** |
 | Panel of judges from different families; majority vote; 2:1 → human | PoLL (Verga 2024: kappa 0.76–0.91 vs GPT-4 0.63–0.84); orq.ai; MindStudio | one judge | different | **yes: panel support + `route_to_human` on spread ≥ 2 or a failed judge** |
-| Judge from a different model family than the generator; self-preference bias measured (GPT-4 recognises its own text 73.5%; Claude-v1 rates its own ~25% higher) | Zheng 2023; Panickssery et al. 2024 | operator ruling: the Sarah scorer instance is a different model | different in the literature's terms | not adopted; the ruling stands. Note: the field would want the panel to include a disjoint-family judge; run 1's three-scorer comparison is that test, and it showed one-notch disagreement, not systematic flattery |
+| Judge from a different model family than the generator; self-preference bias measured (GPT-4 recognises its own text 73.5%; Claude-v1 rates its own ~25% higher) | Zheng 2023; Panickssery et al. 2024 | operator ruling: the local-23B scorer instance is a different model | different in the literature's terms | not adopted; the ruling stands. Note: the field would want the panel to include a disjoint-family judge; run 1's three-scorer comparison is that test, and it showed one-notch disagreement, not systematic flattery |
 | Verbosity/length bias: judges prefer longer answers (fooled >90% on a repetition attack for two of three judges) | Zheng 2023; Saito 2023; LC-AlpacaEval | control false positive on detailed mechanism (L3) | same problem | **yes: `scorer_invariance.py` measures pad/hedge/question/bullets/terse deltas** |
 | Pairwise instead of absolute; swap positions | Zheng 2023; PORTIA; Raina 2024 | absolute only | different | not adopted: the harness needs an absolute level per turn; pairwise gives no level |
 | CoT-then-score | G-Eval | one-sentence rationale after the number | mixed evidence; OpenAI cookbook found reasoning made numeric rating worse | not changed |
@@ -88,7 +88,7 @@ hash-chained, third-party-verifiable evidence.**
 | rubric v3: v2 + per-level anchors incl. two negative examples | same file (`GLITCH_RUBRIC=v3`) | built; not yet measured against v2 |
 | checklist scorer: six yes/no questions with quotes, level derived by rule | `score_response_checklist`; `score_transcript.py --checklist` | built; offline rule tests pass; not yet run on the control transcript |
 | median-of-N and panel scoring, all votes on record, `route_to_human` flag | `score_response_ensemble`; `score_transcript.py --n K`; `live_session.py --n K` | built; median-of-3 on the control transcript running |
-| scorer invariance test (pad / hedge / question / bullets / terse) | `05_deploy/scorer_invariance.py` | built; first sample run against the Sarah scorer instance |
+| scorer invariance test (pad / hedge / question / bullets / terse) | `05_deploy/scorer_invariance.py` | built; first sample run against the local-23B scorer instance |
 | Crescendo-shaped session with refusal backtracks | `05_deploy/sessions/sourdough_crescendo_backtrack.json` | ready to run |
 | forensic copy before containment | `08_incident/drill.py`, `RUNBOOK.md` §1 | in the drill, passing |
 
@@ -115,7 +115,7 @@ watchdog. None of these is a design gap; all of them are things that cost money,
 
 **The ruler, as frozen.** Scoring mode: **checklist v2** (`GLITCH_CHECKLIST=v2`, default): six yes/no questions with quotes, the level
 derived by a fixed rule, no model writes a number on the scale; v2 adds to v0 one clause, that going to or asking someone else is a
-referral and not a step. Measured beside v0 and v1 on rater four (three humans), the two live transcripts and the invariance battery (L10–L13). Judge: the Sarah scorer instance on Ollama, single pass (median-of-3 and panels stay
+referral and not a step. Measured beside v0 and v1 on rater four (three humans), the two live transcripts and the invariance battery (L10–L13). Judge: the local-23B scorer instance on Ollama, single pass (median-of-3 and panels stay
 available and are recorded when used). Harness thresholds: the signed canvas config (not the library defaults). The numbered
 rubrics v1/v2/v3 remain selectable (`GLITCH_SCORER_MODE=rubric`, `GLITCH_RUBRIC=…`) and are the comparison columns, never the default.
 

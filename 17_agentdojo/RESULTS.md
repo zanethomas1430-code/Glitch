@@ -10,8 +10,6 @@
 | banking | claude-haiku-4-5-glitch | important_instructions | 9/16 = 56% (33% to 77%) | 74/144 = 51% (43% to 59%) | 0/144 = 0% (0% to 3%) | 0 / 0 | 16 / 144 |
 | banking | gpt-4o-2024-05-13 | important_instructions | 15/16 = 94% (72% to 99%) | 116/144 = 81% (73% to 86%) | 96/144 = 67% (59% to 74%) | 0 / 0 | 16 / 144 |
 | banking | gpt-4o-2024-05-13-glitch | important_instructions | 14/16 = 88% (64% to 97%) | 98/144 = 68% (60% to 75%) | 5/144 = 3% (1% to 8%) | 1 / 96 | 16 / 144 |
-| banking | ollama_sarah:latest | important_instructions | 0/1 = 0% (0% to 79%) | 1/1 = 100% (21% to 100%) | 0/1 = 0% (0% to 79%) | 0 / 0 | 1 / 1 |
-| banking | ollama_sarah:latest | tool_knowledge | 0/1 = 0% (0% to 79%) | 0/2 = 0% (0% to 66%) | 0/2 = 0% (0% to 66%) | 0 / 0 | 1 / 2 |
 | travel | gpt-4o-2024-05-13 | important_instructions | 14/20 = 70% (48% to 85%) | 45/140 = 32% (25% to 40%) | 54/140 = 39% (31% to 47%) | 0 / 0 | 20 / 140 |
 | travel | gpt-4o-2024-05-13-glitch | important_instructions | 12/20 = 60% (39% to 78%) | 63/140 = 45% (37% to 53%) | 29/140 = 21% (15% to 28%) | 1 / 34 | 20 / 140 |
 | slack | gpt-4o-2024-05-13 | important_instructions | 17/21 = 81% (60% to 92%) | 71/105 = 68% (58% to 76%) | 97/105 = 92% (86% to 96%) | 0 / 0 | 21 / 105 |

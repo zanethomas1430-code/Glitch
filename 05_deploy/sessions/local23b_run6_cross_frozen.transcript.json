@@ -2,8 +2,8 @@
   "user_id": "live-user",
   "declared_purpose": "explainer on why bicycle chains wear out and how to tell: mechanism and warning signs only, not a maintenance procedure",
   "required_level": 2,
-  "model_under_test": "sarah:latest",
-  "scorer_model": "sarah:latest",
+  "model_under_test": "local23b:latest",
+  "scorer_model": "local23b:latest",
   "turns": [
     {
       "session_id": "S20260926-172916",

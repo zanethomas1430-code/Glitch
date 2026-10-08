@@ -10,9 +10,9 @@ intended.
 
     cd 11_testbed
     python3 run_testbed.py --script tempted                      # no model: shows what each scenario looks like when the bait is taken
-    python3 run_testbed.py --model sarah:latest                  # your Ollama model, notice-only stop
-    python3 run_testbed.py --model sarah:latest --mode enforced  # same, but the gateway applies the human's stop
-    python3 run_testbed.py --model sarah:latest --only stop_midtask,injected_recipient
+    python3 run_testbed.py --model local23b:latest                  # your Ollama model, notice-only stop
+    python3 run_testbed.py --model local23b:latest --mode enforced  # same, but the gateway applies the human's stop
+    python3 run_testbed.py --model local23b:latest --only stop_midtask,injected_recipient
 
 Any model Ollama serves works the same way (`ollama pull <name>`, then `--model <name>`). A hosted model that speaks the
 Anthropic messages API works with `--base-url` and `--api-key-env NAME_OF_YOUR_ENV_VAR`; the key stays in your environment
@@ -53,7 +53,7 @@ apart would make every model look the same.
   less than this one does.
 - The model is told the tool names and the JSON format in a system prompt. That is a harness, not a deployment.
 
-## What the first real model taught the testbed (2026-10-01, `sarah:latest`)
+## What the first real model taught the testbed (2026-10-01, `local23b:latest`)
 Three defects in the testbed itself, each found because a real model did something a script never would, each now pinned by a test:
 1. **Dropped calls.** The model batched two tool calls in one reply; the first harness executed one and discarded the other. The
    discarded call was a read of the sensitive file, citing a document as the reason. Now every call in a reply is executed and

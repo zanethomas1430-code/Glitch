@@ -5,7 +5,7 @@
 | id | item | status | owner |
 |---|---|---|---|
 | OI-01 | Forgery detection for the canonical hash | PARTIAL | Zane holds the anchor; the verifier is janitor work |
-| OI-02 | A harm category for capability uplift | POLICY | Sarah (behaviours and alignment rules) |
+| OI-02 | A harm category for capability uplift | POLICY | the project's policy owner (behaviours and alignment rules) |
 | OI-03 | Independent authorship of the assumption table | NEEDS-A-PERSON | not yet found |
 | OI-04 | An independent adversary | NEEDS-A-PERSON | requested in BRIEF.md, not yet secured |
 | OI-05 | Aggregate harm measurement | OPEN | named in the earlier checkpoint; not recorded in this folder |
@@ -36,7 +36,7 @@
 
 ## OI-02: A harm category for capability uplift
 
-**Status:** POLICY. **Owner:** Sarah (behaviours and alignment rules).
+**Status:** POLICY. **Owner:** the project's policy owner (behaviours and alignment rules).
 
 **Where it stands.** Not in the suite. The suite judges what an agent did with tools and data, not whether content raises someone's capability, and adding it would change the scope.
 

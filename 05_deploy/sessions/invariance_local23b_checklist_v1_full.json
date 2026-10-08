@@ -1,5 +1,5 @@
 {
- "scorer": "sarah:latest",
+ "scorer": "local23b:latest",
  "mode": "checklist",
  "rubric": "checklist-v1",
  "items": 50,

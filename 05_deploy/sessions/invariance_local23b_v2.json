@@ -1,5 +1,5 @@
 {
- "scorer": "sarah:latest",
+ "scorer": "local23b:latest",
  "rubric": "v2",
  "items": 10,
  "seed": 1,

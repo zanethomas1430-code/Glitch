@@ -24,7 +24,7 @@ ITEMS = [
       now="Each canvas file carries `canonical_hash_sha256`, a hash of its own content. It catches accidental change. Anyone who edits the file can recompute it, so it does not catch forgery.",
       evidence=["02_canvas/glitch_canvas_runtime.json", "00_docs/CONTRACT.md"],
       closes="An anchor (a hash or signature) stored where this process cannot rewrite it, plus a verifier and a test showing a re-hashed forgery is rejected. `CONTRACT.md` already lists the anchor as a handoff."),
- dict(id="OI-02", title="A harm category for capability uplift", status="POLICY", owner="Sarah (behaviours and alignment rules)",
+ dict(id="OI-02", title="A harm category for capability uplift", status="POLICY", owner="the project's policy owner (behaviours and alignment rules)",
       now="Not in the suite. The suite judges what an agent did with tools and data, not whether content raises someone's capability, and adding it would change the scope.",
       evidence=["00_docs/CONTRACT.md"],
       closes="A written decision on whether it is in scope. If yes, a definition the historian can check from gateway fields alone (H3), written by its owner."),
