@@ -260,13 +260,6 @@ def build_steps(a) -> list:
     S.append(Step("00c", "the open-items page: every open item has a status, an owner, the evidence that exists and what would close it; the page is exactly what the generator renders and no private path or key is in it", ROOT,
                   [PY, "test_open_items.py"], unittest_ok))
     # 13 real-world adapter
-    S.append(Step("13a", "OPSAT ledger adapter: every outcome maps to historian events without inventing a field, assumptions are listed, limits are named, and a lying adapter is caught (synthetic rows)", ROOT / "13_realworld",
-                  [PY, "test_opsat_adapter.py"], unittest_ok))
-    S.append(Step("13b", "OPSAT ledger through the historian, if the ledger is present on this machine (a measurement; asserts nothing)", ROOT / "13_realworld",
-                  [PY, "-c", "import os,sys; p=os.environ.get('GLITCH_OPSAT_LEDGER', os.path.expanduser('~/Desktop/Tello/flights-mac-keep/ledger.jsonl')); sys.argv=['x','--ledger',p]; "
-                   "import opsat_adapter as A; sys.exit(A.main()) if os.path.exists(p) else print('no ledger at', p)"],
-                  always_info("see 13_realworld/REPORT_tello_ledger.md"), info=True))
-    # 12 arena
     S.append(Step("12a", "arena: every chain answers every move and ends on a declared floor, residual or open; every rule has a mutant; the bouts can be lost", ROOT / "12_arena",
                   [PY, "test_arena.py"], unittest_ok))
     S.append(Step("12c", "adaptive adversary judge: the oracle sees re-encoded secrets, verdicts match the board, and the judge can say LANDED (no model needed)", ROOT / "12_arena",

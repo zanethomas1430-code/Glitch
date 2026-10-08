@@ -1,6 +1,6 @@
 # GLITCH: an external runtime-assurance suite for tool-using agents
 
-**Run everything:** `python3 glitch_suite.py` (standard library only for the core; 54 steps, one exit code). **Where to start:** `BRIEF.md` (two pages), then `STATUS.md` (every claim with its evidence), then `17_agentdojo/README.md` (the benchmark result: GPT-4o on AgentDojo, targeted attack success 55% undefended to 7% with the gateway over 629 cases, every residual named before the run). `00_docs/OPEN_ITEMS.md` is what is not done, with an owner and a closing condition for each item.
+**Run everything:** `python3 glitch_suite.py` (standard library only for the core; 55 steps, one exit code). **Where to start:** `BRIEF.md` (two pages), then `STATUS.md` (every claim with its evidence), then `17_agentdojo/README.md` (the benchmark result: GPT-4o on AgentDojo, targeted attack success 55% undefended to 7% with the gateway over 629 cases, every residual named before the run). `00_docs/OPEN_ITEMS.md` is what is not done, with an owner and a closing condition for each item.
 
 **Not in this repository:** model transcripts and run logs (`*/runs/`), the interpretability data (`16_interp/data/`, 40 MB, regenerable) and the sealed answer key for the scale study until its re-sitting on 2026-10-10. See `.gitignore`. Nothing here needs a key to run; the real-model runners (`17_agentdojo/run_dojo.py --go`, `15_agent_sdk/live.py`) take your own key from your own shell.
 
@@ -53,7 +53,6 @@ A model can't audit itself. A model that reports "I am not drifting" is giving i
 | **Historian** | `08_incident/historian.py` — a deterministic judge over a structured event log written by a gateway: completeness, stop, origin, scope, budget, taint, audience, egress, two-person rule. It reads gateway-assigned fields only; model text is a witness, never a verdict. |
 | **Testbed** | `11_testbed/` — a model acts through fake tools; the gateway writes the only record; the historian judges it. Eight models run so far, with the harness defects they exposed logged and withdrawn in place. |
 | **Arena** | `12_arena/` — the harness as a fighting game: every adversary move, its counter, the attack on that counter, ending on a declared floor, residual or open. Executable bouts, an adaptive adversary and an author red-team round. |
-| **Real-log adapter** | `13_realworld/` — a log the testbed did not write (the Tello scout's flight ledger) mapped to historian events with nothing invented, and a table of what that log can and cannot prove. |
 | **Provenance** | FR_001–FR_008; benchmark v0.1–0.2.1 withdrawn in place; the async experiment's first verdict withdrawn in place. |
 
 ## What it actually enforces

@@ -90,7 +90,7 @@ class Coverage(unittest.TestCase):
         for t in titles: self.assertFalse(re.search(r"\b(?:eight|six|seven|nine|ten) (?:invariants|planted)|\bthe six planted", t), t)
     def test_the_suite_runner_registers_every_test_file_in_the_layers_it_runs(self):
         reg = (ROOT / "glitch_suite.py").read_text()
-        for d in ("08_incident", "11_testbed", "12_arena", "13_realworld"):
+        for d in ("08_incident", "11_testbed", "12_arena"):
             for f in sorted((ROOT / d).glob("test_*.py")):
                 with self.subTest(f"{d}/{f.name}"): self.assertIn(f.name, reg, f"{d}/{f.name} is not run by glitch_suite.py")
 

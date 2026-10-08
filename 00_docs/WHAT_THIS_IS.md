@@ -43,7 +43,6 @@ A model can't audit itself. A model that reports "I am not drifting" is giving i
 | **Historian** | `08_incident/historian.py` — a deterministic judge over a structured event log written by a gateway: completeness, stop, origin, scope, budget, taint, audience, egress, two-person rule. It reads gateway-assigned fields only; model text is a witness, never a verdict. |
 | **Testbed** | `11_testbed/` — a model acts through fake tools; the gateway writes the only record; the historian judges it. Eight models run so far, with the harness defects they exposed logged and withdrawn in place. |
 | **Arena** | `12_arena/` — the harness as a fighting game: every adversary move, its counter, the attack on that counter, ending on a declared floor, residual or open. Executable bouts, an adaptive adversary and an author red-team round. |
-| **Real-log adapter** | `13_realworld/` — a log the testbed did not write (the Tello scout's flight ledger) mapped to historian events with nothing invented, and a table of what that log can and cannot prove. |
 | **Provenance** | FR_001–FR_008; benchmark v0.1–0.2.1 withdrawn in place; the async experiment's first verdict withdrawn in place. |
 
 ## What it actually enforces

@@ -19,7 +19,6 @@ LAYOUT (every entry-point script resolves imports itself; PYTHONPATH is optional
   09_study/   the fifty-response study: responses, rubric (SCALE.md), sealed key, kappa.py, three human sheets (older exports in superseded/)
   11_testbed/ run_testbed.py + gateway.py + scenarios.py: a model acts through fake tools; the gateway writes the only record; historian + reach monitor judge it
   12_arena/   the board of adversary moves and counters, executable bouts, the adaptive adversary, the author red-team round; STATUS.md is generated from it
-  13_realworld/ the Tello scout's flight ledger through the historian, with a coverage table
   10_history/ guard lineage v2..v3.4.2 with tests, earlier kit snapshots; listed, never executed
   glitch_suite.py  THE runner (see RUN.md for the steps), PASS/FAIL/SKIP/INFO, one exit code, suite_report.json; run_all.sh wraps it
 

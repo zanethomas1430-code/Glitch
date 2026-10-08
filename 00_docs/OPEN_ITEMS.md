@@ -15,15 +15,14 @@
 | OI-09 | Prompt injection | DONE-AS-CONTAINMENT | janitor |
 | OI-10 | Tool authority and reversibility | PARTIAL | janitor |
 | OI-11 | Human validation of the 0 to 5 scale | NEEDS-A-PERSON | Zane (the sitting) |
-| OI-12 | The Pi's hash-chained flight ledger through the historian | BLOCKED | janitor, once the Pi is reachable |
-| OI-13 | Persuasion of the people who approve changes, played with real people | NEEDS-A-PERSON | not yet found |
-| OI-14 | Hardware for the stop | OPEN | Zane, with the Pi as the first test bed |
-| OI-15 | Time-lock parameters | OPEN | janitor, once a real solver speed is measured |
-| OI-16 | Dormant triggers and the update path | OPEN | design decision first |
-| OI-17 | Independence of the keepers | NEEDS-A-PERSON | Zane |
-| OI-18 | More real-model runs behind the SDK bridge | PARTIAL | Zane (your own Claude login; each run costs a few cents) |
-| OI-19 | Interpretability: from a null result to a real test | PARTIAL | Zane (compute and time; the fine-tune needs a GPU session) |
-| OI-20 | AgentDojo: an adaptive attacker and a second attack template | PARTIAL | Zane (API spend so far about $90; an adaptive attacker needs a person who is not the author) |
+| OI-12 | Persuasion of the people who approve changes, played with real people | NEEDS-A-PERSON | not yet found |
+| OI-13 | Hardware for the stop | OPEN | Zane, with the Pi as the first test bed |
+| OI-14 | Time-lock parameters | OPEN | janitor, once a real solver speed is measured |
+| OI-15 | Dormant triggers and the update path | OPEN | design decision first |
+| OI-16 | Independence of the keepers | NEEDS-A-PERSON | Zane |
+| OI-17 | More real-model runs behind the SDK bridge | PARTIAL | Zane (your own Claude login; each run costs a few cents) |
+| OI-18 | Interpretability: from a null result to a real test | PARTIAL | Zane (compute and time; the fine-tune needs a GPU session) |
+| OI-19 | AgentDojo: an adaptive attacker and a second attack template | PARTIAL | Zane (API spend so far about $90; an adaptive attacker needs a person who is not the author) |
 
 ## OI-01: Forgery detection for the canonical hash
 
@@ -135,17 +134,7 @@
 
 **What would close it.** The re-sitting, then the same agreement statistic as the first sitting.
 
-## OI-12: The Pi's hash-chained flight ledger through the historian
-
-**Status:** BLOCKED. **Owner:** janitor, once the Pi is reachable.
-
-**Where it stands.** Only the Tello scout's ledger (413 rows) has been read. The Pi ledger is a different log with a hash chain, so deletion would be provable there, which it is not in the Tello ledger.
-
-**Evidence in this folder.** `13_realworld/opsat_adapter.py`, `13_realworld/README.md`.
-
-**What would close it.** The Pi's address (or pasted ledger lines), a second adapter that maps nothing it cannot see, and a coverage table like the Tello one.
-
-## OI-13: Persuasion of the people who approve changes, played with real people
+## OI-12: Persuasion of the people who approve changes, played with real people
 
 **Status:** NEEDS-A-PERSON. **Owner:** not yet found.
 
@@ -155,7 +144,7 @@
 
 **What would close it.** An exercise where people play the operators and someone else plays the persuader; the record shows whether the two-person rule held.
 
-## OI-14: Hardware for the stop
+## OI-13: Hardware for the stop
 
 **Status:** OPEN. **Owner:** Zane, with the Pi as the first test bed.
 
@@ -165,7 +154,7 @@
 
 **What would close it.** Real signatures with keys held off the agent's machine; a watchdog that cuts a rail unless reset; a power meter feeding the same historian; a one-way log path. The Pi's watchdog and a USB power meter are the cheapest first test.
 
-## OI-15: Time-lock parameters
+## OI-14: Time-lock parameters
 
 **Status:** OPEN. **Owner:** janitor, once a real solver speed is measured.
 
@@ -175,7 +164,7 @@
 
 **What would close it.** A modulus of 2048 bits or more and a T taken from the real squaring rate of the fastest solver the operator can imagine, with the window stated in seconds.
 
-## OI-16: Dormant triggers and the update path
+## OI-15: Dormant triggers and the update path
 
 **Status:** OPEN. **Owner:** design decision first.
 
@@ -185,7 +174,7 @@
 
 **What would close it.** A pipeline in which a changed version starts with no lease and earns one by passing probes under varied conditions (clock, load, inputs), and signed releases of the harness's own components.
 
-## OI-17: Independence of the keepers
+## OI-16: Independence of the keepers
 
 **Status:** NEEDS-A-PERSON. **Owner:** Zane.
 
@@ -195,7 +184,7 @@
 
 **What would close it.** A written statement of who holds each keeper's key and on what hardware, and a drill in which one keeper is told to stop and the others are shown to follow.
 
-## OI-18: More real-model runs behind the SDK bridge
+## OI-17: More real-model runs behind the SDK bridge
 
 **Status:** PARTIAL. **Owner:** Zane (your own Claude login; each run costs a few cents).
 
@@ -205,7 +194,7 @@
 
 **What would close it.** Repeat each scenario enough times to give a rate with an interval (about ten per cell), with `--model` for each model you want, and read the withdrawn-run list before comparing anything.
 
-## OI-19: Interpretability: from a null result to a real test
+## OI-18: Interpretability: from a null result to a real test
 
 **Status:** PARTIAL. **Owner:** Zane (compute and time; the fine-tune needs a GPU session).
 
@@ -215,7 +204,7 @@
 
 **What would close it.** Fine-tune a small model so a rare condition (a phrase or a date) makes it send data out, keep the trigger out of every test prompt, then ask whether a probe on its state separates triggered from untriggered runs that behave identically on the record before the trigger fires.
 
-## OI-20: AgentDojo: an adaptive attacker and a second attack template
+## OI-19: AgentDojo: an adaptive attacker and a second attack template
 
 **Status:** PARTIAL. **Owner:** Zane (API spend so far about $90; an adaptive attacker needs a person who is not the author).
 

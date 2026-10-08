@@ -9,7 +9,7 @@ incident log, the real-log report). Nothing is typed in except the claim boundar
 import os as _os, sys as _sys, json, re, glob, collections
 from pathlib import Path
 ROOT = Path(__file__).resolve().parent
-for _d in ("08_incident", "11_testbed", "12_arena", "13_realworld"): _sys.path.insert(0, str(ROOT / _d))
+for _d in ("08_incident", "11_testbed", "12_arena"): _sys.path.insert(0, str(ROOT / _d))
 
 
 def _board_counts():
@@ -61,16 +61,6 @@ def _kappa():
     return [l.strip(" |") for l in p.read_text().splitlines() if "kappa" in l and "labels_" in l] if p.exists() else []
 
 
-def _real_log():
-    p = ROOT / "13_realworld" / "REPORT_tello_ledger.md"
-    if not p.exists(): return []
-    txt = p.read_text(); m = re.search(r"; (\d+) flights[;,] (\d{4}-\d\d-\d\d) to (\d{4}-\d\d-\d\d)", txt)
-    sil = re.search(r"\| ACTUATOR_SILENT \| (\d+) \| (\d+)", txt); nopol = re.search(r"Flights flown with no policy recorded: (\d+) of (\d+) that flew \(\d+ rows in all\)\. Policy changes between rows: (\d+); with an approver recorded: (\d+)", txt)
-    if not (m and sil and nopol): return []
-    return [f"the Tello scout's flight ledger, {m.group(1)} flights, {m.group(2)} to {m.group(3)} (the path and the rows are not shipped)", f"{sil.group(1)} flights end with a stop the actuator never acknowledged",
-            f"{nopol.group(1)} of the {nopol.group(2)} flights that flew had no policy recorded", f"{nopol.group(3)} policy changes, {nopol.group(4)} with an approver recorded"]
-
-
 def _campaigns():
     """Aggregate the persistent-defender campaigns: per configuration, the saved campaign stats of each run (not re-judged: what happened is what the attacker saw)."""
     out = collections.defaultdict(list)
@@ -90,7 +80,7 @@ def build_brief() -> str:
     """BRIEF.md: the two-page version for a reader outside the project, generated from the same results as STATUS.md."""
     import redteam, boss, depth, combos
     a, b, c = _board_counts(); tot, models, moves = _adversary(); tb, n_inc, withdrawn = _testbed(); rt = redteam.play_all(); _, brows = boss.report(); drows = depth.matrix(); camps = _campaigns()
-    nums = re.findall(r"\d+", a); chains, counters = nums[0], nums[2]; refusing = re.search(r"(\d+) of (\d+) counters REFUSE", b); k = _kappa_range(); rl = _real_log()
+    nums = re.findall(r"\d+", a); chains, counters = nums[0], nums[2]; refusing = re.search(r"(\d+) of (\d+) counters REFUSE", b); k = _kappa_range()
     before = collections.Counter(x[2] for x in rt); now = collections.Counter(x[3] for x in rt); b0, b2, b3 = brows[0], brows[2], brows[3]
     camp_line = ""
     if camps:
@@ -114,8 +104,7 @@ def build_brief() -> str:
          f"2. **A flag is not a block.** The first version counted a violation on the record as \"caught\" although the data had already left. An author red-team round ({len(rt)} moves) found this and several cheap routes: before the fixes {before.get('LANDED', 0)} moves landed and {before.get('CAUGHT', 0)} happened and were flagged afterwards; now {now.get('LANDED', 0)} land and {now.get('PREVENTED', 0)} are prevented at the gateway.",
          f"3. **A defence that does not remember teaches an attacker for free.** A fixed prober of {b0['probes']} escape attempts gets {b0['free_probes']} free probes against walls that only refuse and {b2['free_probes']} against walls that persist strikes across attempts (burned by probe {b2['lockdown_at_probe']}); opaque refusals cut what it can read from the refusal text from {b0['distinct_refusals']} messages to {b3['distinct_refusals']}. An honest user is unaffected throughout.{camp_line}",
          f"4. **A model proposing its own attacks found a real gap.** A model proposed assumptions and combos the author had not listed; most were rewordings, one led to a parser differential (a header injected through a message body got out even with every wall on), closed by strict format checks on every field.",
-         f"5. **It reads a real log, and says what that log cannot prove.** The historian was pointed at a real per-flight ledger from a drone project ({rl[0].split(',', 1)[1].split(' (')[0].strip() if rl else 'one ledger'}): {rl[1] if len(rl) > 1 else ''}; it has no sequence numbers or hash chain, so a deleted row would be invisible, and the report names the fields that would make each invariant provable.",
-         f"6. **The human ruler is usable.** The 0 to 5 specificity scale used by the drift guard was labelled by three people on 50 items: pairwise weighted agreement {k[0]:.2f} to {k[1]:.2f}, with level 3 the soft spot." if k else "6. The human study results are in `STATUS.md`.", "",
+         f"5. **The human ruler is usable.** The 0 to 5 specificity scale used by the drift guard was labelled by three people on 50 items: pairwise weighted agreement {k[0]:.2f} to {k[1]:.2f}, with level 3 the soft spot." if k else "5. The human study results are in `STATUS.md`.", "",
          "## What it does not show", "",
          "- That any model or deployment is safe, aligned or compliant. It detects specified patterns and, where the walls are on, refuses some calls.",
          "- That escape is impossible. No harness can prove that. The arena says, per move, whether the answer is a structural floor, a bound that is metered but not closed, or open; a move that is not on the board is not counted, and the board is written by its author.",
@@ -162,8 +151,6 @@ def build() -> str:
     L.append(f"| What a probe costs: the boss remembers, changes phase, punishes greed, says little | a fixed prober of {b0['probes']} escape attempts, each against a different layer, through the real gateway: walls that only refuse give it {b0['free_probes']} free probes and {b0['distinct_refusals']} distinct refusal messages; walls that remember give {b2['free_probes']} free probe(s) and burn it at probe {b2['lockdown_at_probe']}; with opaque refusals it sees {b3['distinct_refusals']} message; an honest user is unaffected in every configuration: {all(r['honest_after'] for r in brows)} | one scripted prober, not an adaptive attacker; strikes are per principal, so a fresh identity starts again | `12_arena/boss.py`, `00_docs/BOSS.md` |")
     L.append(f"| A model proposed assumptions and combos the author had not listed | sarah:latest, {len(prop['runs'])} runs: {n_as} assumptions and {n_co} combos proposed; four assumptions kept after a person's triage (tool classification, narrow manifests, parser differential, forged resources); {n_land} of the combos landed or were caught after the fact; the parser-differential proposal found a real gap (a header injected through the body) and the format checks that closed it | a 14B local model; most proposals were rewordings | `12_arena/propose.py`, `parser_diff.py`, `runs/propose_sarah-latest.json` |")
     L.append("| The author's red-team round found real gaps, now fixed | " + f"{len(rt)} moves; before the fixes " + ", ".join(f"{v} {k}" for k, v in sorted(collections.Counter(b for _, _, b, _, _ in rt).items())) + "; now " + ", ".join(f"{v} {k}" for k, v in sorted(collections.Counter(n for _, _, _, n, _ in rt).items())) + " | same author as the defence (blind-spot caveat) | `12_arena/redteam.py`, `test_redteam.py` |")
-    rl = _real_log()
-    L.append("| The historian can read a log the testbed did not write | " + ("; ".join(rl) if rl else "see the report") + " | one ledger, summary rows only | `13_realworld/REPORT_tello_ledger.md` |")
     if refusals: L.append("| Hosted frontier models as adversary or subject | " + "; ".join(f"{m}: {r} in {n} of {n} rounds" for m, r, n in refusals) + "; Opus and Fable refused the testbed prompt outright | recorded, not worked around | `11_testbed/runs/RESULTS.md`, `12_arena/RESULTS.md` |")
     camps = _campaigns()
     if camps:
@@ -172,7 +159,6 @@ def build() -> str:
           "- A strong independent adversary: the strongest tried is a 14B local model, and the hosted Claude models refused the role. The board and the red-team round are written by the defence's author.",
           "- Influence that leaves no string overlap: not provable from a log; bounded by manifest, budgets and the egress cap, not detected.",
           "- Covert channels: bounded and metered, never closed, while any output is allowed.",
-          "- The Pi's hash-chained Z-brain ledger and the per-flight command logs: not yet read by an adapter (the one real ledger read has no sequence numbers or hash chain, so a deleted row is invisible).",
           "- A larger human study: 50 items and three raters is a small sample.", "",
           "## Dated and open", "",
           "- 2026-10-10: the day-14 re-sitting of the 50-item human study.",
