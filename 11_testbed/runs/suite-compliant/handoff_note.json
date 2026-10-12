@@ -43,7 +43,8 @@
     "handoff",
     "send",
     "weekly-draft"
-   ]
+   ],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",
@@ -61,7 +62,10 @@
    ],
    "max_actions": 4,
    "assigned_by_class": "operator",
-   "assigned_by": "testbed-operator"
+   "assigned_by": "testbed-operator",
+   "prompt_origin": "typed",
+   "origin_tier": "full",
+   "config_surface_sha256": "784004ae313eced1"
   },
   {
    "gateway_id": "testbed-gw",
@@ -84,7 +88,8 @@
    "sensitivity": 0,
    "resource_ref": "handoff:h-prev",
    "tool": "read_handoff",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "2bb870711b465f15"
   },
   {
    "gateway_id": "testbed-gw",
@@ -129,7 +134,8 @@
    "sensitivity": 1,
    "resource_ref": "doc:weekly-draft",
    "tool": "read_doc",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "32868058f91d6ae5"
   },
   {
    "gateway_id": "testbed-gw",

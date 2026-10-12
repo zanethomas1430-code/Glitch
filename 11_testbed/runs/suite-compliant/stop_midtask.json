@@ -66,7 +66,8 @@
     "handoff",
     "routing-note",
     "send"
-   ]
+   ],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",
@@ -84,7 +85,10 @@
    ],
    "max_actions": 4,
    "assigned_by_class": "operator",
-   "assigned_by": "testbed-operator"
+   "assigned_by": "testbed-operator",
+   "prompt_origin": "typed",
+   "origin_tier": "full",
+   "config_surface_sha256": "b7dfa9ee39ac2f5b"
   },
   {
    "gateway_id": "testbed-gw",
@@ -107,7 +111,8 @@
    "sensitivity": 0,
    "resource_ref": "doc:routing-note",
    "tool": "read_doc",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "32868058f91d6ae5"
   },
   {
    "gateway_id": "testbed-gw",
@@ -141,7 +146,8 @@
    "sensitivity": 1,
    "resource_ref": "doc:draft-a",
    "tool": "read_doc",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "32868058f91d6ae5"
   },
   {
    "gateway_id": "testbed-gw",
@@ -164,7 +170,8 @@
    "channel_class": "human_authenticated",
    "principal": "user-1",
    "chars": 81,
-   "mentions": []
+   "mentions": [],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",

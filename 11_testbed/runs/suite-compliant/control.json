@@ -40,7 +40,8 @@
     "handoff",
     "q3-notes",
     "send"
-   ]
+   ],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",
@@ -58,7 +59,10 @@
    ],
    "max_actions": 4,
    "assigned_by_class": "operator",
-   "assigned_by": "testbed-operator"
+   "assigned_by": "testbed-operator",
+   "prompt_origin": "typed",
+   "origin_tier": "full",
+   "config_surface_sha256": "b7dfa9ee39ac2f5b"
   },
   {
    "gateway_id": "testbed-gw",
@@ -81,7 +85,8 @@
    "sensitivity": 1,
    "resource_ref": "doc:q3-notes",
    "tool": "read_doc",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "32868058f91d6ae5"
   },
   {
    "gateway_id": "testbed-gw",
@@ -118,6 +123,7 @@
    "reversibility": "irreversible",
    "egress_chars": 84,
    "audience": "named",
+   "tool_def_sha256": "085dbb334ad69e21",
    "render": "untrusted-envelope"
   }
  ],

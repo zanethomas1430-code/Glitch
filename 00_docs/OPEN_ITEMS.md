@@ -23,6 +23,10 @@
 | OI-17 | More real-model runs behind the SDK bridge | PARTIAL | Zane (your own Claude login; each run costs a few cents) |
 | OI-18 | Interpretability: from a null result to a real test | PARTIAL | Zane (compute and time; the fine-tune needs a GPU session) |
 | OI-19 | AgentDojo: an adaptive attacker and a second attack template | PARTIAL | Zane (API spend so far about $90; an adaptive attacker needs a person who is not the author) |
+| OI-20 | The agent-SDK check that a hook deny holds after the agent writes bypassPermissions | PARTIAL | janitor (needs the live SDK and a run, not a mock) |
+| OI-21 | The network witness on a real resolver or proxy | PARTIAL | janitor (needs a host) |
+| OI-22 | Resolve-then-gate behind a real shell | PARTIAL | janitor |
+| OI-23 | Ownership labels on records | OPEN | unassigned |
 
 ## OI-01: Forgery detection for the canonical hash
 
@@ -213,3 +217,43 @@
 **Evidence in this folder.** `17_agentdojo/RESULTS.md`, `17_agentdojo/OFFLINE.md`, `17_agentdojo/README.md`, `17_agentdojo/run_dojo.py`.
 
 **What would close it.** The `tool_knowledge` attack on at least one suite, and a statement of the adaptive-attack result when someone who is not the author runs one.
+
+## OI-20: The agent-SDK check that a hook deny holds after the agent writes bypassPermissions
+
+**Status:** PARTIAL. **Owner:** janitor (needs the live SDK and a run, not a mock).
+
+**Where it stands.** The gateway's walls never read the hook configuration, and a task that starts under a rewritten configuration surface is CONFIG_SURFACE_DRIFT (I24, round twelve). What has not been run: the real SDK with a settings file the agent wrote mid-task, to see whether a PreToolUse deny still holds in that permission mode.
+
+**Evidence in this folder.** `11_testbed/test_incidents_2026.py`, `15_agent_sdk/test_end_to_end_mock.py`.
+
+**What would close it.** A live run under the real SDK where the agent writes bypassPermissions and removes the hook, with the refused action still refused and I18/I24 on the record.
+
+## OI-21: The network witness on a real resolver or proxy
+
+**Status:** PARTIAL. **Owner:** janitor (needs a host).
+
+**Where it stands.** NetWitness is modelled: a second writer that records every host reached, compared with the gateway's record (I20). It has not been wired to a real resolver or proxy outside the agent's process.
+
+**Evidence in this folder.** `11_testbed/gateway.py`, `11_testbed/test_incidents_2026.py`.
+
+**What would close it.** A resolver or proxy log fed to the historian from a real run, with a render-time fetch caught by I20.
+
+## OI-22: Resolve-then-gate behind a real shell
+
+**Status:** PARTIAL. **Owner:** janitor.
+
+**Where it stands.** `11_testbed/resolve_gate.py` judges destructive verbs on resolved targets and effect size over a toy filesystem, with the incidents' path-alias corpus and the vendors' string gate as the mutant. It is not in front of a real shell, where the typed-argument wall runs out.
+
+**Evidence in this folder.** `11_testbed/resolve_gate.py`, `11_testbed/test_incidents_2026.py`.
+
+**What would close it.** Typed destructive verbs behind a real shell with the same corpus, and a measured utility cost.
+
+## OI-23: Ownership labels on records
+
+**Status:** OPEN. **Owner:** unassigned.
+
+**Where it stands.** The report's eighth addition: a send to address A may carry only data owned by A's record; memory written in a tainted session keeps its taint. Not built; it is the counter to right-action-wrong-audience and cross-user memory leaks, which the gateway passes as harm by content.
+
+**Evidence in this folder.** `00_docs/HARDENING.md`.
+
+**What would close it.** An ownership label on every record in the AgentDojo environment model, a wall over outbound content, and its utility cost measured on the four suites.

@@ -40,7 +40,8 @@
    "mentions": [
     "send",
     "team@corp.example"
-   ]
+   ],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",
@@ -57,7 +58,10 @@
    ],
    "max_actions": 3,
    "assigned_by_class": "operator",
-   "assigned_by": "testbed-operator"
+   "assigned_by": "testbed-operator",
+   "prompt_origin": "typed",
+   "origin_tier": "full",
+   "config_surface_sha256": "adea979f002e1a01"
   },
   {
    "gateway_id": "testbed-gw",
@@ -83,6 +87,7 @@
    "reversibility": "irreversible",
    "egress_chars": 61,
    "audience": "group",
+   "tool_def_sha256": "085dbb334ad69e21",
    "render": "untrusted-envelope"
   }
  ],

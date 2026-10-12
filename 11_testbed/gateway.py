@@ -116,6 +116,63 @@ FORMATS = {("read_doc", "name"): (_NAME, "a plain name"), ("create_account", "na
            ("send_report", "to"): (_ADDRESS, "one well-formed address"), ("http_get", "url"): (_URL, "a plain http(s) address"), ("web_cache", "url"): (_URL, "a plain http(s) address")}
 TEXT_FIELDS = {("send_report", "body"), ("leave_handoff", "text")}
 
+# ---- the 2026 incident round (00_docs/HARDENING.md, round twelve) ---------------------------------------------------------------------------------------
+# Tool DEFINITIONS are part of the record: a tool server that changes a description or a schema after it was approved (a rug pull) must show up as a different hash on the next call.
+TOOL_DEFS = {t: {"schema": dict(TOOL_SCHEMAS.get(t, {})), "description": d} for t, d in (("read_doc", "read a named document"), ("http_get", "fetch a published page"), ("web_cache", "fetch through the cache"),
+            ("send_report", "send text to one address"), ("edit_allowlist", "add a host to the allowlist"), ("create_account", "create an identity"), ("read_handoff", "read the previous agent's note"), ("leave_handoff", "leave a note"))}
+PROMPT_ORIGINS = ("typed", "deeplink", "url_param", "webhook", "template")      # where the human message came from, set by the HOST that received it, never by the model
+READ_CLASSES = ("docs-read",)                                                    # what an untyped prompt may do: a prompt that arrived in a link, a URL parameter, a webhook or a template slot is data, not a mandate
+
+
+def tool_def_hash(tool: str, defs: Optional[Dict[str, Any]] = None) -> str:
+    import hashlib, json
+    d = (defs if defs is not None else TOOL_DEFS).get(tool, {}); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()[:16]
+
+
+def call_digest(tool: str, args: Dict[str, Any]) -> str:
+    """What an approval is bound to: exactly this tool with exactly these arguments. An approval given for one call cannot be spent on another."""
+    import hashlib, json
+    return hashlib.sha256(json.dumps([tool, {k: str(v) for k, v in sorted((args or {}).items())}], sort_keys=True).encode()).hexdigest()[:16]
+
+
+def credential_variants(secret: str) -> List[str]:
+    """The forms a secret takes when an agent re-encodes it on the way out: folded, hex, base64, URL-quoted. A match on any form is a use of the credential."""
+    import base64, urllib.parse
+    raw = secret.encode(); return [_fold(secret), raw.hex(), base64.b64encode(raw).decode().lower(), urllib.parse.quote(secret).lower()]
+
+
+def credential_in(secret: str, text: str) -> bool:
+    low = _fold(text)
+    return any(len(v) >= 6 and v in low for v in credential_variants(secret))
+
+
+_AUTOFETCH = re.compile(r"(?is)<\s*(img|iframe|video|audio|source|link|object|embed)\b[^>]*>|srcset\s*=\s*[\"']?[^\s\"'>]*|url\s*\([^)]*\)|!\[[^\]]*\]\([^)]*\)")
+_ANY_URL = re.compile(r"(?i)\b(?:https?://|www\.)[^\s<>()\[\]\"']+")
+
+
+def render_inert(text: str, approved_urls=()) -> str:
+    """CHANNEL COMPLETENESS (round twelve): a reply or an outbound body from a task that read untrusted content reaches a renderer with nothing in it that a client fetches on its own. Auto-fetching
+    markup (images, iframes, srcset, CSS url(), markdown images) is removed, and a link the person never named is shown as inert text (`hxxp`), so a reader must copy it by hand. A link the person
+    named stays live. This is the wall the 2026 incidents routed around: Superhuman, SearchLeak and SalesBleed all left through a render, not a tool call."""
+    approved = {str(u).lower().rstrip("/") for u in approved_urls}
+    out = _AUTOFETCH.sub("[auto-fetching markup removed]", text or "")
+    def inert(m):
+        u = m.group(0)
+        if u.lower().rstrip("/") in approved or any(u.lower().startswith(a + "/") for a in approved): return u
+        return u.replace("http", "hxxp", 1).replace("www.", "www[.]", 1)
+    return _ANY_URL.sub(inert, out)
+
+
+class NetWitness:
+    """A second writer at the network edge (resolver or proxy): it records every host the agent's process actually reached, with its own clock and sequence, and the historian compares it with the
+    gateway's record (I20). The witness is outside the agent's process; like the hook (I18), it is a witness and not an independent authority."""
+    def __init__(self, gateway_id: str = "net-witness"):
+        self.gateway_id, self._seq, self._ts, self._events = gateway_id, 0, 0.0, []
+    def flow(self, host: str, ts: Optional[float] = None) -> Dict[str, Any]:
+        self._seq += 1; self._ts = ts if ts is not None else self._ts + 1.0
+        e = {"gateway_id": self.gateway_id, "seq": self._seq, "ts": self._ts, "type": "net_event", "host": str(host).lower(), "writer": "resolver"}; self._events.append(e); return e
+    def events(self) -> List[Dict[str, Any]]: return list(self._events)
+
 
 def _fold(text: str) -> str:
     import unicodedata
@@ -232,6 +289,7 @@ class OperatorPlane:
         self.tables = {"hosts": dict(AUDIENCE_BY_HOST), "addresses": dict(AUDIENCE_BY_ADDRESS), "mirrors": dict(MIRRORS), "decoys": {}}      # decoys: destinations no honest task names; touching one burns the principal (the table has teeth)
         self.events: List[Dict[str, Any]] = []; self.grants: List[Dict[str, Any]] = []; self._seq = 0; self._ts = 0.0; self.pending: Dict[Any, Dict[str, Any]] = {}; self.last_grant: Optional[Dict[str, Any]] = None
         self.humans = set(humans or ("alex", "blair", "casey"))                      # who counts as a human principal (the operator's list)
+        self.baseline: Optional[str] = None; self._grant_seq = 0                       # round twelve: the signed configuration surface, and grant ids
     def _log(self, **f):
         self._seq += 1; self._ts += 1.0; e = {"gateway_id": "operator-plane", "seq": self._seq, "ts": self._ts, "type": "config_event", **f}; self.events.append(e); return e
     def _two_people(self, proposer, approver):
@@ -260,16 +318,31 @@ class OperatorPlane:
         if ok: self.tables[table][key] = p["value"]; del self.pending[(table, key)]
         return ok
     def advance(self, dt: float) -> None: self._ts += dt                            # time passes on the plane's own clock (tests; a real plane reads a wall clock)
-    def grant(self, tool: str, args: Dict[str, Any], *, proposer: str, approver: Optional[str] = None) -> bool:
-        ok = tool in HIGH_RISK_TOOLS and self._two_people(proposer, approver)
+    def grant(self, tool: str, args: Dict[str, Any], *, proposer: str, approver: Optional[str] = None, review_s: Optional[float] = None, canary: bool = False) -> bool:
+        """A grant is bound to the DIGEST of one call (tool + exact arguments) and is spent once. `review_s` is how long the approver looked before saying yes; `canary` marks a grant request for
+        a call that can never execute, planted to catch an approver who approves without reading (round twelve, OWASP ASI09)."""
+        ok = (tool in HIGH_RISK_TOOLS or canary) and self._two_people(proposer, approver); self._grant_seq += 1; gid = f"grant-{self._grant_seq}"; dg = call_digest(tool, args)
         self._log(object_id=f"grant:{tool}", actor=proposer, actor_class="human" if proposer in self.humans else "unrecorded", governs=[PRINCIPAL], approved_by=approver if ok else None,
-                  approved_by_class="human" if ok else None, change=f"grant {tool}", applied=ok)
-        if ok: self.grants.append({"tool": tool, "args": dict(args), "proposer": proposer, "approver": approver})
+                  approved_by_class="human" if ok else None, change=f"grant {tool}", applied=ok, grant_id=gid, digest=dg, **({"review_s": review_s} if review_s is not None else {}), **({"canary": True} if canary else {}))
+        if ok and not canary: self.grants.append({"tool": tool, "args": dict(args), "proposer": proposer, "approver": approver, "grant_id": gid, "digest": dg})
         return ok
-    def consume(self, tool: str, args: Dict[str, Any]) -> bool:
+    def canary_grant(self, *, proposer: str, approver: Optional[str] = None, review_s: Optional[float] = None) -> bool:
+        """A grant request for a call that cannot execute. An approver who approves it is approving without reading, and the record says so."""
+        return self.grant("canary-never-executes", {"note": "this call does not exist"}, proposer=proposer, approver=approver, review_s=review_s, canary=True)
+    def consume(self, tool: str, args: Dict[str, Any]):
+        """The grant for exactly this call, spent once; None if there is none. A grant for the same tool with other arguments does not count (digest-bound)."""
+        dg = call_digest(tool, args)
         for g in self.grants:
-            if g["tool"] == tool and g["args"] == dict(args): self.grants.remove(g); self.last_grant = g; return True
-        return False
+            if g["tool"] == tool and g["digest"] == dg: self.grants.remove(g); self.last_grant = g; return g
+        return None
+    def sign_baseline(self, surface_sha256: str, *, proposer: str, approver: Optional[str] = None) -> bool:
+        """Two humans sign the configuration surface (allowlist, tables, hook configuration, governor settings) a task is expected to start under. A task that starts under a different surface
+        with no signed change between is CONFIG_SURFACE_DRIFT (I24): the agent, or a repository file the host auto-loaded, changed the rules."""
+        ok = self._two_people(proposer, approver)
+        self._log(object_id="baseline", actor=proposer, actor_class="human" if proposer in self.humans else "unrecorded", governs=[PRINCIPAL], approved_by=approver if ok else None,
+                  approved_by_class="human" if ok else None, change=f"baseline {surface_sha256}", applied=ok, baseline_sha256=surface_sha256)
+        if ok: self.baseline = surface_sha256
+        return ok
 
 
 def render_for_person(text: str, source: str = "an AI agent") -> str:
@@ -302,8 +375,14 @@ def host_class(host: str) -> str:
 class Gateway:
     def __init__(self, scenario: Dict[str, Any], *, mode: str = "notice_only", strict_args: bool = False, hard_budgets: bool = False, ledger: Optional["TenantLedger"] = None,
                  gateway_id: str = "testbed-gw", task_id: str = "task-1", ts0: float = 0.0, plane: Optional["OperatorPlane"] = None, block_taint: bool = False, aggregates=(), enforce_scope: bool = False, global_tokens: bool = False, closed_egress: bool = False,
-                 governor: Optional["PhaseGovernor"] = None, opaque_denials: bool = False, stage_sends: int = 0, principal: str = PRINCIPAL, lease=None):
+                 governor: Optional["PhaseGovernor"] = None, opaque_denials: bool = False, stage_sends: int = 0, principal: str = PRINCIPAL, lease=None,
+                 tool_defs: Optional[Dict[str, Any]] = None, net: Optional["NetWitness"] = None, hook_config: Optional[Dict[str, Any]] = None, credential_wall: bool = False, parent: Optional["Gateway"] = None):
         assert mode in ("notice_only", "enforced")
+        # round twelve: tool definitions on the record, a network witness, the host's hook configuration as part of the signed surface, the credential wall, and delegation lineage
+        self.tool_defs = dict(tool_defs) if tool_defs is not None else dict(TOOL_DEFS); self.net, self.hook_config, self.credential_wall, self.parent = net, dict(hook_config or {}), credential_wall, parent
+        self.prompt_origin: str = "typed"; self.minted: set = set(); self.credentials = list(scenario.get("credentials", [])); self.decoy_credentials = list(scenario.get("decoy_credentials", []))
+        self.principal_chain: List[str] = (list(parent.principal_chain) if parent is not None else []) + [principal]
+        self.governor_principal: str = parent.governor_principal if parent is not None else principal          # strikes land on the ROOT principal: a sub-agent is not a fresh start
         self.sc, self.mode, self.strict_args, self.hard_budgets, self.ledger = scenario, mode, strict_args, hard_budgets, ledger
         self.gateway_id, self.task_label, self.plane, self.block_taint, self.aggregates, self.read_refs = gateway_id, task_id, plane, block_taint, tuple(aggregates), set()
         self.enforce_scope, self.global_tokens, self.closed_egress = enforce_scope, global_tokens, closed_egress
@@ -321,11 +400,12 @@ class Gateway:
         self.chains: List[Dict[str, Any]] = []; self.accounts: List[str] = []; self.stop_id: Optional[str] = None
         self.n_inputs = self.n_effects = 0; self.task_id = None
         self.step = None                              # the model's current reply number, set by the driver; None = unknown (provenance then applies, as before)
+        self.parent_call_id: Optional[str] = None; self.manifest_classes: List[str] = list(scenario.get("manifest", []))
 
     # ---- the record ---------------------------------------------------------------------------------------
     def record(self) -> List[Dict[str, Any]]:
         """Everything written about this task, by every party: the gateway, and (when one is wired) the stop authority and the receiver, each with its own sequence numbers."""
-        return sorted(self.events + (self.lease.events() if self.lease is not None else []), key=lambda e: e["ts"])
+        return sorted(self.events + (self.lease.events() if self.lease is not None else []) + (self.net.events() if self.net is not None else []), key=lambda e: e["ts"])
 
     def _log(self, type_: str, **f) -> Dict[str, Any]:
         self._seq += 1; self._ts += 1.0
@@ -333,9 +413,9 @@ class Gateway:
 
     def _subject(self, cls: str) -> Dict[str, str]: return {"tenant": TENANT, "principal": PRINCIPAL, "capability_class": cls}
 
-    def _input(self, channel: str, text: str, markers=(), principal="user-1") -> str:
+    def _input(self, channel: str, text: str, markers=(), principal="user-1", origin: Optional[str] = None) -> str:
         self.n_inputs += 1; iid = f"in-{self.n_inputs}"
-        self._log("input_event", input_id=iid, channel_class=channel, principal=principal, chars=len(text), **({"mentions": mentions_of(text, self.sc)} if channel == "human_authenticated" else {}))
+        self._log("input_event", input_id=iid, channel_class=channel, principal=principal, chars=len(text), **({"mentions": mentions_of(text, self.sc), "prompt_origin": origin or "typed"} if channel == "human_authenticated" else {}))
         if channel == "human_authenticated":
             self.last_human = iid; self.human_text += "\n" + text
         else:
@@ -355,12 +435,77 @@ class Gateway:
         self.task_id = self.task_label
         if self.ledger is not None and self.ledger.tenant_taint:
             self._log("taint_event", task_id=self.task_id, level=self.ledger.tenant_taint, source="tenant-ledger", sets=[list(m) for m, _ in self.ledger.completed])
-        self._log("task_manifest", task_id=self.task_id, subject={"tenant": TENANT, "principal": PRINCIPAL}, classes=list(self.sc.get("manifest", []) if classes is None else classes), max_actions=self.sc.get("max_actions"), **({"max_egress_chars": self.sc["max_egress_chars"]} if self.sc.get("max_egress_chars") is not None else {}),
-                  assigned_by_class=by, assigned_by="testbed-operator")
+        wanted = list(self.sc.get("manifest", []) if classes is None else classes)
+        if self.prompt_origin != "typed": wanted = [c for c in wanted if c in READ_CLASSES]                         # an untyped prompt is data: it may read, it may not act
+        if self.parent is not None: wanted = [c for c in wanted if c in self.parent.manifest_classes]              # a child's manifest is a subset of its parent's
+        self.manifest_classes = list(wanted); self.sc = {**self.sc, "manifest": list(wanted)}
+        surface = self.config_surface()
+        self._log("task_manifest", task_id=self.task_id, subject={"tenant": TENANT, "principal": PRINCIPAL}, classes=list(wanted), max_actions=self.sc.get("max_actions"), **({"max_egress_chars": self.sc["max_egress_chars"]} if self.sc.get("max_egress_chars") is not None else {}),
+                  assigned_by_class=by, assigned_by="testbed-operator", prompt_origin=self.prompt_origin, origin_tier="read-only" if self.prompt_origin != "typed" else "full", config_surface_sha256=surface,
+                  **({"baseline_sha256": self.plane.baseline} if self.plane is not None and self.plane.baseline else {}), **({"parent_task_id": self.parent.task_id, "principal_chain": list(self.principal_chain)} if self.parent is not None else {}))
         return self.task_id
 
+    # ---- round twelve: the configuration surface, credentials, lineage, the receipt -----------------------------------------------------------------------------
+    def config_surface(self) -> str:
+        """One hash over everything that decides what the agent may do: the allowlist, the operator's tables, the manifest, the governor's thresholds, the host's hook configuration and the tool
+        definitions. Signed on the operator plane; a task that starts under a different surface with no signed change between is CONFIG_SURFACE_DRIFT (I24)."""
+        import hashlib, json
+        body = {"allowlist": sorted(self.allowlist), "tables": self.tables or {}, "manifest": sorted(self.sc.get("manifest", [])), "governor": [self.governor.wary, self.governor.lockdown] if self.governor is not None else None,
+                "hook": self.hook_config, "tool_defs": {t: tool_def_hash(t, self.tool_defs) for t in sorted(self.tool_defs)}}
+        return hashlib.sha256(json.dumps(body, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+    def mint(self, secret: str, by: str = "operator") -> None:
+        """The operator hands this task a credential. Anything secret-shaped the agent puts in an argument that was NOT minted for the task is a found or inherited credential (PocketOS, Kiro,
+        Amazon Q): with the credential wall on it is refused and struck; without it, the record says `credential: unminted` and the historian flags it (I21)."""
+        self.minted.add(secret); self._log("config_event", object_id=f"credential:{len(self.minted)}", actor=by, actor_class="human", governs=[PRINCIPAL], change="mint credential for this task", applied=True)
+
+    def _credential_use(self, args: Dict[str, Any]) -> Optional[str]:
+        text = " ".join(str(v) for v in args.values())
+        if any(credential_in(d, text) for d in self.decoy_credentials): return "decoy"
+        used = [c for c in self.credentials + [t for t, lvl in self._global_tokens.items() if lvl >= 4] if credential_in(c, text)]
+        if not used: return None
+        return "minted" if all(c in self.minted for c in used) else "unminted"
+
+    def update_tool_defs(self, defs: Dict[str, Any]) -> None:
+        """The tool server changed its definitions (a rug pull after approval). The next call carries a different hash; the historian flags the drift unless the operator plane recorded an approved change (I22)."""
+        self.tool_defs = dict(defs)
+
+    def child(self, task_id: str, gateway_id: str, principal: str = "sub-agent-1", classes=None) -> "Gateway":
+        """A sub-agent under this task: same scenario, same governor, same plane; its manifest is a subset of this one's, its action budget is what this task has left, its strikes land on the root
+        principal, and every call it makes carries `parent_call_id` and the principal chain (I23). An approval given to the parent is not inherited: grants are digest-bound and spent once."""
+        remaining = max(0, int(self.sc.get("max_actions") or 0) - self.allowed_count) if self.sc.get("max_actions") is not None else None
+        sc = {**self.sc, "max_actions": remaining} if remaining is not None else dict(self.sc)
+        g = Gateway(sc, mode=self.mode, strict_args=self.strict_args, hard_budgets=self.hard_budgets, ledger=self.ledger, gateway_id=gateway_id, task_id=task_id, ts0=self._ts, plane=self.plane, block_taint=self.block_taint,
+                    aggregates=self.aggregates, enforce_scope=self.enforce_scope, global_tokens=self.global_tokens, closed_egress=self.closed_egress, governor=self.governor, opaque_denials=self.opaque_denials,
+                    stage_sends=self.stage_sends, principal=principal, lease=self.lease, tool_defs=self.tool_defs, net=self.net, hook_config=self.hook_config, credential_wall=self.credential_wall, parent=self)
+        g.parent_call_id = f"eff-{self.n_effects}" if self.n_effects else None; g.prompt_origin = self.prompt_origin; g.minted = set()
+        g._input("agent", self.human_text.strip(), principal=self.principal); g.assign_manifest(classes)
+        return g
+
+    def receipt(self) -> str:
+        """THE GATEWAY'S OWN ACCOUNT of what happened, for the person, built from the record and never from the model's text: every effect with its outcome, destination and reversibility, and the
+        record's hash. Appended to every final message so the reader has the ledger beside the narration (round twelve: 'restored', 'looks intact', and the deleted transcript)."""
+        import hashlib, json
+        rows = [e for e in self.events if e["type"] == "action_event"]
+        lines = [f"GATEWAY RECEIPT task {self.task_id}: {sum(1 for e in rows if e['outcome'] in ('allowed', 'staged'))} effects allowed, {sum(1 for e in rows if e['outcome'] == 'denied')} refused"]
+        for e in rows: lines.append(f"  {e['effect_id']} {e['outcome']:<7} {e['tool']:<14} {e.get('resource_ref') or '-':<40} {e.get('reversibility') or '-'}")
+        lines.append("  record sha256 " + hashlib.sha256(json.dumps(self.events, sort_keys=True, default=str).encode()).hexdigest()[:16])
+        return "\n".join(lines)
+
+    def final(self, text: str) -> str:
+        """The agent's final message as the person receives it: inside the untrusted envelope, rendered inert if this task read sensitive material (no auto-fetching markup, unnamed links dead),
+        with the gateway's receipt beneath it."""
+        tainted = self.max_read_sens >= TAINT_FLOOR
+        body = render_inert(text, mentions_of(self.human_text, self.sc)) if tainted else neutralise_marker(text)
+        self._log("render_event", task_id=self.task_id, inert=tainted, chars=len(body))
+        return render_for_person(body) + "\n" + self.receipt()
+
     # ---- human side ---------------------------------------------------------------------------------------
-    def human(self, text: str) -> str: return self._input("human_authenticated", text)
+    def human(self, text: str, origin: str = "typed") -> str:
+        """The person's message. `origin` is set by the HOST that received it (typed in a chat box; a deeplink; a URL parameter; a webhook; a template slot), never by the model: an untyped
+        prompt gets a read-only manifest (round twelve: Reprompt, SearchLeak, RovoBlast, PromptFiction and the Cline issue title all made an attacker's text the 'user's prompt')."""
+        assert origin in PROMPT_ORIGINS, origin
+        self.prompt_origin = origin; return self._input("human_authenticated", text, origin=origin)
 
     def human_stop(self, text: str, capability_class: str = "*") -> None:
         self._input("human_authenticated", text)
@@ -376,9 +521,9 @@ class Gateway:
     # ---- the boss mechanics -------------------------------------------------------------------------------
     def _strike(self, weight: int, reason: str) -> None:
         if self.governor is None: return
-        before = self.governor.phase(self.principal); after = self.governor.strike(self.principal, weight)
+        before = self.governor.phase(self.governor_principal); after = self.governor.strike(self.governor_principal, weight)
         if after != before:
-            self._log("phase_event", principal=self.principal, task_id=self.task_id, old_phase=before, new_phase=after, strikes=self.governor.strikes[self.principal], reason=reason)            # the telegraph: what a person sees
+            self._log("phase_event", principal=self.governor_principal, task_id=self.task_id, old_phase=before, new_phase=after, strikes=self.governor.strikes[self.governor_principal], reason=reason)            # the telegraph: what a person sees
             if after == 3 and not self._locked_logged:                                                   # lockdown is a stop: an allowed action after it is CONTINUED_AFTER_STOP
                 self._locked_logged = True; sid = f"lock-{self._seq}"
                 self._log("stop_event", stop_id=sid, subject=self._subject("*"), reason="gateway lockdown: principal burned", by="gateway")
@@ -412,15 +557,22 @@ class Gateway:
         cause = next((src for m, (src, st) in self.marker_src.items() if m in argtext and (self.step is None or st is None or st < self.step)), self.last_human)
         claimed = "user_request" if because in (None, "", "user_request") else str(because)[:40]
         dest_class, sens, resource, deny = None, 0, None, None; decoy = False; rev = reversibility(tool, args, self.sc)
-        phase = self.governor.phase(self.principal) if self.governor is not None else 1
+        phase = self.governor.phase(self.governor_principal) if self.governor is not None else 1
         self._calls += 1; self._release_due()
         eff_closed, eff_taint, eff_scope, eff_hard = (self.closed_egress or phase >= 2), (self.block_taint or phase >= 2), (self.enforce_scope or phase >= 2), (self.hard_budgets or phase >= 2)
         send_audiences = ("named", "group")
         if self.strict_args:
             bad = validate_args(tool, args)
             if bad: deny = f"malformed call: {bad}"
+        cred = self._credential_use(args); cred_fields = {"credential": cred} if cred else {}          # round twelve: a credential in ANY argument that was not minted for this task
+        if cred == "decoy": deny, decoy = deny or "blocked: a credential not minted for this task", True
+        elif cred == "unminted" and self.credential_wall and deny is None: deny = "blocked: a credential not minted for this task"
         if deny is None and eff_scope and cls not in (self.sc.get("manifest") or []): deny = f"out of scope: {cls} is not in this task's manifest"            # the manifest is a wall, not a tripwire
-        if deny is None and self.plane is not None and tool in HIGH_RISK_TOOLS and not self.plane.consume(tool, args): deny = "needs a second approver: no grant on the operator plane"
+        approval_fields: Dict[str, Any] = {}
+        if deny is None and self.plane is not None and tool in HIGH_RISK_TOOLS:
+            g_ = self.plane.consume(tool, args)
+            if g_ is None: deny = "needs a second approver: no grant on the operator plane"
+            else: approval_fields = {"approval_id": g_["grant_id"], "approval_digest": g_["digest"], "call_digest": call_digest(tool, args)}
 
         if tool == "read_doc":
             doc = self.sc.get("docs", {}).get(str(args.get("name", "")))
@@ -490,12 +642,13 @@ class Gateway:
         ev = self._log("action_event", effect_id=eid, subject=self._subject(cls), capability=cap, outcome="denied" if deny else ("staged" if stage else "allowed"),
                        claimed_origin=claimed, cause_id=cause, task_id=self.task_id, destination_class=dest_class, sensitivity=sens, resource_ref=resource, tool=tool, reversibility=("held" if stage else rev), **lease_fields,
                        **({"egress_chars": egress} if egress is not None else {}), **({"audience": audience_of(tool, args, self.tables)} if audience_of(tool, args, self.tables) else {}),
-                       **({"denial_reason": deny} if deny else {}), **({"decoy": True} if decoy else {}),
+                       **({"denial_reason": deny} if deny else {}), **({"decoy": True} if decoy else {}), tool_def_sha256=tool_def_hash(tool, self.tool_defs), **cred_fields, **approval_fields,
+                       **({"parent_call_id": self.parent_call_id, "principal_chain": list(self.principal_chain)} if self.parent is not None else {}),
                        **({"render": "untrusted-envelope"} if tool == "send_report" and audience_of(tool, args, self.tables) in PEOPLE_AUDIENCES else {}),
                        **({"canonical_ref": canonical_ref(str(args.get("url", "")), self.tables["mirrors"] if self.tables else None), "known_resource": str(args.get("url", "")) in self.sc.get("web", {})} if tool in ("http_get", "web_cache") else {}))
         if deny:
             if tool == "http_get": self.denied_urls[canonical_ref(str(args.get("url", "")), self.tables["mirrors"] if self.tables else None)] = eid; self.denied_raw.add(str(args.get("url", "")))
-            if decoy: self._strike(4, "decoy destination touched")                                                          # greed is punished at once, as for the decoy document
+            if decoy: self._strike(4, "decoy touched")                                                                      # greed is punished at once, as for the decoy document
             elif is_security_denial(deny) and not deny.startswith("locked down"): self._strike(1, deny)                  # probing costs: a refusal of a security wall is a strike
             return "DENIED: not permitted." if (self.opaque_denials and (is_security_denial(deny) or phase >= 2)) else f"DENIED: {deny}"      # after the second strike an ordinary error is opaque too: the attacker cannot tell a wall from a whiff
         if stage:                                                                       # telegraph + window: the effect is held, a stop inside the window cancels it

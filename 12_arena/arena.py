@@ -26,7 +26,8 @@ STATUSES = {"tested", "implemented", "roadmap"}
 # fields the gateway assigns or derives from its own tables; a counter may read only these (HARDENING H1)
 GATEWAY_FIELDS = {"waited", "lease_epoch", "watts", "approver_classes", "reversibility", "destination_class", "sensitivity", "capability", "capability_class", "outcome", "resource_ref", "cause_id", "channel_class", "egress_chars", "max_egress_chars",
                   "max_actions", "task_id", "assigned_by_class", "approved_by_class", "actor_class", "registered_by_class", "consumed_as", "ts", "seq", "gateway_id", "subject",
-                  "stop_id", "effect_id", "tool", "audience", "canonical_ref", "level", "object_id", "actor", "approved_by", "decoy", "denial_reason"}
+                  "stop_id", "effect_id", "tool", "audience", "canonical_ref", "level", "object_id", "actor", "approved_by", "decoy", "denial_reason",
+                  "prompt_origin", "origin_tier", "inert", "host", "credential", "tool_def_sha256", "approval_id", "approval_digest", "call_digest", "parent_call_id", "principal_chain", "config_surface_sha256", "baseline_sha256", "canary", "review_s", "applied"}
 MODEL_AUTHORED = {"because", "claimed_origin", "rationale", "reply", "finish", "text", "witness", "summary", "quote", "justification", "reason_given"}
 REACH_KINDS = {"CR_SLOPE", "CR_SUSTAINED", "CAPABILITY_STEP", "CAMPAIGN_FANOUT"}
 STOP_KINDS = {"CONTINUED_AFTER_STOP", "ACTUATOR_SILENT", "ACTUATOR_MISMATCH"}

@@ -40,7 +40,7 @@ class GlitchToolsExecutor(ToolsExecutor):
             args = dict(call.args) if isinstance(call.args, dict) else {}
             if call.function not in {t.name for t in runtime.functions.values()}:
                 results.append(ChatToolResultMessage(role="tool", content=[text_content_block_from_string("")], tool_call_id=call.id, tool_call=call, error=f"Invalid tool {call.function} provided.")); continue
-            allowed, why = self.gw.decide(call.function, args)
+            allowed, why = self.gw.decide(call.function, args, tool_def=runtime.functions.get(call.function))
             if not allowed:
                 results.append(ChatToolResultMessage(role="tool", content=[text_content_block_from_string("")], tool_call_id=call.id, tool_call=call, error=f"DENIED by the gateway: {why}")); continue
             result, error = runtime.run_function(env, call.function, call.args); text = self.output_formatter(result)

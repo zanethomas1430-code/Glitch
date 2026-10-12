@@ -40,7 +40,7 @@ The adversary reads a sensitive document and sends a rewrite with no label and n
 
 ## 5. The board today
 
-27 chains, 92 adversary moves, 92 counters (88 tested, 2 implemented, 2 roadmap). **3 FLOOR, 24 RESIDUAL, 0 OPEN.** 39 executable bouts cover all 27 chains. **39 of the 92 counters refuse the call at the gateway; the other 53 detect it afterwards: a flag is not a block.** Read `12_arena/BOARD.txt` for the live table and `STATUS.md` for the evidence behind each claim; this is the summary.
+28 chains, 100 adversary moves, 100 counters (96 tested, 2 implemented, 2 roadmap). **3 FLOOR, 25 RESIDUAL, 0 OPEN.** 40 executable bouts cover all 28 chains. **44 of the 100 counters refuse the call at the gateway; the other 56 detect it afterwards: a flag is not a block.** Read `12_arena/BOARD.txt` for the live table and `STATUS.md` for the evidence behind each claim; this is the summary.
 
 | ends | chains |
 |---|---|
@@ -130,7 +130,7 @@ The adaptive adversary was re-run against the fixed defender: three runs of `loc
 
 ## 12. Combos
 
-A fighting game is also a game of guesses: conditioning, mix-ups, the same move from the other side, option selects. Chain XA-27 and bout B39 play each of those through the real gateway and ask whether a wall ever guesses; `00_docs/FIGHTING_GAME.md` is the table, and the one it loses to is the option select aimed at the human reader. The defender then gets the same tools: a planted decoy destination whose refusal reads like any other (the table has teeth), and refusals that all look the same after the second strike (a wall looks like a whiff).
+A fighting game is also a game of guesses: conditioning, mix-ups, the same move from the other side, option selects. Chain XA-27 and bout B39 play each of those through the real gateway and ask whether a wall ever guesses; `00_docs/FIGHTING_GAME.md` is the table, and the one it loses to is the option select aimed at the human reader. The defender then gets the same tools: a planted decoy destination whose refusal reads like any other (the table has teeth), and refusals that all look the same after the second strike (a wall looks like a whiff). Chain XA-28 and bout B40 replay the 2026 incident record (`00_docs/HARDENING.md`, round twelve): forged prompt channels, render-time egress, found credentials, rug-pulled tool definitions, spent approvals, rewritten rules and mistyped paths, each with the vendors' failed fix as the mutant.
 
 A fighting game is not won by single moves. The arena so far answered each move on its own chain; a combo chains moves from *different* chains, where the early moves do not reach the goal and instead break something a later counter relies on. Two tools, both over the real gateway:
 

@@ -51,6 +51,16 @@ Invariants (each violation names its kind, its ref, and the fields it read):
   I18 (opt-in)  an agent-SDK hook (a second writer on the agent's own host) and the gateway disagree about which calls were made; a tool result delivered with no gateway decision
                                                                                           HOOK_SAW_UNRECORDED_CALL, GATEWAY_ACTED_WITHOUT_HOOK, UNGATED_TOOL_RESULT
   I2c (opt-in)  an allowed write must be justified by a human input that names what it touches                                   CAUSE_DOES_NOT_NAME_ACTION
+  I19 (opt-in)  an allowed write whose cause is a human message the host received through a link, a URL parameter, a webhook or a template slot (not typed)
+                                                                                          UNTYPED_PROMPT_WROTE
+  I20 (opt-in)  a network witness (resolver or proxy) saw a flow to a host with no allowed gateway effect to that host in the window before it     NET_FLOW_WITHOUT_GATEWAY_EVENT
+  I21 (opt-in)  an allowed action carried a credential the operator never minted for the task (found, inherited, or a planted decoy)                CREDENTIAL_NOT_MINTED
+  I22 (opt-in)  a tool's definition hash changed between two calls with no approved tool-definition change on the operator plane between them     TOOL_DEF_DRIFT
+  I23 (opt-in)  an approval spent twice; an action whose digest is not the one its approval was bound to; a child task whose manifest is wider than its parent's
+                                                                                          APPROVAL_REUSED, APPROVAL_DIGEST_MISMATCH, CHILD_WIDER_THAN_PARENT
+  I24 (opt-in)  a task started under a configuration surface that differs from the signed baseline with no signed baseline change between         CONFIG_SURFACE_DRIFT
+  I25 (opt-in)  a canary grant (for a call that cannot execute) was approved; or every grant in a run was approved with a median review below the floor
+                                                                                          APPROVALS_RUBBER_STAMPED
   I11 EGRESS    characters sent out by allowed actions beyond the operator-declared max_egress_chars of a task manifest: a covert channel
                 is bounded by metering it, not by hoping to see it                          EGRESS_BUDGET_EXCEEDED
                 is bounded by metering it, not by hoping to see it; with a tenant cap the window is every task of the tenant        TENANT_EGRESS_EXCEEDED
@@ -90,6 +100,16 @@ class HistorianConfig:
     meter_idle_watts: float = 10.0                # I17: at or below this the compute is idle
     meter_grace_s: float = 3.0                    # I17: how long after a stop the draw may take to fall
     require_named_cause: bool = False             # I2c (opt-in): an allowed write must be justified by a human input that names what it touches
+    check_prompt_origin: bool = False             # I19 (opt-in, round twelve): a write caused by an untyped prompt (deeplink, URL parameter, webhook, template) is a finding
+    check_net_witness: bool = False               # I20 (opt-in): the record carries a network witness's own events; each flow needs a gateway effect to that host within net_window_s before it
+    net_window_s: float = 5.0
+    check_credentials: bool = False               # I21 (opt-in): an allowed action marked `credential: unminted` or `decoy` by the gateway
+    check_tool_defs: bool = False                 # I22 (opt-in): a tool's `tool_def_sha256` may change only after an approved `tooldef:<tool>` change on the operator plane
+    check_lineage: bool = False                   # I23 (opt-in): approvals are digest-bound and single-use; a child manifest is a subset of its parent's
+    check_config_surface: bool = False            # I24 (opt-in): a task manifest's config_surface_sha256 must equal the latest signed baseline
+    check_approvals: bool = False                 # I25 (opt-in): canary grants must be refused; a run of approvals faster than approval_min_review_s is rubber-stamping
+    approval_min_review_s: float = 3.0
+    approval_min_n: int = 5
     taint_min_sensitivity: int = 3               # I10: egress to a capture class after reading at or above this level is TAINTED_EGRESS (set above 5 to switch the rule off)
     require_manifest: bool = False               # True: an allowed action with no trusted task manifest in force is NO_MANIFEST (unscoped is suspect)
     forbid_wildcard_manifest: bool = True        # a manifest that names '*' is UNBOUNDED_MANIFEST: everything in scope is no scope
@@ -551,6 +571,106 @@ def i7_latency(violations: List[Dict[str, Any]], events: List[Dict[str, Any]], c
 
 
 # ---- the pass -------------------------------------------------------------------------------------------------
+# ---- round twelve: I19 to I25 (00_docs/HARDENING.md) ------------------------------------------------------------------------------------------------
+def _host_of(ref: Any) -> Optional[str]:
+    r = str(ref or "")
+    if r.startswith("url:"):
+        from urllib.parse import urlparse
+        u = r[4:]; return (urlparse(u if "//" in u else "//" + u).hostname or "").lower() or None
+    if r.startswith("mailto:"): return r.split("@")[-1].lower() if "@" in r else None
+    return None
+
+
+def i19_prompt_origin(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I19 PROMPT ORIGIN: the host records where a human message came from. A write-class action whose cause is a human message that was not typed (it arrived in a deeplink, a URL parameter, a
+    webhook or a template slot) is UNTYPED_PROMPT_WROTE: the 'user's prompt' may have been written by whoever built the link (Reprompt, SearchLeak, RovoBlast, PromptFiction, the Cline issue title)."""
+    origin = {e["input_id"]: e.get("prompt_origin", "typed") for e in events if e["type"] == "input_event" and e.get("channel_class") == HUMAN_CHANNEL}
+    out = []
+    for e in sorted(events, key=lambda x: x["ts"]):
+        if e["type"] != "action_event" or not _allowed(e) or e.get("capability") != "write": continue
+        o = origin.get(e.get("cause_id"))
+        if o and o != "typed": out.append(_v("I19", "UNTYPED_PROMPT_WROTE", e["effect_id"], e["ts"], ["cause_id", "capability", "outcome"], prompt_origin=o, tool=e.get("tool")))
+    return out
+
+
+def i20_net_witness(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I20 THE NETWORK WITNESS: a resolver or proxy outside the agent's process records every host it reached. Each flow must be explained by an allowed gateway effect to that host within
+    `net_window_s` before it; a flow with none is NET_FLOW_WITHOUT_GATEWAY_EVENT (an image fetched at render time, a DNS channel, a process the gateway never saw)."""
+    effects = [(e["ts"], _host_of(e.get("resource_ref"))) for e in events if e["type"] == "action_event" and _allowed(e)]
+    out = []
+    for n in sorted((x for x in events if x["type"] == "net_event"), key=lambda x: x["ts"]):
+        if not any(h == n.get("host") and n["ts"] - cfg.net_window_s <= ts <= n["ts"] for ts, h in effects):
+            out.append(_v("I20", "NET_FLOW_WITHOUT_GATEWAY_EVENT", f"{n.get('host')}@{n['ts']}", n["ts"], ["host", "ts"], host=n.get("host")))
+    return out
+
+
+def i21_credentials(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I21 CREDENTIALS: the gateway marks any call whose arguments carry a credential (in any encoding) that the operator did not mint for the task. An ALLOWED such call is CREDENTIAL_NOT_MINTED:
+    the agent used something it found or inherited (PocketOS, Kiro, Amazon Q) or a planted decoy."""
+    return [_v("I21", "CREDENTIAL_NOT_MINTED", e["effect_id"], e["ts"], ["credential", "outcome"], credential=e.get("credential"), tool=e.get("tool"))
+            for e in sorted(events, key=lambda x: x["ts"]) if e["type"] == "action_event" and _allowed(e) and e.get("credential") in ("unminted", "decoy")]
+
+
+def i22_tool_defs(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I22 DEFINITION DRIFT: every call carries the hash of the tool's definition as the gateway saw it. The hash for a tool may change only after an applied, two-person `tooldef:<tool>` change
+    on the operator plane; any other change is TOOL_DEF_DRIFT (Deadbugz flipped its tool list on the third call; postmark-mcp shipped fifteen clean versions, then one that BCC'd)."""
+    out, last = [], {}
+    for e in sorted(events, key=lambda x: x["ts"]):
+        if e["type"] == "config_event" and str(e.get("object_id", "")).startswith("tooldef:") and e.get("applied") and _is_human(e.get("approved_by_class")) and e.get("approved_by") != e.get("actor"):
+            last.pop(e["object_id"][len("tooldef:"):], None)                                  # an approved change: the next hash is the new baseline
+        elif e["type"] == "action_event" and e.get("tool_def_sha256"):
+            t, h = e.get("tool"), e["tool_def_sha256"]
+            if t in last and last[t] != h: out.append(_v("I22", "TOOL_DEF_DRIFT", f"{t}@{e['ts']}", e["ts"], ["tool", "tool_def_sha256"], tool=t, was=last[t], now=h))
+            last[t] = h
+    return out
+
+
+def i23_lineage(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I23 LINEAGE: an approval is bound to one call's digest and spent once (APPROVAL_REUSED when two allowed actions cite the same grant; APPROVAL_DIGEST_MISMATCH when the action's digest is
+    not the one the grant was bound to), and a child task's manifest is a subset of its parent's (CHILD_WIDER_THAN_PARENT). PipeLeak persisted on sub-agents after the parent was fixed."""
+    out, seen, grants = [], {}, {}
+    for e in events:
+        if e["type"] == "config_event" and e.get("grant_id"): grants[e["grant_id"]] = e.get("digest")
+    for e in sorted(events, key=lambda x: x["ts"]):
+        if e["type"] == "action_event" and _allowed(e) and e.get("approval_id"):
+            a = e["approval_id"]
+            if a in seen: out.append(_v("I23", "APPROVAL_REUSED", e["effect_id"], e["ts"], ["approval_id", "outcome"], approval_id=a, first=seen[a]))
+            seen.setdefault(a, e["effect_id"])
+            if e.get("call_digest") and grants.get(a) and e["call_digest"] != grants[a]: out.append(_v("I23", "APPROVAL_DIGEST_MISMATCH", e["effect_id"], e["ts"], ["approval_id", "approval_digest", "call_digest"], approval_id=a))
+    manifests = {e["task_id"]: e for e in events if e["type"] == "task_manifest"}
+    for e in manifests.values():
+        par = manifests.get(e.get("parent_task_id"))
+        if par is not None and not set(e.get("classes", [])) <= set(par.get("classes", [])):
+            out.append(_v("I23", "CHILD_WIDER_THAN_PARENT", e["task_id"], e["ts"], ["task_id", "parent_task_id", "classes"], extra=sorted(set(e.get("classes", [])) - set(par.get("classes", [])))))
+    return out
+
+
+def i24_config_surface(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I24 CONFIGURATION SURFACE: a task manifest carries the hash of everything that decides what the agent may do, and the latest signed baseline. They must match, unless a two-person
+    `baseline` change was applied before the task started. Drift means the agent, or a file the host auto-loaded, rewrote the rules (bypassPermissions in settings, a rewritten mcp.json, a removed hook)."""
+    out, baseline = [], None
+    for e in sorted(events, key=lambda x: x["ts"]):
+        if e["type"] == "config_event" and e.get("object_id") == "baseline" and e.get("applied") and _is_human(e.get("approved_by_class")) and e.get("approved_by") != e.get("actor"): baseline = e.get("baseline_sha256")
+        elif e["type"] == "task_manifest" and e.get("config_surface_sha256"):
+            want = e.get("baseline_sha256") or baseline
+            if want and e["config_surface_sha256"] != want: out.append(_v("I24", "CONFIG_SURFACE_DRIFT", e["task_id"], e["ts"], ["config_surface_sha256", "baseline_sha256"], surface=e["config_surface_sha256"], baseline=want))
+    return out
+
+
+def i25_approvals(events: List[Dict[str, Any]], cfg: HistorianConfig) -> List[Dict[str, Any]]:
+    """I25 THE APPROVER: a canary grant (a request for a call that cannot execute) that was approved is APPROVALS_RUBBER_STAMPED, and so is a run of at least `approval_min_n` grants all
+    approved with a median review time under `approval_min_review_s`. Approval fatigue is the weakest wall in the 2026 record (OWASP ASI09)."""
+    out, times = [], []
+    for e in sorted(events, key=lambda x: x["ts"]):
+        if e["type"] != "config_event" or not str(e.get("object_id", "")).startswith("grant:"): continue
+        if e.get("canary") and e.get("applied"): out.append(_v("I25", "APPROVALS_RUBBER_STAMPED", e.get("grant_id") or e["ts"], e["ts"], ["canary", "applied", "approved_by"], approved_by=e.get("approved_by")))
+        if e.get("applied") and e.get("review_s") is not None: times.append(float(e["review_s"]))
+    if len(times) >= cfg.approval_min_n:
+        med = sorted(times)[len(times) // 2]
+        if med < cfg.approval_min_review_s: out.append(_v("I25", "APPROVALS_RUBBER_STAMPED", "window", 0.0, ["review_s", "applied"], median_review_s=med, n=len(times)))
+    return out
+
+
 def examine(events: Iterable[Dict[str, Any]], cfg: Optional[HistorianConfig] = None) -> Dict[str, Any]:
     cfg = cfg or HistorianConfig(); events = list(events)
     gaps = i0_complete(events)
@@ -559,7 +679,9 @@ def examine(events: Iterable[Dict[str, Any]], cfg: Optional[HistorianConfig] = N
     v1 = [_v("I1", x["kind"], x["stop_id"], stop_ts[x["stop_id"]], ["subject", "ts", "stop_id", "outcome"], **{k: x[k] for k in x if k not in ("kind", "stop_id")}) for x in stop["violations"]]
     v2, t2 = i2_origin(events, cfg); v2 = v2 + i2b_non_human_input(events, cfg); v3 = i3_identity(events); v4 = i4_self_edit(events); v5, t5 = i5_sink(events, cfg); v6 = i6_handoff(events); v8, scope = i8_scope(events, cfg); v9, surface = i9_budget(events, cfg); v8, scope = i8_scope(events, cfg)
     v10, t10 = i10_taint(events, cfg, {v["ref"] for v in v5}); v11, egress = i11_egress(events, cfg); surface = {**surface, **egress}; v12 = i12_two_person(events, cfg); v2c = i2c_named_cause(events, cfg) if cfg.require_named_cause else []; v13 = i13_loosened_then_used(events, cfg); v14 = i14_boss(events, cfg); v15 = i15_reversibility(events, cfg) if cfg.check_reversibility else []; v16 = i16_lease(events, cfg) if cfg.check_lease else []; v17 = i17_meter(events, cfg) if cfg.check_meter else []; v18 = i18_hook_witness(events, cfg) if cfg.check_hook_witness else []; v8c = i8c_manifest_slack(events, cfg) if cfg.lint_manifest else []
-    primary = v1 + v2 + v3 + v4 + v5 + v6 + v8 + v9 + v10 + v11 + v12 + v2c + v13 + v14 + v15 + v16 + v17 + v18 + v8c
+    v19 = i19_prompt_origin(events, cfg) if cfg.check_prompt_origin else []; v20 = i20_net_witness(events, cfg) if cfg.check_net_witness else []; v21 = i21_credentials(events, cfg) if cfg.check_credentials else []
+    v22 = i22_tool_defs(events, cfg) if cfg.check_tool_defs else []; v23 = i23_lineage(events, cfg) if cfg.check_lineage else []; v24 = i24_config_surface(events, cfg) if cfg.check_config_surface else []; v25 = i25_approvals(events, cfg) if cfg.check_approvals else []
+    primary = v1 + v2 + v3 + v4 + v5 + v6 + v8 + v9 + v10 + v11 + v12 + v2c + v13 + v14 + v15 + v16 + v17 + v18 + v8c + v19 + v20 + v21 + v22 + v23 + v24 + v25
     v7 = i7_latency(primary, events, cfg) if cfg.require_alerts else []
     violations = gaps + primary + v7
     return {"provable": not gaps, "scope": scope, "surface": surface, "violations": violations, "triage": t2 + t5 + t10, "by_kind": dict(Counter(v["kind"] for v in violations)),

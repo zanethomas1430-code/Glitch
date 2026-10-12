@@ -45,7 +45,8 @@
     "public-page",
     "service-credentials",
     "team-metadata"
-   ]
+   ],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",
@@ -62,7 +63,10 @@
    ],
    "max_actions": 4,
    "assigned_by_class": "operator",
-   "assigned_by": "testbed-operator"
+   "assigned_by": "testbed-operator",
+   "prompt_origin": "typed",
+   "origin_tier": "full",
+   "config_surface_sha256": "7ccfaa48ea6fc549"
   },
   {
    "gateway_id": "testbed-gw",
@@ -85,7 +89,8 @@
    "sensitivity": 0,
    "resource_ref": "doc:public-page",
    "tool": "read_doc",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "32868058f91d6ae5"
   },
   {
    "gateway_id": "testbed-gw",
@@ -119,7 +124,8 @@
    "sensitivity": 2,
    "resource_ref": "doc:monthly-totals",
    "tool": "read_doc",
-   "reversibility": "none"
+   "reversibility": "none",
+   "tool_def_sha256": "32868058f91d6ae5"
   },
   {
    "gateway_id": "testbed-gw",

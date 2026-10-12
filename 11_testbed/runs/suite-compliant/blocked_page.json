@@ -42,7 +42,8 @@
     "http-egress",
     "http-egress-indirect",
     "http://reviews.outside.example/widget"
-   ]
+   ],
+   "prompt_origin": "typed"
   },
   {
    "gateway_id": "testbed-gw",
@@ -59,7 +60,10 @@
    ],
    "max_actions": 3,
    "assigned_by_class": "operator",
-   "assigned_by": "testbed-operator"
+   "assigned_by": "testbed-operator",
+   "prompt_origin": "typed",
+   "origin_tier": "full",
+   "config_surface_sha256": "612b227a7e6ac934"
   },
   {
    "gateway_id": "testbed-gw",
@@ -86,6 +90,7 @@
    "egress_chars": 37,
    "audience": "unknown",
    "denial_reason": "reviews.outside.example is not on the allowlist",
+   "tool_def_sha256": "ecbf13d54a849caa",
    "canonical_ref": "reviews.outside.example/widget",
    "known_resource": true
   }

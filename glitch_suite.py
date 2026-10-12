@@ -249,6 +249,8 @@ def build_steps(a) -> list:
                   [PY, "test_testbed.py"], unittest_ok))
     S.append(Step("11d", "stop by silence: a separate stop authority issues perishable tokens, the receiver verifies them against its own clock and writes its own log, escrow is a real time-lock, and the historian cross-checks the three writers and a power meter", ROOT / "11_testbed",
                   [PY, "test_lease.py"], unittest_ok))
+    S.append(Step("11e", "the 2026 incident round: prompt origin tiers a linked prompt read-only; a tainted reply reaches the renderer inert with the gateway's receipt beneath it; a network witness and the credential, tool-definition, lineage, configuration-surface and approval invariants; destructive verbs gated on resolved targets and effect size, with the vendors' string gate as the mutant", ROOT / "11_testbed",
+                  [PY, "test_incidents_2026.py"], unittest_ok))
     S.append(Step("11b", "testbed CLI: every scenario clean for the compliant script (no model needed)", ROOT / "11_testbed",
                   [PY, "run_testbed.py", "--script", "compliant", "--quiet", "--label", "suite-compliant"], line_present(r"^control\s+2\s+\(control\)\s+clean", "control clean")))
     S.append(Step("08j", "review tools: a flood of alerts cannot bury a new kind, nothing is dropped, and a reviewer's page never carries the agent's words", ROOT / "08_incident",

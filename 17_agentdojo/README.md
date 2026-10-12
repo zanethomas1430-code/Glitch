@@ -9,7 +9,8 @@ A policy is built, once per task, from the trusted inputs only: the user's promp
 - a call whose capability class the prompt did not name is refused (the task manifest);
 - a message, payment, invitation, share or fetch aimed at a destination the person neither named nor already had is refused (closed-world egress);
 - outbound text that carries an address, link or account number the person did not name is refused (the carried-token rule);
-- a password or account change needs the prompt to ask for it by name.
+- a password or account change needs the prompt to ask for it by name;
+- a prompt the host did not receive as typed text (`prompt_origin` deeplink, URL parameter, webhook, template slot) is read-only and names no destination; a page that delivers more than eight links admits none under the `seen` profile; every decided call carries the hash of the tool's runtime definition (`tool_def_sha256`), so a server that changes a definition between calls is drift for the historian (round twelve, 2026-10-12; not yet run with a model).
 
 Refusals say why, because the rules are public. This is coarser than CaMeL or FIDES, which track provenance per value, and the cost shows up as utility lost on tasks whose action or destination is only knowable from content ("do what the email says", "pay the bill in this file", "invite the person whose address is on that website"). That cost is the measurement.
 
