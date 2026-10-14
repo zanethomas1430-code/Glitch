@@ -10,7 +10,7 @@ AI agents now act: they send messages, fetch pages, edit settings, hand notes to
 
 - **A historian**: invariants over a structured log (completeness, stop, origin, scope, budget, taint, audience, egress, a two-person rule), reading only fields the gateway assigns.
 - **A testbed** that puts real models in a fake world behind that gateway (8 models so far), with every harness defect those runs exposed logged and withdrawn in place (17 defects).
-- **An arena**: every adversary move on a board with its counter, the attack on that counter, and the counter to that, each chain ending on a declared floor, a bound, or an open item (28 chains, 100 counters, executable bouts for most). Of those counters, 44 refuse a call at the gateway; the rest detect it afterwards, and the board says so.
+- **An arena**: every adversary move on a board with its counter, the attack on that counter, and the counter to that, each chain ending on a declared floor, a bound, or an open item (29 chains, 103 counters, executable bouts for most). Of those counters, 46 refuse a call at the gateway; the rest detect it afterwards, and the board says so.
 - **A drift guard** (the original system): an external harness that scores each turn against a purpose the model cannot move.
 
 ## What the evidence shows

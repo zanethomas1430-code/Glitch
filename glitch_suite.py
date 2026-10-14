@@ -324,6 +324,8 @@ def build_steps(a) -> list:
     S.append(Step("10", "guard version history (listing only)", ROOT / "10_history",
                   [PY, "-c", "import os; print(len([f for f in os.listdir('guard_lineage') if f.startswith('alignment_guard_v')]))"],
                   always_info(lineage_listing()), info=True))
+    S.append(Step("18", "the escape-evident cell: a generated sandbox profile verifies (deny by default, one write root, one gateway socket, no TCP/UDP, no credential env); inside a real sandbox-exec cell every escape category is denied and every control allowed; a permissive profile (the mutant) lets the same call reach the network; escape-evident, not inescapable, with residuals named", ROOT / "18_cell",
+                  [PY, "test_cell.py"], unittest_ok))
     return sorted(S, key=lambda st: (int(st.id[:2]), st.id))   # print and run in folder order
 
 

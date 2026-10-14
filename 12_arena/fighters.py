@@ -13,6 +13,16 @@ import boss as BO
 import mixups as MX
 
 
+def _C():
+    """The cell module (18_cell/cell.py): profile generation and the static verifier. The arena checks the profile by CONSTRUCTION (instant, deterministic); the live sandbox run is step 18, not played here."""
+    import importlib, sys as _s
+    _s.path.insert(0, _os.path.join(_R, "18_cell")); return importlib.import_module("cell")
+def _cellv():
+    C = _C(); return {f.rule: f for f in C.verify(C.default_spec())}
+def _cred_spec():
+    C = _C(); sp = C.default_spec(); sp.env_allowed = sp.env_allowed + ["AWS_SECRET_ACCESS_KEY"]; return sp
+
+
 def _r12():
     """The 2026 incident round's tests, played as beats: each is a real gateway + historian run (11_testbed/test_incidents_2026.py)."""
     import importlib, sys as _s
@@ -281,6 +291,14 @@ BOUTS.update({
    check("MUTANT: a plane that matches grants by tool only lets one approval be spent on another call, and I23 catches it", lambda: _r12().Lineage("test_mutant_a_plane_that_matches_grants_by_tool_only_lets_the_approval_be_spent_elsewhere_and_I23_catches_it").run().wasSuccessful(), wins=True),
    check("the vendors' string gate passes the alias forms that the resolved gate refuses", lambda: _r12().ResolveThenGate("test_mutant_the_vendors_string_gate_passes_the_alias_forms_the_resolved_gate_refuses").run().wasSuccessful(), wins=True),
    check("the BOUND: with the network witness off, a render-time fetch is invisible to the record", lambda: _r12().NetworkWitness("test_LIMIT_the_witness_is_off_by_default_and_without_it_a_render_time_fetch_is_invisible").run().wasSuccessful(), wins=True),
+ ]},
+ "B41": {"chain": "XA-29", "name": "Reach the world by a route the gateway never sees", "beats": [
+   check("the generated profile is deny-by-default and its one outbound door is the gateway socket (no TCP, no UDP, no inbound)", lambda: (lambda v: v["deny-by-default"].ok and v["one-door"].ok and v["no-ip-network"].ok)(_cellv())),
+   check("exactly one write root, and no credential-bearing variable passed into the cell", lambda: (lambda v: v["one-write-root"].ok and v["no-credentials-in-env"].ok)(_cellv())),
+   check("a wide-open spec (write root '/') produces a profile that would let the write land: the box is only as good as its spec", lambda: '(subpath "/")' in _C().build_profile(_C().CellSpec(work="/", gateway_socket="/run/g.sock")), wins=True),
+   check("the verifier catches that wide spec and a credential-bearing environment", lambda: not _C().ok(_C().CellSpec(work="/", gateway_socket="/run/g.sock")) and not _C().ok(_cred_spec())),
+   check("the cell names the five residuals it cannot close and is called escape-evident, not inescapable", lambda: len(_C().RESIDUALS) >= 5 and "not inescapable" in _C().report().lower()),
+   check("the BOUND: the live proof that a real sandbox-exec cell denies every escape category is step 18 (18_cell/test_cell.py), not played here", lambda: True, wins=True),
  ]},
 })
 

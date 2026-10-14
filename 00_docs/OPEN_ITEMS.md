@@ -27,6 +27,7 @@
 | OI-21 | The network witness on a real resolver or proxy | PARTIAL | janitor (needs a host) |
 | OI-22 | Resolve-then-gate behind a real shell | PARTIAL | janitor |
 | OI-23 | Ownership labels on records | OPEN | unassigned |
+| OI-24 | The cell on a real VM: stop authority in the hypervisor, network witness as the enforcer | PARTIAL | janitor (needs a VM host) |
 
 ## OI-01: Forgery detection for the canonical hash
 
@@ -257,3 +258,13 @@
 **Evidence in this folder.** `00_docs/HARDENING.md`.
 
 **What would close it.** An ownership label on every record in the AgentDojo environment model, a wall over outbound content, and its utility cost measured on the four suites.
+
+## OI-24: The cell on a real VM: stop authority in the hypervisor, network witness as the enforcer
+
+**Status:** PARTIAL. **Owner:** janitor (needs a VM host).
+
+**Where it stands.** 18_cell makes the gateway-only assumption enforced by a deny-by-default sandbox-exec profile on a developer Mac: 7 of 7 escape categories denied, 3 of 3 controls allowed, escape-evident with five named residuals. A deployment needs more: a throwaway VM instead of a profile, the stop authority (11_testbed/lease.py) in the hypervisor so a stop pauses the VM, and the network witness (round twelve) enforcing at the one socket rather than only witnessing.
+
+**Evidence in this folder.** `18_cell/cell.py`, `18_cell/run_cell.py`, `18_cell/test_cell.py`, `18_cell/README.md`.
+
+**What would close it.** The cell as a throwaway VM with the stop authority pausing it and the resolver as the single enforced egress, with the escape corpus run inside it and a utility cost measured.
