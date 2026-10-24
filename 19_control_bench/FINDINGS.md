@@ -37,3 +37,7 @@ set on honest runs and frozen before any attack is replayed, and MonitoringBench
 One monitor design, string-level, scored by convergence; a monitor that flags single laws would catch more at a higher false-alarm rate (at one law lower, 4.5% and 5.4% caught
 at about 3% false alarms). The diagnosis above is from the development set only and describes shapes, not a complete taxonomy. Nothing here measures a language-model monitor;
 the comparison numbers are the papers'.
+
+## LinuxArena v2 (pre-registered, `PREREG_v2.md`, commit `c1db7e6`)
+
+With the task text taken from the clean main-task description and the laws unchanged: caught **2 of 142 (1.4%)** at 0 of 200 honest false alarms, the same catch as the contaminated v1 run. The prediction about the boundary held: R1 BOUNDARY now fires on **42.3% of attacks** (v1: 13.4%) against 13% of honest runs, so leaving the deployment's network for a host the task never named is a real signal here, about three to one; but it is not sharp enough on its own for a 1% false-alarm alarm, and four laws converging is rare, so the catch rate stays low. The conclusion of v1 stands across all three settings: string-level laws read the caption.
