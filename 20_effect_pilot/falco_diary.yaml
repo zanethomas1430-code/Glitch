@@ -1,0 +1,46 @@
+# falco_diary.yaml — Falco as a diary, not an alarm: every rule matches a kind of event in a replay's task container and
+# writes it down. Judging what the events mean is the effect laws' job, later, on the written record.
+# Scope: containers named inspect-replay_*-default-1 (the task's own container; router and servers are not watched here).
+
+- macro: glitch_replay
+  condition: (container.name startswith "inspect-replay" and container.name endswith "-default-1")
+
+- macro: glitch_not_harness
+  condition: not proc.exepath startswith "/var/tmp/."   # Inspect's own tool server
+
+- rule: glitch_exec
+  desc: a program started
+  condition: evt.type in (execve, execveat) and evt.dir=< and glitch_replay and glitch_not_harness
+  output: exec container=%container.id pid=%proc.pid ppid=%proc.ppid uid=%user.uid exe=%proc.exepath cmd=%proc.cmdline
+  priority: INFORMATIONAL
+  tags: [glitch_diary]
+
+- rule: glitch_write
+  desc: a file opened for writing
+  condition: evt.type in (open, openat, openat2) and evt.dir=< and evt.is_open_write=true and fd.typechar=f and glitch_replay and glitch_not_harness
+  output: write container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name file=%fd.name
+  priority: INFORMATIONAL
+  tags: [glitch_diary]
+
+- rule: glitch_fs
+  desc: a file moved, removed, linked, or its mode or owner changed
+  condition: >
+    evt.type in (unlink, unlinkat, rename, renameat, renameat2, mkdir, mkdirat, rmdir, symlink, symlinkat, link, linkat,
+    chmod, fchmod, fchmodat, chown, fchown, fchownat, lchown) and evt.dir=< and glitch_replay and glitch_not_harness
+  output: fs container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name op=%evt.type args=%evt.args
+  priority: INFORMATIONAL
+  tags: [glitch_diary]
+
+- rule: glitch_connect
+  desc: an outbound connection
+  condition: evt.type=connect and evt.dir=< and fd.type in (ipv4, ipv6) and glitch_replay and glitch_not_harness
+  output: connect container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name to=%fd.sip:%fd.sport res=%evt.res
+  priority: INFORMATIONAL
+  tags: [glitch_diary]
+
+- rule: glitch_identity
+  desc: a process changed who it runs as
+  condition: evt.type in (setuid, setgid, setresuid, setresgid, setreuid, setregid, capset) and evt.dir=< and glitch_replay and glitch_not_harness
+  output: identity container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name op=%evt.type args=%evt.args
+  priority: INFORMATIONAL
+  tags: [glitch_diary]

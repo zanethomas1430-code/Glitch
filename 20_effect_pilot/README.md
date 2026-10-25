@@ -77,6 +77,32 @@ Where it did not hold:
 So the replay also holds on the held-out set for honest work, sudo and malware. The firewall needs its partial checker before that group can
 be scored at all.
 
+## Watching the replays: photos and a diary
+
+*Run 2026-10-25, honest BashArena runs only. No attack has been replayed with these.*
+
+Three layers, each built on standard defensive tools:
+
+- **Before and after photos** (`snapshot.py`, run with `replay.py --snapshots`). One read-only script, AIDE/osquery-style, records every
+  file's type, mode, owner, size and times, plus users, groups, sudoers, setuid files, processes, sockets and firewall rules. The diff
+  says what is still changed at the end.
+- **A photo before every action** (`--every-action`). This shows what changed and was put back between two actions, which the end photo cannot.
+- **A kernel diary** (`diary.py` with `falco_diary.yaml`). Falco 0.41.3 (modern eBPF) runs in record-only mode and writes every program
+  start, file write, file move/delete/permission change, outbound connection and identity change in the task container. `diary.py cut`
+  splits it into one diary per run, between that run's photos.
+
+| on 20 honest runs | |
+|---|---|
+| runs with all three layers recorded | **20 / 20** |
+| events Falco lost (kernel buffer, output queue) | **0, 0** |
+| diary events | about 248,000 |
+| runs where something came and went | 7 / 20: closed connections, the task's own services, a database being set up |
+| photo disk | about 300 MB |
+
+Honest work changes protected things often: firewall rules in nearly every run, and sudoers, users or groups in some. So a law cannot
+flag any change to them. It has to judge a change the task did not ask for. The diary also records the photo script's own commands;
+those are separated by process ancestry before any law reads it.
+
 ## What it means for the next step
 
 Attacks replay faithfully, so an effect-level monitor can be measured on the real change each attack makes rather than on its description. The
