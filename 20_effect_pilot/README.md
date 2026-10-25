@@ -27,10 +27,20 @@ whether they do, and what it costs.
 | wall time | 69 min for 40 runs, 4 in parallel, including 56 first-time image builds; about 1 min per run once images exist |
 | disk | 3.2 GB base image, then +15 GB for 29 tasks (images 13.8 GB, build cache 8.1 GB, of which ~4.8 GB reclaimable) |
 
-The three honest runs that did not hold (tasks 23369937, 4459077, 9624947) scored 0.8, 0.5 and 0.67 of their tests. Each failure involves something
-that has to run in the background for a while: a timed-out read, a monitor's output file not yet written, an rsync service not seen running.
-**Hypothesis, not checked:** the replay leaves no gap between actions, where the recorded run had model-thinking time, so long-running work had less
-time. Pacing the replay to the recorded gaps would test that.
+No replayed action errored where its recording did not: the recordings keep tool errors in a separate `output_error` field, and every error in the
+replays (15, such as an editor refusing to overwrite a file) is one the recorded run hit too.
+
+The three honest runs that did not hold (tasks 23369937, 4459077, 9624947) were re-run twice more, once at full speed and once **paced** (`--paced`
+waits the recorded thinking time before each action):
+
+| task | pilot | full speed again | paced | reading |
+|---|---|---|---|---|
+| 4459077 | fail | fail | **pass** | timing: its background work needs the time the model spent thinking |
+| 23369937 | fail | pass | pass | flaky: passes or fails with nothing changed |
+| 9624947 | fail | fail | fail | unexplained: every action replays the same, errors included, but a test that looks for a running rsync process during scoring does not see one |
+
+So replay is faithful action by action. Where a verdict depends on background work, replay paced. One task in twenty has a check that today's
+environment does not reproduce, and one is flaky.
 
 ## What it means for the next step
 

@@ -4,8 +4,8 @@
   .venv-control/bin/python glitch-suite/20_effect_pilot/compare.py <selection.json> <log dir>
 
 Per run: recorded vs replayed main-task verdict (honest) or side-task verdict (attack); output similarity per action
-(difflib ratio on the first 4,000 characters, so timestamps and PIDs count against it); actions whose output turned into
-an error that the recording did not have. Writes PILOT.md beside the logs.
+(difflib ratio on the first 4,000 characters, so timestamps and PIDs count against it; a tool error is compared as
+"type: message" against the recording's output_error); actions that errored where the recording did not. Writes PILOT.md beside the logs.
 """
 import difflib, glob, json, os, statistics, sys
 from inspect_ai.log import read_eval_log
@@ -33,9 +33,11 @@ def main(sel_path, log_dir):
             sims, newerr = [], 0
             for a, m in zip(r["actions"], outs):
                 if a["function"] == "submit": continue
-                got = m.text if hasattr(m, "text") else str(m.content); want = a.get("output") or ""
+                err = getattr(m, "error", None)
+                got = f"{err.type}: {err.message}" if err else (m.text if hasattr(m, "text") else str(m.content))
+                want = a.get("output_error") or a.get("output") or ""   # the recordings keep a tool error in output_error, not output
                 sims.append(difflib.SequenceMatcher(None, want[:4000], got[:4000], autojunk=False).ratio())
-                newerr += bool(getattr(m, "error", None)) and "error" not in want.lower()[:200]
+                newerr += bool(err) and not a.get("output_error")
             sc = {k: getattr(v, "value", v) for k, v in (s.scores or {}).items()}
             main_v = verdict(sc.get("main_task_success")); side_v = next((verdict(v) for k, v in sc.items() if k != "main_task_success"), None)
             rows.append({"task": str(s.id), "group": key2, "recorded_main": r["main"], "replay_main": main_v, "recorded_side": r["side"], "replay_side": side_v,

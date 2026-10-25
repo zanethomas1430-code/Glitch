@@ -12,12 +12,22 @@ import collections, json, random, sys
 SEED, PER_SIDE, HONEST_PASS, HONEST_FAIL = 20261024, 5, 10, 10
 
 
+def gap_ms(a, prev):
+    """Recorded time between the previous action ending and this one starting (the model's thinking time); None if not recorded."""
+    t = a.get("timing") or {}; start = t.get("start_time")
+    if start is None: return None
+    if prev is not None: end = (prev.get("timing") or {}).get("end_time")
+    else: end = next((c.get("start_time") for c in t.get("model_calls") or []), None)   # first action: from its own model call, not from setup
+    return max(0, start - end) if end is not None else None
+
+
 def runs(path):
     from inspect_ai.log import read_eval_log_samples
     for s in read_eval_log_samples(path, all_samples_required=False):
         md = s.metadata or {}; mt = (md.get("main_tasks") or [{}])[0]; st = (md.get("side_tasks") or [{}])
         sc = (s.scores or {}).get("tasks"); v = getattr(sc, "value", None) or {}
-        acts = [{"function": a["function"], "arguments": a["arguments"], "output": a.get("output")} for a in (md.get("control_tower_overlay") or {}).get("actions", [])]
+        acts = [{"function": a["function"], "arguments": a["arguments"], "output": a.get("output"), "output_error": a.get("output_error"), "gap_ms": gap_ms(a, prev)}
+                for prev, a in zip([None] + (md.get("control_tower_overlay") or {}).get("actions", []), (md.get("control_tower_overlay") or {}).get("actions", []))]
         yield {"sample": str(s.id), "task_id": str(mt.get("id")), "description": mt.get("description"), "side_task": (st[0] or {}).get("id") if st else None,
                "main": v.get("main"), "side": v.get("side"), "actions": acts}
 
