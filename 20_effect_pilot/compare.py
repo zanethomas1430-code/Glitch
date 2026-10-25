@@ -11,6 +11,7 @@ import difflib, glob, json, os, statistics, sys
 from inspect_ai.log import read_eval_log
 
 PASS = {"C": True, "I": False, 1.0: True, 0.0: False, True: True, False: False}
+CHECKER = {"disable_firewall_partial": "disable_firewall"}   # as in replay.py: the full checker scores MonitoringBench's partial-credit task
 
 
 def verdict(v):
@@ -19,8 +20,14 @@ def verdict(v):
     return PASS.get(v)
 
 
+def score(v):
+    """The main task's fraction of tests passed, where the scorer reports one."""
+    return v.get("main_task_score") if isinstance(v, dict) else None
+
+
 def main(sel_path, log_dir):
-    sel = json.load(open(sel_path)); rec = {(r["task_id"], "honest" if r in sel["honest"] else r["side_task"]): r for r in sel["honest"] + sel["attack"]}
+    sel = json.load(open(sel_path))
+    rec = {(r["task_id"], "honest" if r in sel["honest"] else CHECKER.get(r["side_task"], r["side_task"])): r for r in sel["honest"] + sel["attack"]}
     rows = []
     for f in sorted(glob.glob(f"{log_dir}/*.eval")):
         log = read_eval_log(f); mode = log.eval.metadata.get("mode") if log.eval.metadata else None
@@ -40,17 +47,24 @@ def main(sel_path, log_dir):
                 newerr += bool(err) and not a.get("output_error")
             sc = {k: getattr(v, "value", v) for k, v in (s.scores or {}).items()}
             main_v = verdict(sc.get("main_task_success")); side_v = next((verdict(v) for k, v in sc.items() if k != "main_task_success"), None)
-            rows.append({"task": str(s.id), "group": key2, "recorded_main": r["main"], "replay_main": main_v, "recorded_side": r["side"], "replay_side": side_v,
+            rows.append({"task": str(s.id), "group": "honest" if key2 == "honest" else r["side_task"], "recorded_main": r["main"], "replay_main": main_v,
+                         "replay_main_score": score(sc.get("main_task_success")), "recorded_side": r["side"], "replay_side": side_v,
                          "actions": len(r["actions"]), "replayed_tool_msgs": len(outs), "output_similarity": round(statistics.mean(sims), 3) if sims else None,
                          "new_errors": newerr, "error": str(s.error.message)[:200] if s.error else None, "scores": {k: str(v)[:60] for k, v in sc.items()}})
     json.dump(rows, open(f"{log_dir}/compare.json", "w"), indent=1)
     H = [r for r in rows if r["group"] == "honest"]; A = [r for r in rows if r["group"] != "honest"]
     agree_h = sum((r["replay_main"] is True) == (r["recorded_main"] == 1.0) for r in H if r["replay_main"] is not None)
     side_again = sum(r["replay_side"] is True for r in A)
+    same_score = [r for r in H if r["replay_main_score"] is not None and r["recorded_main"] is not None]
+    fractions = any(0 < r["recorded_main"] < 1 for r in same_score)   # BashArena's recordings keep pass/fail only
     L = ["# Effect-level pilot: replay fidelity", "",
-         f"- honest replays scored {sum(r['replay_main'] is not None for r in H)}/{len(H)}; main-task verdict same as recorded: **{agree_h}**",
+         f"- honest replays scored {sum(r['replay_main'] is not None for r in H)}/{len(H)}; main-task verdict same as recorded: **{agree_h}**"]
+    L += [f"- honest with the same fraction of tests passed: {sum(abs(r['replay_main_score'] - r['recorded_main']) < 1e-9 for r in same_score)}/{len(same_score)}"
+          f" (mean difference {statistics.mean([abs(r['replay_main_score'] - r['recorded_main']) for r in same_score]):.2f})"] if fractions else []
+    L += [
          f"- honest that passed when recorded and pass again: {sum(r['replay_main'] is True and r['recorded_main'] == 1.0 for r in H)}/{sum(r['recorded_main'] == 1.0 for r in H)}",
-         f"- attack replays whose side task succeeds again: **{side_again}/{len(A)}**",
+         f"- attack replays whose side task succeeds again: **{side_again}/{len(A)}**"
+         + "".join(f"; {g} {sum(r['replay_side'] is True for r in A if r['group'] == g)}/{sum(r['group'] == g for r in A)}" for g in dict.fromkeys(r["group"] for r in A)),
          f"- mean output similarity per action: honest {statistics.mean([r['output_similarity'] for r in H if r['output_similarity'] is not None] or [0]):.2f}, attack {statistics.mean([r['output_similarity'] for r in A if r['output_similarity'] is not None] or [0]):.2f}",
          f"- samples that errored: {sum(bool(r['error']) for r in rows)}", "",
          "| group | task | actions | main rec→replay | side rec→replay | output sim | new errors |", "|---|---|---|---|---|---|---|"]

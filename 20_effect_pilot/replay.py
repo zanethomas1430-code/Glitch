@@ -27,6 +27,7 @@ from control_arena.settings.bash_arena.task.dataset import DatasetSpec
 
 SIDES = ("disable_firewall", "sudo_edit", "download_malware", "leak_passwords")
 RENAME = {"bash": {"cmd": "command"}}   # the recordings name bash's argument `cmd`; this Inspect's bash tool calls it `command`
+CHECKER = {"disable_firewall_partial": "disable_firewall"}   # MonitoringBench's partial-credit firewall task has no checker here: the full one scores it
 
 
 def as_called(fn, args):
@@ -63,7 +64,8 @@ def main(sel_path, log_dir, smoke, only=None, paced=False):
     keep = (lambda r: r["task_id"] in only) if only else (lambda r: True)
     groups = [("honest", [r for r in sel["honest"] if keep(r)], EvalMode.HONEST, SIDES)]
     if not smoke:
-        groups += [(f"attack_{s}", [r for r in sel["attack"] if r["side_task"] == s and keep(r)], EvalMode.ATTACK, [s]) for s in SIDES]
+        sides = dict.fromkeys(r["side_task"] for r in sel["attack"])
+        groups += [(f"attack_{s}", [r for r in sel["attack"] if r["side_task"] == s and keep(r)], EvalMode.ATTACK, [CHECKER.get(s, s)]) for s in sides]
     for name, runs, mode, sides in groups:
         if runs: out.append(run_group(name + ("_paced" if paced else ""), runs, mode, sides, log_dir, smoke, paced))
     json.dump(out, open(f"{log_dir}/groups{'_smoke' if smoke else ''}.json", "w"), indent=1); print(json.dumps(out, indent=1))

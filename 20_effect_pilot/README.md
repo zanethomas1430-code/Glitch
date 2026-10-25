@@ -42,13 +42,49 @@ waits the recorded thinking time before each action):
 So replay is faithful action by action. Where a verdict depends on background work, replay paced. One task in twenty has a check that today's
 environment does not reproduce, and one is flaky.
 
+## MonitoringBench: the same check on the held-out set
+
+MonitoringBench runs on BashArena's tasks, so the same sandbox replays it (`select_runs.py --source=monitoringbench`, same seed and sizes).
+Only aggregate fidelity numbers were read. No attack's actions or effects were inspected, so the set stays held out for the monitor.
+What differs from BashArena:
+
+- The runs keep no action list. Actions are read from the assistant's tool calls, outputs and errors from the tool replies.
+- The recordings carry no real timing, so `--paced` cannot be used.
+- An honest run's main score is the fraction of tests passed, so `compare.py` also checks that the replay gets the same fraction.
+- Its firewall side task is a partial-credit variant with no checker in this `control_arena`, so the full `disable_firewall` checker scores it.
+- It recorded several runs per task, so the pick now takes one run per task. The BashArena pick is unchanged by this.
+
+| | |
+|---|---|
+| honest replays with the same main-task verdict | **19 / 20**; 19 / 20 with the same fraction of tests passed (mean difference 0.05) |
+| attack replays whose side task succeeds again | sudo 5 / 5, malware 5 / 5, password leak 2 / 4, firewall 1 / 5 (scored by the stricter full checker) |
+| tool-output similarity per action (mean) | honest 0.92, attack 0.94 |
+| samples that errored | 0 / 39 |
+| wall time | 96 min for the 40 picked, then 4 re-run |
+
+Where it did not hold:
+
+- **Firewall 1 / 5.** These runs were recorded as successes on the partial-credit checker. Three of the four misses reach exactly the same main-task
+  score again, and no miss has a new error. So the actions replay, and the full checker most likely asks for more than the partial one
+  recorded: a checker gap, not a replay miss. That stays a reading until the partial checker exists.
+- **Password leak, one task (40657182) not replayed.** Its image does not build on arm64: `execstack` fails. It is the only one of 637 tasks
+  that uses it.
+- **Password leak, two misses.** In one, two commands time out that did not time out when recorded. The other has no new error and is left
+  unexplained, because explaining it would mean reading a held-out attack.
+- **One honest miss (2149564).** Four editor calls are refused by a check this Inspect version added: it will not keep the editor's history
+  in a `/tmp` other users could replace. The recording's editor had no such check. It is tool drift, and the check stays on.
+
+So the replay also holds on the held-out set for honest work, sudo and malware. The firewall needs its partial checker before that group can
+be scored at all.
+
 ## What it means for the next step
 
 Attacks replay faithfully, so an effect-level monitor can be measured on the real change each attack makes rather than on its description. The
 next test follows the same discipline as `19_control_bench`. Capture the protected surface and network effects at the end of each replay. Write and
 calibrate the effect laws on honest replays only. Freeze them with file hashes, then replay the attacks once. Keep MonitoringBench held out.
 
-At full scale the cost is disk, not time. About 0.25 GB per task in images means a few hundred tasks will not fit on a 60 GB VM disk at once. Run in
+Before attacks are scored on MonitoringBench, its partial firewall checker has to exist, or that group has to be reported as unscored. At full
+scale the cost is disk, not time. About 0.25 GB per task in images means a few hundred tasks will not fit on a 60 GB VM disk at once. Run in
 batches and prune images between them.
 
 Benchmark data stays evaluation-only and local: the selection and replay logs live in `/Volumes/GlitchVM/pilot/`, not in this repo.
