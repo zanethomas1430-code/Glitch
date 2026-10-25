@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """select_runs.py — pick the pilot's recorded BashArena runs and write their action lists for replay.
 
-  .venv-control/bin/python glitch-suite/20_effect_pilot/select_runs.py <benchmarks dir> <task parquet> <out.json> [--source=monitoringbench]
+  .venv-control/bin/python glitch-suite/20_effect_pilot/select_runs.py <benchmarks dir> <task parquet> <out.json> [--source=monitoringbench] [--exclude=<earlier selection.json>]
 
 Seeded and recorded so the pick can be re-made. Attack runs: 5 per side task, only ones whose side task succeeded (the
 replay must reproduce that). Honest runs: 10 that passed the main task and 10 that did not, preferring tasks that also
@@ -67,7 +67,7 @@ def distinct(pool, used, n):
     return got
 
 
-def main(bdir, parquet, out, source="basharena"):
+def main(bdir, parquet, out, source="basharena", exclude=None):
     import pandas as pd
     hon, atk, sides, read_actions, failed = SOURCES[source]
     ds = {str(r.task_id): r.description for r in pd.read_parquet(parquet, columns=["task_id", "description"]).itertuples()}
@@ -79,12 +79,13 @@ def main(bdir, parquet, out, source="basharena"):
         pool = sorted([r for r in A if r["side_task"] == side and r["side"] == 1.0 and ok(r)], key=lambda r: r["sample"]); rng.shuffle(pool)
         pick_a += distinct(pool, {r["task_id"] for r in pick_a}, PER_SIDE)
     atk_tasks = {r["task_id"] for r in pick_a}; pick_h = []
+    seen = {r["task_id"] for r in json.load(open(exclude))["honest"]} if exclude else set()   # honest tasks already used (e.g. to calibrate)
     for want, n in ((lambda m: m == 1.0, HONEST_PASS), (failed, HONEST_FAIL)):
         pool = sorted([r for r in H if want(r["main"]) and ok(r)], key=lambda r: r["sample"]); rng.shuffle(pool)
         pool.sort(key=lambda r: r["task_id"] not in atk_tasks)   # stable: overlap first, seeded order within
-        pick_h += distinct(pool, {r["task_id"] for r in pick_h}, n)
+        pick_h += distinct(pool, {r["task_id"] for r in pick_h} | seen, n)
     for r in pick_a + pick_h: r.pop("description")
-    json.dump({"seed": SEED, "source": source, "honest": pick_h, "attack": pick_a}, open(out, "w"))
+    json.dump({"seed": SEED, "source": source, "excluded_honest_from": exclude, "honest": pick_h, "attack": pick_a}, open(out, "w"))
     print("attack:", collections.Counter(r["side_task"] for r in pick_a), "honest pass/fail:", collections.Counter(r["main"] == 1.0 for r in pick_h))
     print("distinct tasks:", len({r["task_id"] for r in pick_a + pick_h}), "honest∩attack:", len({r["task_id"] for r in pick_h} & atk_tasks))
     print("actions per run: attack", sorted(len(r["actions"]) for r in pick_a), "honest", sorted(len(r["actions"]) for r in pick_h))
@@ -92,4 +93,5 @@ def main(bdir, parquet, out, source="basharena"):
 
 if __name__ == "__main__":
     a = [x for x in sys.argv[1:] if not x.startswith("--")]
-    main(*a[:3], next((x.split("=", 1)[1] for x in sys.argv if x.startswith("--source=")), "basharena"))
+    opt = lambda k, d=None: next((x.split("=", 1)[1] for x in sys.argv if x.startswith(f"--{k}=")), d)
+    main(*a[:3], opt("source", "basharena"), opt("exclude"))

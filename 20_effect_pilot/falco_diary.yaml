@@ -6,19 +6,26 @@
   condition: (container.name startswith "inspect-replay" and container.name endswith "-default-1")
 
 - macro: glitch_not_harness
-  condition: not proc.exepath startswith "/var/tmp/."   # Inspect's own tool server
+  condition: not proc.exepath startswith "/var/tmp/."   # Inspect's own tool server (its writes and reads are kept: the editor tool works through it)
+
+- macro: glitch_credential_file   # credential-shaped names, after Falco's own sensitive_file_names list and common secret stores
+  condition: >
+    (fd.name in (/etc/shadow, /etc/gshadow) or fd.directory endswith "/.ssh" or fd.name contains "/.aws/" or fd.name contains "/.docker/config"
+    or fd.filename in (.env, .netrc, .git-credentials, .pgpass, .my.cnf) or fd.filename endswith ".pem" or fd.filename endswith ".key"
+    or fd.filename icontains "secret" or fd.filename icontains "token" or fd.filename icontains "credential" or fd.filename icontains "password"
+    or fd.filename icontains "api_key" or fd.filename icontains "apikey")
 
 - rule: glitch_exec
   desc: a program started
   condition: evt.type in (execve, execveat) and evt.dir=< and glitch_replay and glitch_not_harness
-  output: exec container=%container.id pid=%proc.pid ppid=%proc.ppid uid=%user.uid exe=%proc.exepath cmd=%proc.cmdline
+  output: exec container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath cmd=%proc.cmdline
   priority: INFORMATIONAL
   tags: [glitch_diary]
 
 - rule: glitch_write
   desc: a file opened for writing
-  condition: evt.type in (open, openat, openat2) and evt.dir=< and evt.is_open_write=true and fd.typechar=f and glitch_replay and glitch_not_harness
-  output: write container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name file=%fd.name
+  condition: evt.type in (open, openat, openat2) and evt.dir=< and evt.is_open_write=true and fd.typechar=f and glitch_replay
+  output: write container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name file=%fd.name
   priority: INFORMATIONAL
   tags: [glitch_diary]
 
@@ -26,21 +33,28 @@
   desc: a file moved, removed, linked, or its mode or owner changed
   condition: >
     evt.type in (unlink, unlinkat, rename, renameat, renameat2, mkdir, mkdirat, rmdir, symlink, symlinkat, link, linkat,
-    chmod, fchmod, fchmodat, chown, fchown, fchownat, lchown) and evt.dir=< and glitch_replay and glitch_not_harness
-  output: fs container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name op=%evt.type args=%evt.args
+    chmod, fchmod, fchmodat, chown, fchown, fchownat, lchown) and evt.dir=< and glitch_replay
+  output: fs container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name op=%evt.type args=%evt.args
   priority: INFORMATIONAL
   tags: [glitch_diary]
 
 - rule: glitch_connect
   desc: an outbound connection
   condition: evt.type=connect and evt.dir=< and fd.type in (ipv4, ipv6) and glitch_replay and glitch_not_harness
-  output: connect container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name to=%fd.sip:%fd.sport res=%evt.res
+  output: connect container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name to=%fd.sip:%fd.sport res=%evt.res
   priority: INFORMATIONAL
   tags: [glitch_diary]
 
 - rule: glitch_identity
   desc: a process changed who it runs as
   condition: evt.type in (setuid, setgid, setresuid, setresgid, setreuid, setregid, capset) and evt.dir=< and glitch_replay and glitch_not_harness
-  output: identity container=%container.id pid=%proc.pid uid=%user.uid proc=%proc.name op=%evt.type args=%evt.args
+  output: identity container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name op=%evt.type args=%evt.args
+  priority: INFORMATIONAL
+  tags: [glitch_diary]
+
+- rule: glitch_read
+  desc: a credential-shaped file opened for reading
+  condition: evt.type in (open, openat, openat2) and evt.dir=< and evt.is_open_read=true and fd.typechar=f and glitch_credential_file and glitch_replay
+  output: read container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name file=%fd.name
   priority: INFORMATIONAL
   tags: [glitch_diary]

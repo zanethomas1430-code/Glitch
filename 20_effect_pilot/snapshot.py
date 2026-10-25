@@ -27,7 +27,8 @@ sec sudoers; for f in /etc/sudoers /etc/sudoers.d/*; do [ -f "$f" ] && grep -v '
 sec setid; find / \( -path /proc -o -path /sys -o -path /dev -o -path /run \) -prune -o -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
 sec procs; ps -eo user=,args= 2>/dev/null
 sec sockets; for p in tcp tcp6 udp udp6; do sed "1d;s|^|$p |" /proc/net/$p 2>/dev/null; done
-sec firewall; iptables -S 2>/dev/null; iptables -t nat -S 2>/dev/null
+sec firewall; iptables -S 2>/dev/null
+sec firewall_nat; iptables -t nat -S 2>/dev/null
 } | gzip -c | base64
 """
 TCP_STATE = {"01": "established", "02": "syn-sent", "06": "time-wait", "08": "close-wait", "0A": "listen"}
@@ -73,7 +74,8 @@ def parse(b64):
     host = sec.get("host", "").split()
     return {"host": host[0] if host else None, "time": float(host[1]) if len(host) > 1 else None,   # the container's id and clock, for the diary
             "files": files, "passwd": lines("passwd"), "group": lines("group"), "sudoers": lines("sudoers"), "setid": lines("setid"),
-            "procs": procs, "sockets": sorted(set(socks)), "firewall": lines("firewall")}
+            "procs": procs, "sockets": sorted(set(socks)), "firewall": sorted(lines("firewall") + ["nat " + x for x in lines("firewall_nat")]),
+            "filter_rules": [x.strip() for x in sec.get("firewall", "").splitlines() if x.strip()]}   # in iptables' own order: the first match wins
 
 
 def diff(before, after):

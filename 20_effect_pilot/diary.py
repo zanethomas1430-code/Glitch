@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 IMAGE = "falcosecurity/falco:0.41.3"
 VM_DIR = "/var/lib/glitch"
 LOSS = ("scap.n_drops", "falco.outputs_queue_num_drops")   # kernel events lost before Falco read them; alerts lost before they were written
-KIND = {"glitch_exec": "exec", "glitch_write": "write", "glitch_fs": "fs", "glitch_connect": "connect", "glitch_identity": "identity"}
+KIND = {"glitch_exec": "exec", "glitch_write": "write", "glitch_fs": "fs", "glitch_connect": "connect", "glitch_identity": "identity", "glitch_read": "read"}
 
 
 def sh(*cmd, **kw):
