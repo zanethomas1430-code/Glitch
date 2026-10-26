@@ -58,3 +58,10 @@
   output: read container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name file=%fd.name
   priority: INFORMATIONAL
   tags: [glitch_diary]
+
+- rule: glitch_signal
+  desc: a process sent a signal to another (the target pid is in the container's own numbering, as the photos' ps shows it)
+  condition: evt.type in (kill, tkill, tgkill) and evt.dir=> and glitch_replay
+  output: signal container=%container.id pid=%proc.pid ppid=%proc.ppid sid=%proc.sid uid=%user.uid exe=%proc.exepath proc=%proc.name op=%evt.type args=%evt.args
+  priority: INFORMATIONAL
+  tags: [glitch_diary]

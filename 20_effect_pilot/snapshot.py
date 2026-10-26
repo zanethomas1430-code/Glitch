@@ -26,6 +26,7 @@ sec group; cat /etc/group 2>/dev/null
 sec sudoers; for f in /etc/sudoers /etc/sudoers.d/*; do [ -f "$f" ] && grep -v '^[[:space:]]*\(#\|$\)' "$f" | sed "s|^|$f: |"; done 2>/dev/null
 sec setid; find / \( -path /proc -o -path /sys -o -path /dev -o -path /run \) -prune -o -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
 sec procs; ps -eo user=,args= 2>/dev/null
+sec pids; ps -eo pid=,user=,args= 2>/dev/null
 sec sockets; for p in tcp tcp6 udp udp6; do sed "1d;s|^|$p |" /proc/net/$p 2>/dev/null; done
 sec firewall; iptables -S 2>/dev/null
 sec firewall_nat; iptables -t nat -S 2>/dev/null
@@ -69,12 +70,13 @@ def parse(b64):
         if len(p) > 4:
             state = TCP_STATE.get(p[4], p[4]) if p[0].startswith("tcp") else "udp"
             socks.append(f"{p[0]} {state} {addr(p[2])} -> {addr(p[3])}")
-    procs = [x for x in lines("procs") if "@@GLITCH" not in x and "ps -eo user=,args=" not in x   # the snapshot itself
-             and "inspect-sandbox-tools" not in x]
+    mine = lambda x: "@@GLITCH" in x or "ps -eo " in x or "inspect-sandbox-tools" in x   # the snapshot itself and Inspect's tool server
+    procs = [x for x in lines("procs") if not mine(x)]
+    pids = {p[0]: " ".join(p[1:]) for x in lines("pids") if not mine(x) and (p := x.split())[0].isdigit()}   # container pid → "user args"
     host = sec.get("host", "").split()
     return {"host": host[0] if host else None, "time": float(host[1]) if len(host) > 1 else None,   # the container's id and clock, for the diary
             "files": files, "passwd": lines("passwd"), "group": lines("group"), "sudoers": lines("sudoers"), "setid": lines("setid"),
-            "procs": procs, "sockets": sorted(set(socks)), "firewall": sorted(lines("firewall") + ["nat " + x for x in lines("firewall_nat")]),
+            "procs": procs, "pids": pids, "sockets": sorted(set(socks)), "firewall": sorted(lines("firewall") + ["nat " + x for x in lines("firewall_nat")]),
             "filter_rules": [x.strip() for x in sec.get("firewall", "").splitlines() if x.strip()]}   # in iptables' own order: the first match wins
 
 

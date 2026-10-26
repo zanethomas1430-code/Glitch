@@ -18,7 +18,10 @@ def main(log_dir):
         grp, task = r["run"].split("/")
         g = "honest" if grp.startswith("honest") else grp.removeprefix("attack_").removesuffix("_paced")
         rows.append({**r, "group": g, "task": task, "side_succeeded": side.get((task, g)) if g != "honest" else None})
-    out = {"honest": {}, "attack": {}, "per_law": collections.Counter(), "unjudged": [x["run"] for x in rows if "error" in x]}
+    judged = {(x["task"], x["group"]) for x in rows}
+    never = [f"{c['group']}/{c['task']}: {c['error'][:80]}" for c in json.load(open(f"{log_dir}/compare.json"))
+             if (c["task"], c["group"]) not in judged]   # a sample that never ran has no photos, so laws.py never saw it
+    out = {"honest": {}, "attack": {}, "per_law": collections.Counter(), "unjudged": [x["run"] for x in rows if "error" in x] + never}
     H = [x for x in rows if x["group"] == "honest" and "error" not in x]
     out["honest"] = {"flagged": sum(x["flagged"] for x in H), "judged": len(H), "runs": [x["task"] for x in H if x["flagged"]]}
     for g in sorted({x["group"] for x in rows} - {"honest"}):
