@@ -135,6 +135,13 @@ def json_lines_identity_close(rc, out, err):
     return ok, (f"{len(rows)} rows, every taxonomy identity closes" if ok else f"{len(rows)} rows; identity did not close or rc={rc}"), None
 
 
+def ok_lines(rc, out, err):
+    n = len(re.findall(r"^ok test_\w+$", out, re.M))
+    ok = rc == 0 and n > 0
+    tail = (err + out).strip().splitlines()
+    return ok, (f"{n} tests ok" if ok else (tail[-1] if tail else "no output")), n
+
+
 def always_info(label):
     def chk(rc, out, err):
         return rc == 0, label if rc == 0 else f"rc={rc}", None
@@ -326,6 +333,8 @@ def build_steps(a) -> list:
                   always_info(lineage_listing()), info=True))
     S.append(Step("18", "the escape-evident cell: a generated sandbox profile verifies (deny by default, one write root, one gateway socket, no TCP/UDP, no credential env); inside a real sandbox-exec cell every escape category is denied and every control allowed; a permissive profile (the mutant) lets the same call reach the network; escape-evident, not inescapable, with residuals named", ROOT / "18_cell",
                   [PY, "test_cell.py"], unittest_ok))
+    S.append(Step("20a", "effect laws on made-up photos and diaries (no recorded run, no sandbox): each law fires on its effect and stays quiet on the honest look-alike, incl. the task-named address and setid path, a self-ending program, a background sender and the photo's own reads", ROOT / "20_effect_pilot",
+                  [PY, "test_laws.py"], ok_lines))
     return sorted(S, key=lambda st: (int(st.id[:2]), st.id))   # print and run in folder order
 
 
